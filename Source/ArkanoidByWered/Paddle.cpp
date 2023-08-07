@@ -2,6 +2,7 @@
 
 
 #include "Paddle.h"
+#include "PaperSpriteComponent.h"
 
 // Sets default values
 APaddle::APaddle()
@@ -9,6 +10,11 @@ APaddle::APaddle()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	RootComponent = Root;
+
+	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
+	Sprite->SetupAttachment(Root);
 }
 
 // Called when the game starts or when spawned
