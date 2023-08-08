@@ -10,11 +10,8 @@ APaddle::APaddle()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	Root = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Root"));
 	RootComponent = Root;
-
-	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
-	Sprite->SetupAttachment(Root);
 }
 
 // Called when the game starts or when spawned
@@ -36,11 +33,4 @@ void APaddle::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &APaddle::MoveRight);
 }
-
-void APaddle::MoveRight(const float AxisValue)
-{
-	AddMovementInput(GetActorRightVector() * AxisValue);
-}
-
