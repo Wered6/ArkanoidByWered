@@ -36,5 +36,11 @@ void APaddle::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &APaddle::MoveRight);
+}
+
+void APaddle::MoveRight(const float AxisValue)
+{
+	AddMovementInput(GetActorRightVector() * AxisValue);
 }
 

@@ -27,6 +27,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+	void MoveRight(const float AxisValue);
+	
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Root;
 
