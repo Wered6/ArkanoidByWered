@@ -3,6 +3,7 @@
 
 #include "Paddle.h"
 #include "PaperSpriteComponent.h"
+#include "GameFramework/FloatingPawnMovement.h"
 
 // Sets default values
 APaddle::APaddle()
@@ -12,6 +13,8 @@ APaddle::APaddle()
 
 	Root = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Root"));
 	RootComponent = Root;
+
+	FloatingPawnMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 }
 
 // Called when the game starts or when spawned
@@ -33,4 +36,10 @@ void APaddle::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis(TEXT("MoveHorizontal"), this, &APaddle::MoveHorizontal);
+}
+
+void APaddle::MoveHorizontal(float Value)
+{
+	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
 }
