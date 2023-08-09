@@ -11,8 +11,8 @@ APaddle::APaddle()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Root = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Root"));
-	RootComponent = Root;
+	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Root"));
+	RootComponent = Sprite;
 
 	FloatingPawnMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 }
@@ -39,7 +39,7 @@ void APaddle::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(TEXT("MoveHorizontal"), this, &APaddle::MoveHorizontal);
 }
 
-void APaddle::MoveHorizontal(float Value)
+void APaddle::MoveHorizontal(const float Value)
 {
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
 }

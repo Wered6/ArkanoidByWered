@@ -27,10 +27,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	void MoveHorizontal(float Value);
+	void MoveHorizontal(const float Value);
 	
 	UPROPERTY(VisibleAnywhere)
-	class UPaperSpriteComponent* Root;
+	class UPaperSpriteComponent* Sprite;
 
 	UPROPERTY(VisibleAnywhere)
 	class UFloatingPawnMovement* FloatingPawnMovement;
