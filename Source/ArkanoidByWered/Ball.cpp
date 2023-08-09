@@ -13,8 +13,6 @@ ABall::ABall()
 
 	SpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	RootComponent = SpriteComp;
-
-	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement Component"));
 }
 
 // Called when the game starts or when spawned
@@ -29,5 +27,6 @@ void ABall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// AddActorLocalOffset(InitialVelocity);
 }
 

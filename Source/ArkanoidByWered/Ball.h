@@ -27,6 +27,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* SpriteComp;
 
-	UPROPERTY(VisibleAnywhere)
-	class UProjectileMovementComponent* MovementComp;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta=(AllowPrivateAccess="true"), Category="Movement")
+	FVector InitialVelocity{0.0f, 0.0f, -1.0f};
 };
