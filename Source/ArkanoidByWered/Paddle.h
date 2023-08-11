@@ -31,10 +31,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	class UBoxComponent* CollisionComp;
-	
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* SpriteComp;
-
 	UPROPERTY(VisibleAnywhere)
 	class UFloatingPawnMovement* FloatingPawnMovement;
 };

@@ -39,7 +39,6 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* CollisionComp;
-
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* SpriteComp;
 

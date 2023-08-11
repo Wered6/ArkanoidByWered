@@ -25,8 +25,6 @@ APaddle::APaddle()
 void APaddle::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	CollisionComp->SetVisibility(false);
 }
 
 // Called every frame
