@@ -25,6 +25,9 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere)
+	class UBoxComponent* CollisionComp;
+	
+	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* SpriteComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta=(AllowPrivateAccess="true"), Category="Movement")

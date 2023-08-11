@@ -3,6 +3,7 @@
 
 #include "Paddle.h"
 #include "PaperSpriteComponent.h"
+#include "Components/BoxComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 
 // Sets default values
@@ -11,8 +12,11 @@ APaddle::APaddle()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Sprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Root"));
-	RootComponent = Sprite;
+	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collider"));
+	RootComponent = CollisionComp;
+	
+	SpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
+	SpriteComp->SetupAttachment(CollisionComp);
 
 	FloatingPawnMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 }
@@ -22,6 +26,7 @@ void APaddle::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	CollisionComp->SetVisibility(false);
 }
 
 // Called every frame

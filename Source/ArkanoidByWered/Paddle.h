@@ -28,9 +28,12 @@ public:
 
 private:
 	void MoveHorizontal(const float Value);
+
+	UPROPERTY(VisibleAnywhere)
+	class UBoxComponent* CollisionComp;
 	
 	UPROPERTY(VisibleAnywhere)
-	class UPaperSpriteComponent* Sprite;
+	class UPaperSpriteComponent* SpriteComp;
 
 	UPROPERTY(VisibleAnywhere)
 	class UFloatingPawnMovement* FloatingPawnMovement;

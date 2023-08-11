@@ -3,7 +3,7 @@
 
 #include "Ball.h"
 #include "PaperSpriteComponent.h"
-#include "GameFramework/ProjectileMovementComponent.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 ABall::ABall()
@@ -11,8 +11,11 @@ ABall::ABall()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collider"));
+	RootComponent = CollisionComp;
+	
 	SpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
-	RootComponent = SpriteComp;
+	SpriteComp->SetupAttachment(CollisionComp);
 }
 
 // Called when the game starts or when spawned
