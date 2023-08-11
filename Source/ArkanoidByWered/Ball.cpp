@@ -57,6 +57,16 @@ FVector ABall::GetHitLocationRelativeToPaddle() const
 	return HitLocationRelativeToPaddle;
 }
 
+void ABall::SetAngle(const float AngleValue)
+{
+	Angle = AngleValue;
+}
+
+float ABall::GetAngle() const
+{
+	return Angle;
+}
+
 float ABall::GetWidth() const
 {
 	return CollisionComp->GetUnscaledBoxExtent().X * 2.f;

@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "Paddle.generated.h"
 
+class ABall;
+
 UCLASS()
 class ARKANOIDBYWERED_API APaddle : public APawn
 {
@@ -26,6 +28,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable)
+	void SetBall(ABall* BouncedBall);
+	UFUNCTION(BlueprintCallable)
+	ABall* GetBall() const;
+	
+	UFUNCTION(BlueprintCallable)
+	void BounceTheBall() const;
+	
 private:
 	void MoveHorizontal(const float Value);
 
@@ -35,4 +45,7 @@ private:
 	class UPaperSpriteComponent* SpriteComp;
 	UPROPERTY(VisibleAnywhere)
 	class UFloatingPawnMovement* FloatingPawnMovement;
+
+	UPROPERTY()
+	ABall* Ball;
 };

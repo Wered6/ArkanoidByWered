@@ -33,6 +33,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Movement")
 	FVector GetHitLocationRelativeToPaddle() const;
 
+	void SetAngle(const float AngleValue);
+	UFUNCTION(BlueprintCallable)
+	float GetAngle() const;
+	
 	UFUNCTION(BlueprintCallable)
 	float GetWidth() const;
 
@@ -48,4 +52,6 @@ private:
 	FVector VelocityVector;
 	UPROPERTY(VisibleAnywhere, Category="Movement")
 	FVector HitLocationRelativeToPaddle;
+
+	float Angle;
 };
