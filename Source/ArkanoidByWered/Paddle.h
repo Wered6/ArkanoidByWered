@@ -29,7 +29,7 @@ public:
 private:
 	void MoveHorizontal(const float Value);
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	class UBoxComponent* CollisionComp;
 	
 	UPROPERTY(VisibleAnywhere)
