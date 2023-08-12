@@ -34,7 +34,7 @@ public:
 	ABall* GetBall() const;
 	
 	UFUNCTION(BlueprintCallable)
-	void BounceTheBall() const;
+	void BounceTheBall(AActor* OtherActor, const FVector HitLocation);
 	
 private:
 	void MoveHorizontal(const float Value);

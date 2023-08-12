@@ -52,12 +52,15 @@ ABall* APaddle::GetBall() const
 	return Ball;
 }
 
-void APaddle::BounceTheBall() const
+void APaddle::BounceTheBall(AActor* OtherActor, const FVector HitLocation)
 {
-	const float WholeCollision = CollisionComp->GetUnscaledBoxExtent().X + Ball->GetWidth() / 2;
-	Ball->SetAngle(Ball->GetHitLocationRelativeToPaddle().X / WholeCollision);
+	Ball = Cast<ABall>(OtherActor);
+	Ball->SetHitLocationRelativeToPaddle(HitLocation - GetActorLocation());
 	
-	const float Radians = FMath::DegreesToRadians(90 - Ball->GetAngle() * 45);
+	const float BallPaddleCollision = CollisionComp->GetUnscaledBoxExtent().X + Ball->GetWidth() / 2;
+	const float Angle = Ball->GetHitLocationRelativeToPaddle().X / BallPaddleCollision;
+	
+	const float Radians = FMath::DegreesToRadians(90 - Angle * 45);
 	const float XValue = Ball->GetVelocityVector().Size() * FMath::Cos(Radians);
 	const float ZValue = Ball->GetVelocityVector().Size() * FMath::Sin(Radians);
 
