@@ -21,7 +21,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -29,23 +29,18 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable)
-	void SetBall(ABall* BouncedBall);
-	UFUNCTION(BlueprintCallable)
-	ABall* GetBall() const;
-	
-	UFUNCTION(BlueprintCallable)
-	void BounceTheBall(AActor* OtherActor, const FVector HitLocation);
-	
+	void BounceBall(AActor* OtherActor, const FVector& HitLocation);
+
 private:
 	void MoveHorizontal(const float Value);
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
+	float CalculateBounceAngle(const float RelativeHitLocationX, const float BallPaddleHalfWidth) const;
+	void UpdateBallVelocity(ABall* Ball, const float BounceAngle, const float Speed) const;
+	
+	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* CollisionComp;
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* SpriteComp;
 	UPROPERTY(VisibleAnywhere)
 	class UFloatingPawnMovement* FloatingPawnMovement;
-
-	UPROPERTY()
-	ABall* Ball;
 };

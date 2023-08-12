@@ -17,8 +17,8 @@ ABall::ABall()
 	SpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComp->SetupAttachment(CollisionComp);
 
-	// Initial CurrentVelocity
-	VelocityVector = {0, 0, -InitialVelocity};
+	// Initial VelocityVector
+	VelocityVector = {0, 0, -1 * Speed};
 }
 
 // Called when the game starts or when spawned
@@ -45,26 +45,6 @@ void ABall::UpdateVelocityVector(const float X, const float Z)
 FVector ABall::GetVelocityVector() const
 {
 	return VelocityVector;
-}
-
-void ABall::SetHitLocationRelativeToPaddle(const FVector& HitLocation)
-{
-	HitLocationRelativeToPaddle = HitLocation;
-}
-
-FVector ABall::GetHitLocationRelativeToPaddle() const
-{
-	return HitLocationRelativeToPaddle;
-}
-
-void ABall::SetAngle(const float AngleValue)
-{
-	Angle = AngleValue;
-}
-
-float ABall::GetAngle() const
-{
-	return Angle;
 }
 
 float ABall::GetWidth() const
