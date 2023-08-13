@@ -18,8 +18,10 @@ ABall::ABall()
 	SpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComp->SetupAttachment(CollisionComp);
 
+	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
+	
 	// Initial VelocityVector
-	VelocityVector = {0, 0, -1} * Speed;
+	VelocityVector = VelocityVector * BallSpeed;
 }
 
 // Called when the game starts or when spawned
@@ -33,61 +35,50 @@ void ABall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// Set the ball in motion, taking delta time into account and enable collision
 	const FVector Movement = VelocityVector * DeltaTime;
 	AddActorLocalOffset(Movement, true);
 }
 
-void ABall::UpdateVelocityVector(const float X, const float Z)
+void ABall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor)
 {
-	VelocityVector = {X, 0, Z};
-}
-
-void ABall::BounceBall(AActor* HitActor, const FVector& HitLocation)
-{
-	BounceOffPaddle(HitActor, HitLocation);
-	// or bounceoffwall
-}
-
-float ABall::CalculateBounceAngle(const float RelativeHitLocationX, const float BallPaddleHalfWidth) const
-{
-	constexpr float MaximumDeviation{45.f};
-	constexpr float AngleOffset{90.f};
-
-	const float Angle = RelativeHitLocationX / BallPaddleHalfWidth * MaximumDeviation;
-
-	return AngleOffset - Angle;
-}
-
-void ABall::BounceOffPaddle(AActor* HitActor, const FVector& HitLocation)
-{
-	// Attempt to cast to APaddle
-	const APaddle* Paddle = Cast<APaddle>(HitActor);
-	// Check if cast failed
-	if (!Paddle)
+	const APaddle* HitPaddle = Cast<APaddle>(HitActor);
+	if (HitPaddle)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("BounceBall wasn't called with a Ball actor."));
-		return;
+		BounceOffPaddle(HitPaddle, HitLocation);
 	}
-
-	// Calculate half width for bounce calculations
-	const float BallPaddleHalfWidth = CollisionComp->GetUnscaledBoxExtent().X + Paddle->GetCollisionWidth() / 2;
-	// Check for near-zero width
-	if (FMath::IsNearlyZero(BallPaddleHalfWidth))
+	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Width is near zero."));
-		return;
+		BounceOffWall(HitNormal);
 	}
+}
 
-	// Calculate relative hit on X-axis
-	const float RelativeHitLocationX = HitLocation.X - Paddle->GetActorLocation().X;
+void ABall::BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation)
+{
+	const float BallAndPaddleHalfWidth = CollisionComp->GetUnscaledBoxExtent().X + Paddle->GetCollisionWidth() / 2;
+	//Determine hit position on paddle (0.0 = leftmost, 1.0 = rightmost)
+	const float HitPosition = (HitLocation.X - Paddle->GetActorLocation().X + BallAndPaddleHalfWidth) / (
+		BallAndPaddleHalfWidth * 2);
 
-	// Calculate bounce angle
-	const float BounceAngle = CalculateBounceAngle(RelativeHitLocationX, BallPaddleHalfWidth);
+	const FVector LeftmostBounceDirection{-2, 0, 1};
+	const FVector RightmostBounceDirection{2, 0, 1};
 
-	// Calculate and update ball velocity
-	const float Radians = FMath::DegreesToRadians(BounceAngle);
-	const float XValue = Speed * FMath::Cos(Radians);
-	const float ZValue = Speed * FMath::Sin(Radians);
-	UpdateVelocityVector(XValue, ZValue);
+	FVector NewDirection = FMath::Lerp(LeftmostBounceDirection, RightmostBounceDirection, HitPosition);
+	NewDirection.Normalize();
+	VelocityVector = NewDirection * BallSpeed;
+}
+
+void ABall::BounceOffWall(const FVector& HitNormal)
+{
+	if (FMath::IsNearlyEqual(HitNormal.Z, -1.f, 0.01f))
+	{
+		// Reverse vertical velocity for top wall
+		VelocityVector.Z = -VelocityVector.Z;
+	}
+	else
+	{
+		// Reverse horizontal velocity for side walls
+		VelocityVector.X = -VelocityVector.X;
+	}
+	VelocityVector.Normalize();
+	VelocityVector = VelocityVector * BallSpeed;
 }

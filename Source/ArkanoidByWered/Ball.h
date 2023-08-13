@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Ball.generated.h"
 
+class APaddle;
+
 UCLASS()
 class ARKANOIDBYWERED_API ABall : public AActor
 {
@@ -23,16 +25,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, Category="Movement")
-	void UpdateVelocityVector(const float X, const float Z);
-
 	UFUNCTION(BlueprintCallable)
-	void BounceBall(AActor* HitActor, const FVector& HitLocation);
+	void BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor);
 
 private:
-	float CalculateBounceAngle(const float RelativeHitLocationX, const float BallPaddleHalfWidth) const;
-
-	void BounceOffPaddle(AActor* HitActor, const FVector& HitLocation);
+	void BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation);
+	void BounceOffWall(const FVector& HitNormal);
 
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* CollisionComp;
@@ -40,7 +38,7 @@ private:
 	class UPaperSpriteComponent* SpriteComp;
 
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
-	float Speed{100.f};
+	float BallSpeed{100.f};
 	UPROPERTY(VisibleAnywhere, Category="Movement")
-	FVector VelocityVector;
+	FVector VelocityVector{0, 0, -1};
 };
