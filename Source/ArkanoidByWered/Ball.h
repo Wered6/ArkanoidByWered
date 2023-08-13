@@ -25,12 +25,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
 	void UpdateVelocityVector(const float X, const float Z);
-	UFUNCTION(BlueprintCallable, Category="Movement")
-	FVector GetVelocityVector() const;
 
-	float GetWidth() const;
+	UFUNCTION(BlueprintCallable)
+	void BounceBall(AActor* HitActor, const FVector& HitLocation);
 
 private:
+	float CalculateBounceAngle(const float RelativeHitLocationX, const float BallPaddleHalfWidth) const;
+
+	void BounceOffPaddle(AActor* HitActor, const FVector& HitLocation);
+
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* CollisionComp;
 	UPROPERTY(VisibleAnywhere)

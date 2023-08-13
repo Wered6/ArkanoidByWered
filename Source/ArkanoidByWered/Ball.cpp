@@ -2,6 +2,7 @@
 
 
 #include "Ball.h"
+#include "Paddle.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
 
@@ -18,7 +19,7 @@ ABall::ABall()
 	SpriteComp->SetupAttachment(CollisionComp);
 
 	// Initial VelocityVector
-	VelocityVector = {0, 0, -1 * Speed};
+	VelocityVector = {0, 0, -1} * Speed;
 }
 
 // Called when the game starts or when spawned
@@ -42,12 +43,51 @@ void ABall::UpdateVelocityVector(const float X, const float Z)
 	VelocityVector = {X, 0, Z};
 }
 
-FVector ABall::GetVelocityVector() const
+void ABall::BounceBall(AActor* HitActor, const FVector& HitLocation)
 {
-	return VelocityVector;
+	BounceOffPaddle(HitActor, HitLocation);
+	// or bounceoffwall
 }
 
-float ABall::GetWidth() const
+float ABall::CalculateBounceAngle(const float RelativeHitLocationX, const float BallPaddleHalfWidth) const
 {
-	return CollisionComp->GetUnscaledBoxExtent().X * 2.f;
+	constexpr float MaximumDeviation{45.f};
+	constexpr float AngleOffset{90.f};
+
+	const float Angle = RelativeHitLocationX / BallPaddleHalfWidth * MaximumDeviation;
+
+	return AngleOffset - Angle;
+}
+
+void ABall::BounceOffPaddle(AActor* HitActor, const FVector& HitLocation)
+{
+	// Attempt to cast to APaddle
+	const APaddle* Paddle = Cast<APaddle>(HitActor);
+	// Check if cast failed
+	if (!Paddle)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("BounceBall wasn't called with a Ball actor."));
+		return;
+	}
+
+	// Calculate half width for bounce calculations
+	const float BallPaddleHalfWidth = CollisionComp->GetUnscaledBoxExtent().X + Paddle->GetCollisionWidth() / 2;
+	// Check for near-zero width
+	if (FMath::IsNearlyZero(BallPaddleHalfWidth))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Width is near zero."));
+		return;
+	}
+
+	// Calculate relative hit on X-axis
+	const float RelativeHitLocationX = HitLocation.X - Paddle->GetActorLocation().X;
+
+	// Calculate bounce angle
+	const float BounceAngle = CalculateBounceAngle(RelativeHitLocationX, BallPaddleHalfWidth);
+
+	// Calculate and update ball velocity
+	const float Radians = FMath::DegreesToRadians(BounceAngle);
+	const float XValue = Speed * FMath::Cos(Radians);
+	const float ZValue = Speed * FMath::Sin(Radians);
+	UpdateVelocityVector(XValue, ZValue);
 }
