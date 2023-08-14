@@ -25,12 +25,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable)
+private:
+	UFUNCTION()
 	void HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
-private:
 	UPROPERTY(EditAnywhere, Category="Sprites")
-	TArray<class UPaperSprite*> BrokeBrickSprites;
+	TArray<class UPaperSprite*> BrokenBrickSprites;
 	UPROPERTY(VisibleAnywhere, Category="Sprites")
 	UPaperSpriteComponent* MainSpriteComp;
 

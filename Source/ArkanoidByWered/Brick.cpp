@@ -2,13 +2,14 @@
 
 
 #include "Brick.h"
+#include "Ball.h"
 #include "PaperSpriteComponent.h"
 
 // Sets default values
 ABrick::ABrick()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	MainSpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Main Sprite"));
 	RootComponent = MainSpriteComp;
@@ -31,12 +32,17 @@ void ABrick::Tick(float DeltaTime)
 
 void ABrick::HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (NumOfHits < BrokeBrickSprites.Num() && BrokeBrickSprites[NumOfHits] != nullptr)
+	if (OtherActor && OtherActor->IsA(ABall::StaticClass()))
 	{
-		MainSpriteComp->SetSprite(BrokeBrickSprites[NumOfHits++]);
-	}
-	else
-	{
-		Destroy();
+		if (NumOfHits < BrokenBrickSprites.Num() && BrokenBrickSprites[NumOfHits] != nullptr)
+		{
+			MainSpriteComp->SetSprite(BrokenBrickSprites[NumOfHits]);
+		}
+		else
+		{
+			// todo add sound and maybe some animation
+			Destroy();
+		}
+		NumOfHits++;
 	}
 }
