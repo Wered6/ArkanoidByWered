@@ -14,11 +14,11 @@ ABall::ABall()
 
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collider"));
 	RootComponent = CollisionComp;
+	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
 
 	SpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComp->SetupAttachment(CollisionComp);
-
-	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
+	SpriteComp->SetCollisionProfileName(TEXT("NoCollision"));
 }
 
 // Called when the game starts or when spawned
@@ -68,9 +68,9 @@ void ABall::BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation)
 
 void ABall::BounceOffWall(const FVector& HitNormal)
 {
-	if (FMath::IsNearlyEqual(HitNormal.Z, -1.f, 0.01f))
+	if (FMath::IsNearlyEqual(HitNormal.Z, -1.f, 0.01f) || FMath::IsNearlyEqual(HitNormal.Z, 1.f, 0.01f))
 	{
-		// Reverse vertical velocity for top wall
+		// Reverse vertical velocity for top/bottom walls
 		VelocityVector.Z = -VelocityVector.Z;
 	}
 	else

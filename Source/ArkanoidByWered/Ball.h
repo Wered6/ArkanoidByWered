@@ -38,7 +38,7 @@ private:
 	class UPaperSpriteComponent* SpriteComp;
 
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
-	float BallSpeed{100.f};
+	float BallSpeed{200.f};
 	UPROPERTY(VisibleAnywhere, Category="Movement")
 	FVector VelocityVector{0, 0, -1};
 };

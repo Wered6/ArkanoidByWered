@@ -14,12 +14,12 @@ APaddle::APaddle()
 
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collider"));
 	RootComponent = CollisionComp;
+	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
 
 	SpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComp->SetupAttachment(CollisionComp);
+	SpriteComp->SetCollisionProfileName(TEXT("NoCollision"));
 
-	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
-	
 	FloatingPawnMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 }
 
