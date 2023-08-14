@@ -3,7 +3,6 @@
 
 #include "Brick.h"
 #include "PaperSpriteComponent.h"
-#include "Components/BoxComponent.h"
 
 // Sets default values
 ABrick::ABrick()
@@ -11,19 +10,17 @@ ABrick::ABrick()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collider"));
-	RootComponent = CollisionComp;
-	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
-
 	MainSpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Main Sprite"));
-	MainSpriteComp->SetupAttachment(CollisionComp);
-	MainSpriteComp->SetCollisionProfileName(TEXT("NoCollision"));
+	RootComponent = MainSpriteComp;
+	MainSpriteComp->SetCollisionProfileName(TEXT("BlockAll"));
 }
 
 // Called when the game starts or when spawned
 void ABrick::BeginPlay()
 {
 	Super::BeginPlay();
+
+	OnActorHit.AddDynamic(this, &ABrick::HandleOnHit);
 }
 
 // Called every frame
@@ -32,12 +29,11 @@ void ABrick::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ABrick::OnBallHitBrick()
+void ABrick::HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	NumOfHits++;
-	if (NumOfHits < Sprites.Num() && Sprites[NumOfHits] != nullptr)
+	if (NumOfHits < BrokeBrickSprites.Num() && BrokeBrickSprites[NumOfHits] != nullptr)
 	{
-		MainSpriteComp->SetSprite(Sprites[NumOfHits]);
+		MainSpriteComp->SetSprite(BrokeBrickSprites[NumOfHits++]);
 	}
 	else
 	{

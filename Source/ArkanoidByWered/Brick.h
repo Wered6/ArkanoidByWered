@@ -26,14 +26,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
-	void OnBallHitBrick();
+	void HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
 private:
-	UPROPERTY(VisibleAnywhere, Category="Components")
-	class UBoxComponent* CollisionComp;
 	UPROPERTY(EditAnywhere, Category="Sprites")
-	TArray<class UPaperSprite*> Sprites;
-	UPROPERTY(VisibleAnywhere, Category="Components")
+	TArray<class UPaperSprite*> BrokeBrickSprites;
+	UPROPERTY(VisibleAnywhere, Category="Sprites")
 	UPaperSpriteComponent* MainSpriteComp;
 
 	int32 NumOfHits{0};
