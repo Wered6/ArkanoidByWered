@@ -19,15 +19,14 @@ ABall::ABall()
 	SpriteComp->SetupAttachment(CollisionComp);
 
 	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
-	
-	// Initial VelocityVector
-	VelocityVector = VelocityVector * BallSpeed;
 }
 
 // Called when the game starts or when spawned
 void ABall::BeginPlay()
 {
 	Super::BeginPlay();
+
+	VelocityVector = VelocityVector * BallSpeed;
 }
 
 // Called every frame
