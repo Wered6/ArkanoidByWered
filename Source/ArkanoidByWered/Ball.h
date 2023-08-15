@@ -41,4 +41,6 @@ private:
 	float BallSpeed{200.f};
 	UPROPERTY(VisibleAnywhere, Category="Movement")
 	FVector VelocityVector{0, 0, -1};
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+	float Angle{45.f};
 };

@@ -54,12 +54,16 @@ void ABall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, AAc
 void ABall::BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation)
 {
 	const float BallAndPaddleHalfWidth = CollisionComp->GetUnscaledBoxExtent().X + Paddle->GetCollisionWidth() / 2;
-	//Determine hit position on paddle (0.0 = leftmost, 1.0 = rightmost)
+	// Determine hit position on paddle (0.0 = leftmost, 1.0 = rightmost)
 	const float HitPosition = (HitLocation.X - Paddle->GetActorLocation().X + BallAndPaddleHalfWidth) / (
 		BallAndPaddleHalfWidth * 2);
 
-	const FVector LeftmostBounceDirection{-2, 0, 1};
-	const FVector RightmostBounceDirection{2, 0, 1};
+	const float Radians = FMath::DegreesToRadians(Angle);
+	const float XValue{FMath::Cos(Radians)};
+	const float ZValue{FMath::Sin(Radians)};
+	
+	const FVector LeftmostBounceDirection{-XValue, 0, ZValue};
+	const FVector RightmostBounceDirection{XValue, 0, ZValue};
 
 	FVector NewDirection = FMath::Lerp(LeftmostBounceDirection, RightmostBounceDirection, HitPosition);
 	NewDirection.Normalize();
