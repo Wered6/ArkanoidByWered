@@ -7,19 +7,7 @@
 #include "MainMenuWidget.generated.h"
 
 class UArkanoidDataAsset;
-class UPaperSprite;
 class UImage;
-
-USTRUCT(BlueprintType)
-struct FPaletteSprites
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UPaperSprite*> Paddles;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UPaperSprite* Ball;
-};
 
 UCLASS()
 class ARKANOIDBYWERED_API UMainMenuWidget : public UUserWidget
@@ -45,7 +33,8 @@ public:
 	TArray<UArkanoidDataAsset*> Palettes;
 
 private:
-	UArkanoidDataAsset* PaletteSwitcher();
+	const UArkanoidDataAsset* GetCurrentPalette();
+	void UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const;
 
 	int32 PaletteIndex{0};
 	int32 PaddleIndex{0};

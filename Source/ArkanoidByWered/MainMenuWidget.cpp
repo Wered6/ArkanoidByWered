@@ -25,7 +25,6 @@ UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer) : 
 	if (GreenAssetFinder.Succeeded() && GreyAssetFinder.Succeeded() && OrangeAssetFinder.Succeeded() &&
 		PurpleAssetFinder.Succeeded() && RedAssetFinder.Succeeded() && YellowAssetFinder.Succeeded())
 	{
-		
 		Palettes.Add(GreenAssetFinder.Object);
 		Palettes.Add(GreyAssetFinder.Object);
 		Palettes.Add(OrangeAssetFinder.Object);
@@ -37,9 +36,26 @@ UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer) : 
 
 void UMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 {
-	UArkanoidDataAsset* CurrentPallete = PaletteSwitcher();
-	UPaperSprite* PaddleSprite = CurrentPallete->PaddlesSprites[PaddleIndex];
-	UPaperSprite* BallSprite = CurrentPallete->BallsSprites[BallIndex];
+	const UArkanoidDataAsset* CurrentPalette = GetCurrentPalette();
+	if (!CurrentPalette)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
+		return;
+	}
+
+	if (!CurrentPalette->PaddlesSprites.IsValidIndex(PaddleIndex))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PaddlesIndex out of bounds!"));
+		return;
+	}
+	UPaperSprite* PaddleSprite = CurrentPalette->PaddlesSprites[PaddleIndex];
+
+	if (!CurrentPalette->BallsSprites.IsValidIndex(BallIndex))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("BallIndex out of bounds"));
+		return;
+	}
+	UPaperSprite* BallSprite = CurrentPalette->BallsSprites[BallIndex];
 
 	if (PaddleSprite)
 	{
@@ -70,51 +86,66 @@ void UMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 
 void UMainMenuWidget::NextPaddle()
 {
-	const UArkanoidDataAsset* CurrentPallete = PaletteSwitcher();
-	const int32 PaddlesCount = CurrentPallete->PaddlesSprites.Num();
-
-	PaddleIndex++;
-	if (PaddleIndex > PaddlesCount - 1)
+	const UArkanoidDataAsset* CurrentPalette = GetCurrentPalette();
+	if (!CurrentPalette)
 	{
-		PaddleIndex = 0;
+		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
+		return;
 	}
+	const int32 PaddlesCount = CurrentPalette->PaddlesSprites.Num();
+	UpdateIndex(PaddleIndex, PaddlesCount, true);
 }
 
 void UMainMenuWidget::PreviousPaddle()
 {
-	const UArkanoidDataAsset* CurrentPallete = PaletteSwitcher();
-	const int32 PaddlesCount = CurrentPallete->PaddlesSprites.Num();
-
-	PaddleIndex--;
-	if (PaddleIndex < 0)
+	const UArkanoidDataAsset* CurrentPalette = GetCurrentPalette();
+	if (!CurrentPalette)
 	{
-		PaddleIndex = PaddlesCount - 1;
+		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
+		return;
 	}
+	const int32 PaddlesCount = CurrentPalette->PaddlesSprites.Num();
+	UpdateIndex(PaddleIndex, PaddlesCount, false);
 }
 
 void UMainMenuWidget::NextPalette()
 {
 	const int32 PalettesCount = Palettes.Num();
-
-	PaletteIndex++;
-	if (PaletteIndex > PalettesCount - 1)
-	{
-		PaletteIndex = 0;
-	}
+	UpdateIndex(PaletteIndex, PalettesCount, true);
 }
 
 void UMainMenuWidget::PreviousPalette()
 {
 	const int32 PalettesCount = Palettes.Num();
-
-	PaletteIndex--;
-	if (PaletteIndex < 0)
-	{
-		PaletteIndex = PalettesCount - 1;
-	}
+	UpdateIndex(PaletteIndex, PalettesCount, false);
 }
 
-UArkanoidDataAsset* UMainMenuWidget::PaletteSwitcher()
+const UArkanoidDataAsset* UMainMenuWidget::GetCurrentPalette()
 {
-	return Palettes[PaletteIndex];
+	if (Palettes.IsValidIndex(PaletteIndex))
+	{
+		return Palettes[PaletteIndex];
+	}
+	UE_LOG(LogTemp, Warning, TEXT("PaletteIndex out of bounds!"));
+	return nullptr;
+}
+
+void UMainMenuWidget::UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const
+{
+	if (bIsIncrement)
+	{
+		CurrentIndex++;
+		if (CurrentIndex > MaxIndex - 1)
+		{
+			CurrentIndex = 0;
+		}
+	}
+	else
+	{
+		CurrentIndex--;
+		if (CurrentIndex < 0)
+		{
+			CurrentIndex = MaxIndex - 1;
+		}
+	}
 }
