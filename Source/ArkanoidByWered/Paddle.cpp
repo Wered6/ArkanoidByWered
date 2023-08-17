@@ -2,6 +2,7 @@
 
 
 #include "Paddle.h"
+#include "ArkanoidByWeredUserSettings.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
@@ -27,6 +28,27 @@ APaddle::APaddle()
 void APaddle::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	UArkanoidByWeredUserSettings* GameSettings = Cast<UArkanoidByWeredUserSettings>(GEngine->GetGameUserSettings());
+	if(GameSettings)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GameSettings is valid"));
+		GameSettings->LoadSettings();
+    
+		if(SpriteComp)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is valid"));
+			SpriteComp->SetSprite(GameSettings->SelectedPaddle);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is not valid"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GameSettings is not valid"));
+	}
 }
 
 // Called every frame

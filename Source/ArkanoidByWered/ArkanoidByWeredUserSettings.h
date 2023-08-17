@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MainMenuWidget.h"
 #include "GameFramework/GameUserSettings.h"
 #include "ArkanoidByWeredUserSettings.generated.h"
+
+class UDefaultSettingsDataAsset;
+class UPaperSprite;
 
 UCLASS()
 class ARKANOIDBYWERED_API UArkanoidByWeredUserSettings : public UGameUserSettings
@@ -13,11 +15,17 @@ class ARKANOIDBYWERED_API UArkanoidByWeredUserSettings : public UGameUserSetting
 	GENERATED_BODY()
 
 public:
+	UArkanoidByWeredUserSettings();
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Gameplay")
-	FPaletteSprites SelectedPalette;
+	UPaperSprite* SelectedPaddle;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Gameplay")
-	int32 SelectedPaddleShape;
+	UPaperSprite* SelectedBall;
 
 	virtual void ApplySettings(bool bCheckForCommandLineOverrides) override;
+
+private:
+	UPROPERTY()
+	UDefaultSettingsDataAsset* DefaultSettingsAsset;
 };

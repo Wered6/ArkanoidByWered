@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "MainMenuWidget.generated.h"
 
+class UArkanoidDataAsset;
 class UPaperSprite;
 class UImage;
 
@@ -41,24 +42,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PreviousPalette();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FPaletteSprites GreenSprites;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FPaletteSprites GreySprites;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FPaletteSprites OrangeSprites;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FPaletteSprites PurpleSprites;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FPaletteSprites RedSprites;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FPaletteSprites YellowSprites;
-
-	TArray<FPaletteSprites*> ColorPalettes;
+	TArray<UArkanoidDataAsset*> Palettes;
 
 private:
-	FPaletteSprites PaletteSwitcher();
+	UArkanoidDataAsset* PaletteSwitcher();
 
 	int32 PaletteIndex{0};
 	int32 PaddleIndex{0};
+	int32 BallIndex{0};
 };

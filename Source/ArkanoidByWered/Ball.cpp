@@ -2,6 +2,7 @@
 
 
 #include "Ball.h"
+#include "ArkanoidByWeredUserSettings.h"
 #include "Paddle.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
@@ -27,6 +28,27 @@ void ABall::BeginPlay()
 	Super::BeginPlay();
 
 	VelocityVector = VelocityVector * BallSpeed;
+	
+	UArkanoidByWeredUserSettings* GameSettings = Cast<UArkanoidByWeredUserSettings>(GEngine->GetGameUserSettings());
+	if(GameSettings)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GameSettings is valid"));
+		GameSettings->LoadSettings();
+    
+		if(SpriteComp)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is valid"));
+			SpriteComp->SetSprite(GameSettings->SelectedBall);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is not valid"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GameSettings is not valid"));
+	}
 }
 
 // Called every frame
