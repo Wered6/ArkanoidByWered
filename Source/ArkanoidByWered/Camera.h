@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) 2023 Wered. All rights reserved.
 
 #pragma once
 
@@ -6,9 +6,6 @@
 #include "Camera/CameraActor.h"
 #include "Camera.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class ARKANOIDBYWERED_API ACamera : public ACameraActor
 {

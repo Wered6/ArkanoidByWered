@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright (c) 2023 Wered. All rights reserved.
 
 #include "ArkanoidByWered.h"
 #include "Modules/ModuleManager.h"
