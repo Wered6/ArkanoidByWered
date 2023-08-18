@@ -31,6 +31,8 @@ public:
 private:
 	void MoveHorizontal(const float Value);
 
+	void SetDefaultSprite() const;
+
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* CollisionComp;
 	UPROPERTY(VisibleAnywhere)

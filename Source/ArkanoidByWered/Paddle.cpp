@@ -28,27 +28,8 @@ APaddle::APaddle()
 void APaddle::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	UArkanoidByWeredUserSettings* GameSettings = Cast<UArkanoidByWeredUserSettings>(GEngine->GetGameUserSettings());
-	if(GameSettings)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GameSettings is valid"));
-		GameSettings->LoadSettings();
-    
-		if(SpriteComp)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is valid"));
-			SpriteComp->SetSprite(GameSettings->SelectedPaddle);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is not valid"));
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GameSettings is not valid"));
-	}
+
+	SetDefaultSprite();
 }
 
 // Called every frame
@@ -74,4 +55,26 @@ float APaddle::GetCollisionWidth() const
 void APaddle::MoveHorizontal(const float Value)
 {
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
+}
+
+void APaddle::SetDefaultSprite() const
+{
+	UArkanoidByWeredUserSettings* GameSettings = Cast<UArkanoidByWeredUserSettings>(GEngine->GetGameUserSettings());
+	if (GameSettings)
+	{
+		GameSettings->LoadSettings();
+
+		if (SpriteComp)
+		{
+			SpriteComp->SetSprite(GameSettings->SelectedPaddle);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is not valid"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GameSettings is not valid"));
+	}
 }

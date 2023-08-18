@@ -29,26 +29,7 @@ void ABall::BeginPlay()
 
 	VelocityVector = VelocityVector * BallSpeed;
 	
-	UArkanoidByWeredUserSettings* GameSettings = Cast<UArkanoidByWeredUserSettings>(GEngine->GetGameUserSettings());
-	if(GameSettings)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GameSettings is valid"));
-		GameSettings->LoadSettings();
-    
-		if(SpriteComp)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is valid"));
-			SpriteComp->SetSprite(GameSettings->SelectedBall);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is not valid"));
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GameSettings is not valid"));
-	}
+	SetDefaultSprite();
 }
 
 // Called every frame
@@ -83,7 +64,7 @@ void ABall::BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation)
 	const float Radians = FMath::DegreesToRadians(Angle);
 	const float XValue{FMath::Cos(Radians)};
 	const float ZValue{FMath::Sin(Radians)};
-	
+
 	const FVector LeftmostBounceDirection{-XValue, 0, ZValue};
 	const FVector RightmostBounceDirection{XValue, 0, ZValue};
 
@@ -106,4 +87,26 @@ void ABall::BounceOffWall(const FVector& HitNormal)
 	}
 	VelocityVector.Normalize();
 	VelocityVector = VelocityVector * BallSpeed;
+}
+
+void ABall::SetDefaultSprite() const
+{
+	UArkanoidByWeredUserSettings* GameSettings = Cast<UArkanoidByWeredUserSettings>(GEngine->GetGameUserSettings());
+	if (GameSettings)
+	{
+		GameSettings->LoadSettings();
+
+		if (SpriteComp)
+		{
+			SpriteComp->SetSprite(GameSettings->SelectedBall);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is not valid"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GameSettings is not valid"));
+	}
 }
