@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "PaperFlipbook.h"
 #include "HeartsDataAsset.generated.h"
+
 
 class UPaperSprite;
 
@@ -15,4 +17,8 @@ class ARKANOIDBYWERED_API UHeartsDataAsset : public UDataAsset
 public:
 	UPROPERTY(EditAnywhere, Category="Hearts")
 	TArray<UPaperSprite*> HeartsSprites;
+	UPROPERTY(EditAnywhere, Category="Flipbook")
+	UPaperFlipbook* FillHeart;
+	UPROPERTY(EditAnywhere, Category="Flipbook")
+	UPaperFlipbook* EmptyHeart;
 };

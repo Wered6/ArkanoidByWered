@@ -10,17 +10,23 @@
 UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> GreenAssetFinder(
-		TEXT("/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/GreenDataAsset.GreenDataAsset'"));
+		TEXT(
+			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/GreenDataAsset.GreenDataAsset'"));
 	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> GreyAssetFinder(
-		TEXT("/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/GreyDataAsset.GreyDataAsset'"));
+		TEXT(
+			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/GreyDataAsset.GreyDataAsset'"));
 	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> OrangeAssetFinder(
-		TEXT("/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/OrangeDataAsset.OrangeDataAsset'"));
+		TEXT(
+			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/OrangeDataAsset.OrangeDataAsset'"));
 	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> PurpleAssetFinder(
-		TEXT("/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PurpleDataAsset.PurpleDataAsset'"));
+		TEXT(
+			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/PurpleDataAsset.PurpleDataAsset'"));
 	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> RedAssetFinder(
-		TEXT("/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/RedDataAsset.RedDataAsset'"));
+		TEXT(
+			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/RedDataAsset.RedDataAsset'"));
 	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> YellowAssetFinder(
-		TEXT("/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/YellowDataAsset.YellowDataAsset'"));
+		TEXT(
+			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/YellowDataAsset.YellowDataAsset'"));
 
 	if (GreenAssetFinder.Succeeded() && GreyAssetFinder.Succeeded() && OrangeAssetFinder.Succeeded() &&
 		PurpleAssetFinder.Succeeded() && RedAssetFinder.Succeeded() && YellowAssetFinder.Succeeded())
