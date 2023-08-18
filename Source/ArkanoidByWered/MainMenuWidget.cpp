@@ -82,6 +82,10 @@ void UMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 		GameSettings->SelectedPaddle = PaddleSprite;
 		GameSettings->SaveSettings();
 	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GameSettings is null!"));
+	}
 }
 
 void UMainMenuWidget::NextPaddle()
