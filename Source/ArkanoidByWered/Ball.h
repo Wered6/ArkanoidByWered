@@ -24,6 +24,7 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 	UFUNCTION(BlueprintCallable)
 	void BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor);
@@ -45,6 +46,4 @@ private:
 	FVector VelocityVector{0, 0, -1};
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 	float Angle{45.f};
-
-	bool Active;
 };

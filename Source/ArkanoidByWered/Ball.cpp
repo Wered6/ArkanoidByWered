@@ -6,6 +6,7 @@
 #include "Paddle.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
+#include "Engine/TriggerBox.h"
 
 // Sets default values
 ABall::ABall()
@@ -28,7 +29,7 @@ void ABall::BeginPlay()
 	Super::BeginPlay();
 
 	VelocityVector = VelocityVector * BallSpeed;
-	
+
 	SetDefaultSprite();
 }
 
@@ -39,6 +40,16 @@ void ABall::Tick(float DeltaTime)
 
 	const FVector Movement = VelocityVector * DeltaTime;
 	AddActorLocalOffset(Movement, true);
+}
+
+void ABall::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorBeginOverlap(OtherActor);
+
+	if (OtherActor->IsA(ATriggerBox::StaticClass()))
+	{
+		Destroy();
+	}
 }
 
 void ABall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor)
