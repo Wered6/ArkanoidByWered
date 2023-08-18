@@ -51,6 +51,27 @@ float APaddle::GetCollisionWidth() const
 	return CollisionComp->GetUnscaledBoxExtent().X * 2.f;
 }
 
+void APaddle::AddLive()
+{
+	if (Lives < 3)
+	{
+		Lives++;
+	}
+}
+
+void APaddle::SubLive()
+{
+	if (Lives > 0)
+	{
+		Lives--;
+	}
+}
+
+int32 APaddle::GetLives() const
+{
+	return Lives;
+}
+
 
 void APaddle::MoveHorizontal(const float Value)
 {
