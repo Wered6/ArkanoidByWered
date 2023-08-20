@@ -17,8 +17,4 @@ class ARKANOIDBYWERED_API UHeartsDataAsset : public UDataAsset
 public:
 	UPROPERTY(EditAnywhere, Category="Hearts")
 	TArray<UPaperSprite*> HeartsSprites;
-	UPROPERTY(EditAnywhere, Category="Flipbook")
-	UPaperFlipbook* FillHeart;
-	UPROPERTY(EditAnywhere, Category="Flipbook")
-	UPaperFlipbook* EmptyHeart;
 };

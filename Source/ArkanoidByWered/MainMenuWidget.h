@@ -34,6 +34,7 @@ private:
 	const UArkanoidDataAsset* GetCurrentPalette();
 	void UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const;
 
+	UPROPERTY()
 	TArray<UArkanoidDataAsset*> Palettes;
 	int32 PaletteIndex{0};
 	int32 PaddleIndex{0};
