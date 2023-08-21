@@ -2,6 +2,7 @@
 
 
 #include "Ball.h"
+#include "ArkanoidByWeredPlayerController.h"
 #include "ArkanoidByWeredUserSettings.h"
 #include "Paddle.h"
 #include "PaperSpriteComponent.h"
@@ -21,15 +22,15 @@ ABall::ABall()
 	SpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
 	SpriteComp->SetupAttachment(CollisionComp);
 	SpriteComp->SetCollisionProfileName(TEXT("NoCollision"));
+
+	VelocityVector = InitialVelocityVector * BallSpeed;
 }
 
 // Called when the game starts or when spawned
 void ABall::BeginPlay()
 {
 	Super::BeginPlay();
-
-	VelocityVector = VelocityVector * BallSpeed;
-
+	
 	SetDefaultSprite();
 }
 
@@ -46,10 +47,18 @@ void ABall::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 
+	// APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	// AArkanoidByWeredPlayerController* MyController = Cast<AArkanoidByWeredPlayerController>(PlayerController);
+
 	if (OtherActor->IsA(ATriggerBox::StaticClass()))
 	{
 		Destroy();
 	}
+}
+
+float ABall::GetCollisionHeight() const
+{
+	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
 }
 
 void ABall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor)
@@ -79,7 +88,9 @@ void ABall::BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation)
 	const FVector LeftmostBounceDirection{-XValue, 0, ZValue};
 	const FVector RightmostBounceDirection{XValue, 0, ZValue};
 
-	FVector NewDirection = FMath::Lerp(LeftmostBounceDirection, RightmostBounceDirection, HitPosition);
+	const float ModificatedPosition = HitPosition + FMath::FRandRange(-0.1f, 0.1f);
+
+	FVector NewDirection = FMath::Lerp(LeftmostBounceDirection, RightmostBounceDirection, ModificatedPosition);
 	NewDirection.Normalize();
 	VelocityVector = NewDirection * BallSpeed;
 }

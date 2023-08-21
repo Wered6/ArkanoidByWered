@@ -26,6 +26,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
+	float GetCollisionHeight() const;
+	
 	UFUNCTION(BlueprintCallable)
 	void BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor);
 
@@ -41,9 +43,10 @@ private:
 	class UPaperSpriteComponent* SpriteComp;
 
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
-	float BallSpeed{200.f};
+	float BallSpeed{0.f};
+	FVector InitialVelocityVector{0, 0, 1};
 	UPROPERTY(VisibleAnywhere, Category="Movement")
-	FVector VelocityVector{0, 0, -1};
+	FVector VelocityVector;
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 	float Angle{45.f};
 };
