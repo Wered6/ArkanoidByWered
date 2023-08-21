@@ -16,6 +16,13 @@ class ARKANOIDBYWERED_API UHUDWidget : public UUserWidget
 public:
 	UHUDWidget(const FObjectInitializer& ObjectInitializer);
 
+	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
+	UWidgetAnimation* HeartAnimation1;
+	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
+	UWidgetAnimation* HeartAnimation2;
+	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
+	UWidgetAnimation* HeartAnimation3;
+
 private:
 	UPROPERTY()
 	UHeartsDataAsset* HeartsDataAsset;
