@@ -14,7 +14,15 @@ class ARKANOIDBYWERED_API AArkanoidByWeredPlayerController : public APlayerContr
 {
 	GENERATED_BODY()
 
+public:
+	void AddLive();
+	void SubLive();
+	int32 GetLives() const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+private:
+	int32 Lives{3};
 };

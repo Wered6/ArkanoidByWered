@@ -28,10 +28,6 @@ public:
 
 	float GetCollisionWidth() const;
 
-	void AddLive();
-	void SubLive();
-	int32 GetLives() const;
-
 private:
 	void MoveHorizontal(const float Value);
 
@@ -43,6 +39,4 @@ private:
 	class UPaperSpriteComponent* SpriteComp;
 	UPROPERTY(VisibleAnywhere)
 	class UFloatingPawnMovement* FloatingPawnMovement;
-
-	int32 Lives{3};
 };
