@@ -98,7 +98,7 @@ void AArkanoidByWeredPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	InputComponent->BindAxis(TEXT("MoveHorizontal"), this, &AArkanoidByWeredPlayerController::MovePaddle);
+	InputComponent->BindAxis(TEXT("MovePaddleHorizontal"), this, &AArkanoidByWeredPlayerController::MovePaddle);
 }
 
 void AArkanoidByWeredPlayerController::SetPaddle()
