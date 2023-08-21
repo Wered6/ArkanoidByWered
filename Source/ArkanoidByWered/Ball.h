@@ -27,9 +27,13 @@ public:
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 	float GetCollisionHeight() const;
-	
+
+	void LaunchBall();
+
 	UFUNCTION(BlueprintCallable)
 	void BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor);
+
+	bool bIsLaunched{false};
 
 private:
 	void BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation);
@@ -42,9 +46,11 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* SpriteComp;
 
-	UPROPERTY(EditDefaultsOnly, Category="Movement")
-	float BallSpeed{0.f};
 	FVector InitialVelocityVector{0, 0, 1};
+	float InitialBallSpeed{0.f};
+
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+	float BallSpeed{200.f};
 	UPROPERTY(VisibleAnywhere, Category="Movement")
 	FVector VelocityVector;
 	UPROPERTY(EditDefaultsOnly, Category="Movement")

@@ -23,7 +23,7 @@ ABall::ABall()
 	SpriteComp->SetupAttachment(CollisionComp);
 	SpriteComp->SetCollisionProfileName(TEXT("NoCollision"));
 
-	VelocityVector = InitialVelocityVector * BallSpeed;
+	VelocityVector = InitialVelocityVector * InitialBallSpeed;
 }
 
 // Called when the game starts or when spawned
@@ -71,6 +71,15 @@ void ABall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, AAc
 	else
 	{
 		BounceOffWall(HitNormal);
+	}
+}
+
+void ABall::LaunchBall()
+{
+	if (!bIsLaunched)
+	{
+		bIsLaunched = true;
+		VelocityVector = InitialVelocityVector * BallSpeed;
 	}
 }
 
