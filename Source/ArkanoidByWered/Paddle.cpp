@@ -51,6 +51,11 @@ float APaddle::GetCollisionWidth() const
 	return CollisionComp->GetUnscaledBoxExtent().X * 2.f;
 }
 
+float APaddle::GetCollisionHeight() const
+{
+	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
+}
+
 void APaddle::MoveHorizontal(const float Value)
 {
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);

@@ -27,6 +27,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	float GetCollisionWidth() const;
+	float GetCollisionHeight() const;
 
 private:
 	void MoveHorizontal(const float Value);
