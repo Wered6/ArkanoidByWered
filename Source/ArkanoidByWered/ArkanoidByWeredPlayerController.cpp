@@ -89,9 +89,16 @@ void AArkanoidByWeredPlayerController::Tick(float DeltaTime)
 		NewBallPosition.Z = NewBallPosition.Z + Paddle->GetCollisionHeight() / 2;
 		NewBallPosition.Z = NewBallPosition.Z + SpawnedBall->GetCollisionHeight() / 2;
 		NewBallPosition.Z = NewBallPosition.Z + Offset;
-		
+
 		SpawnedBall->SetActorLocation(NewBallPosition);
 	}
+}
+
+void AArkanoidByWeredPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	InputComponent->BindAxis(TEXT("MoveHorizontal"), this, &AArkanoidByWeredPlayerController::MovePaddle);
 }
 
 void AArkanoidByWeredPlayerController::SetPaddle()
@@ -100,5 +107,13 @@ void AArkanoidByWeredPlayerController::SetPaddle()
 	if (ControlledPawn)
 	{
 		Paddle = Cast<APaddle>(ControlledPawn);
+	}
+}
+
+void AArkanoidByWeredPlayerController::MovePaddle(const float Value)
+{
+	if (Paddle)
+	{
+		Paddle->MoveHorizontal(Value);
 	}
 }

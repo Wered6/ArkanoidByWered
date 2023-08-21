@@ -31,8 +31,11 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void SetupInputComponent() override;
+
 private:
 	void SetPaddle();
+	void MovePaddle(const float Value);
 	
 	int32 Lives{3};
 

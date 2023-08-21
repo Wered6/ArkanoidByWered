@@ -38,14 +38,6 @@ void APaddle::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-// Called to bind functionality to input
-void APaddle::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	PlayerInputComponent->BindAxis(TEXT("MoveHorizontal"), this, &APaddle::MoveHorizontal);
-}
-
 float APaddle::GetCollisionWidth() const
 {
 	return CollisionComp->GetUnscaledBoxExtent().X * 2.f;

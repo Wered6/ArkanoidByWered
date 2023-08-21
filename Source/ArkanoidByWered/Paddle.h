@@ -23,15 +23,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 	float GetCollisionWidth() const;
 	float GetCollisionHeight() const;
 
-private:
 	void MoveHorizontal(const float Value);
 
+private:
 	void SetDefaultSprite() const;
 
 	UPROPERTY(VisibleAnywhere)
