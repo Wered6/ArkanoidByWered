@@ -12,15 +12,15 @@ AArkanoidByWeredPlayerController::AArkanoidByWeredPlayerController()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AArkanoidByWeredPlayerController::AddLive()
+void AArkanoidByWeredPlayerController::AddLife()
 {
-	if (Lives < 3)
+	if (Lifes < 3)
 	{
-		Lives++;
+		Lifes++;
 	}
 }
 
-void AArkanoidByWeredPlayerController::SubLive()
+void AArkanoidByWeredPlayerController::SubLife()
 {
 	UWidgetAnimation* Animation1 = HUD->HeartAnimation1;
 	UWidgetAnimation* Animation2 = HUD->HeartAnimation2;
@@ -28,7 +28,7 @@ void AArkanoidByWeredPlayerController::SubLive()
 
 	if (Animation1 && Animation2 && Animation3)
 	{
-		switch (Lives)
+		switch (Lifes)
 		{
 		case 3:
 			HUD->PlayAnimation(Animation3);
@@ -43,22 +43,11 @@ void AArkanoidByWeredPlayerController::SubLive()
 			break;
 		}
 	}
-	if (Lives > 0)
+	if (Lifes > 0)
 	{
-		Lives--;
+		Lifes--;
 	}
 	SpawnBall();
-}
-
-void AArkanoidByWeredPlayerController::SpawnBall()
-{
-	if (BallClass)
-	{
-		const FVector BallSpawnLocation = FVector(240, 0, -220);
-		const FRotator BallSpawnRotation = FRotator::ZeroRotator;
-
-		SpawnedBall = GetWorld()->SpawnActor<ABall>(BallClass, BallSpawnLocation, BallSpawnRotation);
-	}
 }
 
 void AArkanoidByWeredPlayerController::BeginPlay()
@@ -66,7 +55,7 @@ void AArkanoidByWeredPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	SetPaddle();
-
+	SpawnBall();
 	if (HUDWidgetClass)
 	{
 		HUD = CreateWidget<UHUDWidget>(GetWorld(), HUDWidgetClass);
@@ -75,22 +64,19 @@ void AArkanoidByWeredPlayerController::BeginPlay()
 			HUD->AddToViewport();
 		}
 	}
-	SpawnBall();
 }
 
 void AArkanoidByWeredPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (SpawnedBall && Paddle)
+	if (SpawnedBall && !SpawnedBall->bIsLaunched)
 	{
-		constexpr float Offset{0.01f};
-		FVector NewBallPosition = Paddle->GetActorLocation();
-		NewBallPosition.Z = NewBallPosition.Z + Paddle->GetCollisionHeight() / 2;
-		NewBallPosition.Z = NewBallPosition.Z + SpawnedBall->GetCollisionHeight() / 2;
-		NewBallPosition.Z = NewBallPosition.Z + Offset;
-
-		SpawnedBall->SetActorLocation(NewBallPosition);
+		UpdateIdleBallPosition();
+	}
+	else
+	{
+		PrimaryActorTick.bCanEverTick = false;
 	}
 }
 
@@ -99,6 +85,7 @@ void AArkanoidByWeredPlayerController::SetupInputComponent()
 	Super::SetupInputComponent();
 
 	InputComponent->BindAxis(TEXT("MovePaddleHorizontal"), this, &AArkanoidByWeredPlayerController::MovePaddle);
+	InputComponent->BindAction(TEXT("LaunchBall"), IE_Pressed, this, &AArkanoidByWeredPlayerController::LaunchBall);
 }
 
 void AArkanoidByWeredPlayerController::SetPaddle()
@@ -115,5 +102,40 @@ void AArkanoidByWeredPlayerController::MovePaddle(const float Value)
 	if (Paddle)
 	{
 		Paddle->MoveHorizontal(Value);
+	}
+}
+
+void AArkanoidByWeredPlayerController::SpawnBall()
+{
+	if (BallClass)
+	{
+		SpawnedBall = GetWorld()->SpawnActor<ABall>(BallClass, FVector::ZeroVector, FRotator::ZeroRotator);
+		UpdateIdleBallPosition();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Ball Class is not set!"));
+	}
+}
+
+void AArkanoidByWeredPlayerController::LaunchBall()
+{
+	if (SpawnedBall)
+	{
+		SpawnedBall->LaunchBall();
+	}
+}
+
+void AArkanoidByWeredPlayerController::UpdateIdleBallPosition() const
+{
+	if (Paddle && SpawnedBall)
+	{
+		FVector BallStartPosition = Paddle->GetActorLocation();
+		constexpr float BallToPaddleOffset{0.01f};
+		BallStartPosition.Z = BallStartPosition.Z
+			+ Paddle->GetCollisionHeight() / 2
+			+ SpawnedBall->GetCollisionHeight() / 2
+			+ BallToPaddleOffset;
+		SpawnedBall->SetActorLocation(BallStartPosition);
 	}
 }

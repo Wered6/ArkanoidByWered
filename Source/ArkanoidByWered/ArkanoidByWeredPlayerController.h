@@ -18,11 +18,9 @@ class ARKANOIDBYWERED_API AArkanoidByWeredPlayerController : public APlayerContr
 
 public:
 	AArkanoidByWeredPlayerController();
-	
-	void AddLive();
-	void SubLive();
 
-	void SpawnBall();
+	void AddLife();
+	void SubLife();
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,8 +34,10 @@ public:
 private:
 	void SetPaddle();
 	void MovePaddle(const float Value);
-	
-	int32 Lives{3};
+
+	void SpawnBall();
+	void LaunchBall();
+	void UpdateIdleBallPosition() const;
 
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UHUDWidget> HUDWidgetClass;
@@ -48,7 +48,9 @@ private:
 	TSubclassOf<ABall> BallClass;
 	UPROPERTY()
 	ABall* SpawnedBall;
-	
+
 	UPROPERTY()
 	APaddle* Paddle;
+
+	int32 Lifes{3};
 };
