@@ -42,15 +42,15 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UHUDWidget> HUDWidgetClass;
 	UPROPERTY()
-	UHUDWidget* HUD;
+	UHUDWidget* HUD{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
 	TSubclassOf<ABall> BallClass;
 	UPROPERTY()
-	ABall* SpawnedBall;
+	ABall* SpawnedBall{nullptr};
 
 	UPROPERTY()
-	APaddle* Paddle;
+	APaddle* Paddle{nullptr};
 
 	int32 Lifes{3};
 };
