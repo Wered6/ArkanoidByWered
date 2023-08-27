@@ -46,10 +46,18 @@ void ABall::Tick(float DeltaTime)
 void ABall::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
+
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	AArkanoidByWeredPlayerController* MyController = Cast<AArkanoidByWeredPlayerController>(PlayerController);
 	
 	if (OtherActor->IsA(ATriggerBox::StaticClass()))
 	{
 		Destroy();
+		const int32 BallsCount = MyController->GetBallsCount();
+		if (BallsCount < 1)
+		{
+			MyController->SubLife();
+		}
 	}
 }
 

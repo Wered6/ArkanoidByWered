@@ -48,7 +48,10 @@ void AArkanoidByWeredPlayerController::SubLife()
 	{
 		Lifes--;
 	}
-	SpawnBall();
+	if (Lifes > 0)
+	{
+		SpawnBall();
+	}
 }
 
 void AArkanoidByWeredPlayerController::BeginPlay()
