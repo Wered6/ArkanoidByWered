@@ -34,6 +34,8 @@ public:
 	virtual void SetupInputComponent() override;
 
 private:
+	void SetHUD();
+	
 	void SetPaddle();
 	void MovePaddle(const float Value);
 
@@ -45,6 +47,13 @@ private:
 	TSubclassOf<UHUDWidget> HUDWidgetClass;
 	UPROPERTY()
 	UHUDWidget* HUD{nullptr};
+
+	UPROPERTY()
+	UWidgetAnimation* Animation1{nullptr};
+	UPROPERTY()
+	UWidgetAnimation* Animation2{nullptr};
+	UPROPERTY()
+	UWidgetAnimation* Animation3{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
 	TSubclassOf<ABall> BallClass;

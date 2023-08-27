@@ -15,6 +15,18 @@ AArkanoidByWeredPlayerController::AArkanoidByWeredPlayerController()
 
 void AArkanoidByWeredPlayerController::AddLife()
 {
+	if (HUD && Animation1 && Animation2 && Animation3)
+	{
+		switch (Lifes)
+		{
+		case 1:
+			HUD->PlayAnimation(Animation2, 0, 1, EUMGSequencePlayMode::Reverse);
+		case 2:
+			HUD->PlayAnimation(Animation3, 0, 1, EUMGSequencePlayMode::Reverse);
+		default:
+			break;
+		}
+	}
 	if (Lifes < 3)
 	{
 		Lifes++;
@@ -23,11 +35,7 @@ void AArkanoidByWeredPlayerController::AddLife()
 
 void AArkanoidByWeredPlayerController::SubLife()
 {
-	UWidgetAnimation* Animation1 = HUD->HeartAnimation1;
-	UWidgetAnimation* Animation2 = HUD->HeartAnimation2;
-	UWidgetAnimation* Animation3 = HUD->HeartAnimation3;
-
-	if (Animation1 && Animation2 && Animation3)
+	if (HUD && Animation1 && Animation2 && Animation3)
 	{
 		switch (Lifes)
 		{
@@ -60,14 +68,7 @@ void AArkanoidByWeredPlayerController::BeginPlay()
 
 	SetPaddle();
 	SpawnBall();
-	if (HUDWidgetClass)
-	{
-		HUD = CreateWidget<UHUDWidget>(GetWorld(), HUDWidgetClass);
-		if (HUD)
-		{
-			HUD->AddToViewport();
-		}
-	}
+	SetHUD();
 }
 
 void AArkanoidByWeredPlayerController::Tick(float DeltaTime)
@@ -90,6 +91,22 @@ void AArkanoidByWeredPlayerController::SetupInputComponent()
 
 	InputComponent->BindAxis(TEXT("MovePaddleHorizontal"), this, &AArkanoidByWeredPlayerController::MovePaddle);
 	InputComponent->BindAction(TEXT("LaunchBall"), IE_Pressed, this, &AArkanoidByWeredPlayerController::LaunchBall);
+}
+
+void AArkanoidByWeredPlayerController::SetHUD()
+{
+	if (HUDWidgetClass)
+	{
+		HUD = CreateWidget<UHUDWidget>(GetWorld(), HUDWidgetClass);
+		if (HUD)
+		{
+			HUD->AddToViewport();
+		}
+	}
+
+	Animation1 = HUD->HeartAnimation1;
+	Animation2 = HUD->HeartAnimation2;
+	Animation3 = HUD->HeartAnimation3;
 }
 
 int32 AArkanoidByWeredPlayerController::GetBallsCount() const
