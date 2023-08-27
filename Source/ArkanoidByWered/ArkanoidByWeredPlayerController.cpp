@@ -5,6 +5,7 @@
 #include "Ball.h"
 #include "HUDWidget.h"
 #include "Paddle.h"
+#include "Kismet/GameplayStatics.h"
 
 
 AArkanoidByWeredPlayerController::AArkanoidByWeredPlayerController()
@@ -86,6 +87,13 @@ void AArkanoidByWeredPlayerController::SetupInputComponent()
 
 	InputComponent->BindAxis(TEXT("MovePaddleHorizontal"), this, &AArkanoidByWeredPlayerController::MovePaddle);
 	InputComponent->BindAction(TEXT("LaunchBall"), IE_Pressed, this, &AArkanoidByWeredPlayerController::LaunchBall);
+}
+
+int32 AArkanoidByWeredPlayerController::GetBallsCount() const
+{
+	TArray<AActor*> Balls;
+	UGameplayStatics::GetAllActorsOfClass(this, ABall::StaticClass(), Balls);
+	return Balls.Num();
 }
 
 void AArkanoidByWeredPlayerController::SetPaddle()

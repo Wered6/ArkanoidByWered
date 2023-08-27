@@ -32,6 +32,8 @@ public:
 	virtual void SetupInputComponent() override;
 
 private:
+	int32 GetBallsCount() const;
+	
 	void SetPaddle();
 	void MovePaddle(const float Value);
 
