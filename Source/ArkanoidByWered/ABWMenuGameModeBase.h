@@ -20,9 +20,9 @@ protected:
 private:
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UUserWidget> MainMenuWidgetClass;
-	
 	UPROPERTY()
 	UMainMenuWidget* MainMenu{nullptr};
+	
 	UPROPERTY()
 	AABWMenuPlayerController* PlayerController{nullptr};
 };
