@@ -77,10 +77,6 @@ void AABWPlayerController::Tick(float DeltaTime)
 	{
 		UpdateIdleBallPosition();
 	}
-	else
-	{
-		PrimaryActorTick.bCanEverTick = false;
-	}
 }
 
 void AABWPlayerController::SetupInputComponent()
