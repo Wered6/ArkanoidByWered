@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameUserSettings.h"
-#include "ArkanoidByWeredUserSettings.generated.h"
+#include "ABWUserSettings.generated.h"
 
 class UDefaultSettingsDataAsset;
 class UPaperSprite;
 
 UCLASS()
-class ARKANOIDBYWERED_API UArkanoidByWeredUserSettings : public UGameUserSettings
+class ARKANOIDBYWERED_API UABWUserSettings : public UGameUserSettings
 {
 	GENERATED_BODY()
 
 public:
-	UArkanoidByWeredUserSettings();
+	UABWUserSettings();
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Gameplay")
 	UPaperSprite* SelectedPaddle;

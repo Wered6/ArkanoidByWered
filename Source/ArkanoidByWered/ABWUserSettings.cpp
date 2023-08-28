@@ -1,10 +1,10 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "ArkanoidByWeredUserSettings.h"
+#include "ABWUserSettings.h"
 #include "DefaultSettingsDataAsset.h"
 
-UArkanoidByWeredUserSettings::UArkanoidByWeredUserSettings()
+UABWUserSettings::UABWUserSettings()
 {
 	static ConstructorHelpers::FObjectFinder<UDefaultSettingsDataAsset> DefaultSettingsAssetFinder(
 		TEXT(
@@ -17,7 +17,7 @@ UArkanoidByWeredUserSettings::UArkanoidByWeredUserSettings()
 	}
 }
 
-void UArkanoidByWeredUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
+void UABWUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
 {
 	Super::ApplySettings(bCheckForCommandLineOverrides);
 }

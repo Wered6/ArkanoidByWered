@@ -2,7 +2,7 @@
 
 
 #include "Paddle.h"
-#include "ArkanoidByWeredUserSettings.h"
+#include "ABWUserSettings.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
@@ -55,7 +55,7 @@ void APaddle::MoveHorizontal(const float Value)
 
 void APaddle::SetDefaultSprite() const
 {
-	UArkanoidByWeredUserSettings* GameSettings = Cast<UArkanoidByWeredUserSettings>(GEngine->GetGameUserSettings());
+	UABWUserSettings* GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
 	if (GameSettings)
 	{
 		GameSettings->LoadSettings();

@@ -2,7 +2,7 @@
 
 
 #include "MainMenuWidget.h"
-#include "ArkanoidByWeredUserSettings.h"
+#include "ABWUserSettings.h"
 #include "ArkanoidDataAsset.h"
 #include "Components/Image.h"
 #include "PaperSprite.h"
@@ -81,7 +81,7 @@ void UMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 		UE_LOG(LogTemp, Warning, TEXT("BallSprite is null!"));
 	}
 
-	UArkanoidByWeredUserSettings* GameSettings = Cast<UArkanoidByWeredUserSettings>(GEngine->GetGameUserSettings());
+	UABWUserSettings* GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
 	if (GameSettings)
 	{
 		GameSettings->SelectedBall = BallSprite;
