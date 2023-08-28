@@ -29,8 +29,9 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
-
 	virtual void SetupInputComponent() override;
+
+	void SetPlayerEnabledState(const bool bPlayerEnabled);
 
 private:
 	void SetHUD();

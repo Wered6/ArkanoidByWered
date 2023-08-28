@@ -92,6 +92,18 @@ void AABWPlayerController::SetupInputComponent()
 	InputComponent->BindAction(TEXT("LaunchBall"), IE_Pressed, this, &AABWPlayerController::LaunchBall);
 }
 
+void AABWPlayerController::SetPlayerEnabledState(const bool bPlayerEnabled)
+{
+	if (bPlayerEnabled)
+	{
+		EnableInput(this);
+	}
+	else
+	{
+		DisableInput(this);
+	}
+}
+
 void AABWPlayerController::SetHUD()
 {
 	if (HUDWidgetClass)
