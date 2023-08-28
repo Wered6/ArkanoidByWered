@@ -16,27 +16,24 @@ class ARKANOIDBYWERED_API AABWGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	void BallWasDestroyed(AActor* DestroyedBall);
-	void BrickWasDestroyed(AActor* DestroyedBrick);
-
-	int32 GetBallsCount() const;
-	int32 GetBricksCount() const;
+	void BallWasDestroyed();
+	void BrickWasDestroyed();
 
 protected:
 	virtual void BeginPlay() override;
 
-	void StartGame();
-	void LevelOver();
-	void GameOver();
-
 private:
+	void StartGame();
+	void LevelOver(const bool bWin);
+	
+	int32 GetBallsCount() const;
+	int32 GetBricksCount() const;
+
 	UPROPERTY()
 	APaddle* Paddle{nullptr};
 	UPROPERTY()
-	AABWPlayerController* ABWPlayerController{nullptr};
-	UPROPERTY()
-	ABall* SpawnedBall{nullptr};
+	AABWPlayerController* PlayerController{nullptr};
 
-	int32 BallsCount{0};
-	int32 BricksCount{0};
+	int32 BallsNum{0};
+	int32 BricksNum{0};
 };

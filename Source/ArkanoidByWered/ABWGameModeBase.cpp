@@ -17,11 +17,48 @@ void AABWGameModeBase::BeginPlay()
 
 void AABWGameModeBase::StartGame()
 {
-	BallsCount = GetBallsCount();
-	BricksCount = GetBricksCount();
+	BallsNum = GetBallsCount();
+	BricksNum = GetBricksCount();
 	Paddle = Cast<APaddle>(UGameplayStatics::GetPlayerPawn(this, 0));
-	ABWPlayerController = Cast<AABWPlayerController>(
+	PlayerController = Cast<AABWPlayerController>(
 		UGameplayStatics::GetPlayerController(this, 0));
+}
+
+void AABWGameModeBase::LevelOver(const bool bWin)
+{
+	PlayerController->SetPlayerEnabledState(false);
+
+	if (bWin)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Level Won"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Level Lost"));
+	}
+	// todo add UI with buttons "Next level", "Menu"
+}
+
+void AABWGameModeBase::BallWasDestroyed()
+{
+	BallsNum--;
+	if (BallsNum <= 0)
+	{
+		PlayerController->SubLife();
+	}
+	if (PlayerController->GetLife() <= 0)
+	{
+		LevelOver(false);
+	}
+}
+
+void AABWGameModeBase::BrickWasDestroyed()
+{
+	BricksNum--;
+	if (BricksNum <= 0)
+	{
+		LevelOver(true);
+	}
 }
 
 int32 AABWGameModeBase::GetBallsCount() const
