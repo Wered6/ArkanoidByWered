@@ -5,8 +5,6 @@
 #include "Ball.h"
 #include "HUDWidget.h"
 #include "Paddle.h"
-#include "Kismet/GameplayStatics.h"
-
 
 AArkanoidByWeredPlayerController::AArkanoidByWeredPlayerController()
 {
@@ -107,13 +105,6 @@ void AArkanoidByWeredPlayerController::SetHUD()
 	Animation1 = HUD->HeartAnimation1;
 	Animation2 = HUD->HeartAnimation2;
 	Animation3 = HUD->HeartAnimation3;
-}
-
-int32 AArkanoidByWeredPlayerController::GetBallsCount() const
-{
-	TArray<AActor*> Balls;
-	UGameplayStatics::GetAllActorsOfClass(this, ABall::StaticClass(), Balls);
-	return Balls.Num();
 }
 
 void AArkanoidByWeredPlayerController::SetPaddle()

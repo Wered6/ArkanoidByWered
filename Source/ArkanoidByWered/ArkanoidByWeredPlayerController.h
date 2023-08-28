@@ -21,9 +21,7 @@ public:
 
 	void AddLife();
 	void SubLife();
-	
-	int32 GetBallsCount() const;
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,7 +33,7 @@ public:
 
 private:
 	void SetHUD();
-	
+
 	void SetPaddle();
 	void MovePaddle(const float Value);
 
