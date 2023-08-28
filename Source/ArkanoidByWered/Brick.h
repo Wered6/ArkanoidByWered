@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Brick.generated.h"
 
+class AABWGameModeBase;
 class UPaperSpriteComponent;
 
 UCLASS()
@@ -35,4 +36,7 @@ private:
 	UPaperSpriteComponent* MainSpriteComp;
 
 	int32 NumOfHits{0};
+
+	UPROPERTY()
+	AABWGameModeBase* GameMode{nullptr};
 };

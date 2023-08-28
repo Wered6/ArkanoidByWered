@@ -3,6 +3,7 @@
 
 #include "Brick.h"
 #include "Ball.h"
+#include "ABWGameModeBase.h"
 #include "PaperSpriteComponent.h"
 
 // Sets default values
@@ -21,6 +22,8 @@ void ABrick::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
+	
 	OnActorHit.AddDynamic(this, &ABrick::HandleOnHit);
 }
 
@@ -42,6 +45,7 @@ void ABrick::HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalIm
 		{
 			// todo add sound and maybe some animation
 			Destroy();
+			GameMode->BrickWasDestroyed();
 		}
 		NumOfHits++;
 	}
