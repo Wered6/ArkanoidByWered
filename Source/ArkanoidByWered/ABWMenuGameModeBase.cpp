@@ -17,13 +17,13 @@ void AABWMenuGameModeBase::BeginPlay()
 	}
 	if (MainMenu)
 	{
-			MainMenu->AddToViewport();
+		MainMenu->AddToViewport();
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MainMenu is null"));
 	}
-	
+
 	PlayerController = Cast<AABWMenuPlayerController>(
 		UGameplayStatics::GetPlayerController(this, 0));
 }
