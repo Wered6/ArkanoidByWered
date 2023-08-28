@@ -17,11 +17,11 @@ public:
 	UHUDWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
-	UWidgetAnimation* HeartAnimation1;
+	UWidgetAnimation* HeartAnimation1{nullptr};
 	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
-	UWidgetAnimation* HeartAnimation2;
+	UWidgetAnimation* HeartAnimation2{nullptr};
 	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
-	UWidgetAnimation* HeartAnimation3;
+	UWidgetAnimation* HeartAnimation3{nullptr};
 
 private:
 	UPROPERTY()
