@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "ArkanoidByWeredPlayerController.generated.h"
+#include "ABWPlayerController.generated.h"
 
 class APaddle;
 class ABall;
@@ -12,12 +12,12 @@ class UWidgetAnimation;
 class UHUDWidget;
 
 UCLASS()
-class ARKANOIDBYWERED_API AArkanoidByWeredPlayerController : public APlayerController
+class ARKANOIDBYWERED_API AABWPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
 public:
-	AArkanoidByWeredPlayerController();
+	AABWPlayerController();
 
 	void AddLife();
 	void SubLife();

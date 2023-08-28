@@ -6,7 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "ABWGameModeBase.generated.h"
 
-class AArkanoidByWeredPlayerController;
+class AABWPlayerController;
 class APaddle;
 class ABall;
 
@@ -33,7 +33,7 @@ private:
 	UPROPERTY()
 	APaddle* Paddle{nullptr};
 	UPROPERTY()
-	AArkanoidByWeredPlayerController* ArkanoidByWeredPlayerController{nullptr};
+	AABWPlayerController* ABWPlayerController{nullptr};
 	UPROPERTY()
 	ABall* SpawnedBall{nullptr};
 

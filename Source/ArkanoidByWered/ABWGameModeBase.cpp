@@ -2,7 +2,7 @@
 
 
 #include "ABWGameModeBase.h"
-#include "ArkanoidByWeredPlayerController.h"
+#include "ABWPlayerController.h"
 #include "Ball.h"
 #include "Brick.h"
 #include "Paddle.h"
@@ -20,7 +20,7 @@ void AABWGameModeBase::StartGame()
 	BallsCount = GetBallsCount();
 	BricksCount = GetBricksCount();
 	Paddle = Cast<APaddle>(UGameplayStatics::GetPlayerPawn(this, 0));
-	ArkanoidByWeredPlayerController = Cast<AArkanoidByWeredPlayerController>(
+	ABWPlayerController = Cast<AABWPlayerController>(
 		UGameplayStatics::GetPlayerController(this, 0));
 }
 

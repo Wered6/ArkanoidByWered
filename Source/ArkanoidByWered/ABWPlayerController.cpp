@@ -1,17 +1,17 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "ArkanoidByWeredPlayerController.h"
+#include "ABWPlayerController.h"
 #include "Ball.h"
 #include "HUDWidget.h"
 #include "Paddle.h"
 
-AArkanoidByWeredPlayerController::AArkanoidByWeredPlayerController()
+AABWPlayerController::AABWPlayerController()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AArkanoidByWeredPlayerController::AddLife()
+void AABWPlayerController::AddLife()
 {
 	if (HUD && Animation1 && Animation2 && Animation3)
 	{
@@ -31,7 +31,7 @@ void AArkanoidByWeredPlayerController::AddLife()
 	}
 }
 
-void AArkanoidByWeredPlayerController::SubLife()
+void AABWPlayerController::SubLife()
 {
 	if (HUD && Animation1 && Animation2 && Animation3)
 	{
@@ -60,7 +60,7 @@ void AArkanoidByWeredPlayerController::SubLife()
 	}
 }
 
-void AArkanoidByWeredPlayerController::BeginPlay()
+void AABWPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -69,7 +69,7 @@ void AArkanoidByWeredPlayerController::BeginPlay()
 	SetHUD();
 }
 
-void AArkanoidByWeredPlayerController::Tick(float DeltaTime)
+void AABWPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -83,15 +83,15 @@ void AArkanoidByWeredPlayerController::Tick(float DeltaTime)
 	}
 }
 
-void AArkanoidByWeredPlayerController::SetupInputComponent()
+void AABWPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	InputComponent->BindAxis(TEXT("MovePaddleHorizontal"), this, &AArkanoidByWeredPlayerController::MovePaddle);
-	InputComponent->BindAction(TEXT("LaunchBall"), IE_Pressed, this, &AArkanoidByWeredPlayerController::LaunchBall);
+	InputComponent->BindAxis(TEXT("MovePaddleHorizontal"), this, &AABWPlayerController::MovePaddle);
+	InputComponent->BindAction(TEXT("LaunchBall"), IE_Pressed, this, &AABWPlayerController::LaunchBall);
 }
 
-void AArkanoidByWeredPlayerController::SetHUD()
+void AABWPlayerController::SetHUD()
 {
 	if (HUDWidgetClass)
 	{
@@ -107,7 +107,7 @@ void AArkanoidByWeredPlayerController::SetHUD()
 	Animation3 = HUD->HeartAnimation3;
 }
 
-void AArkanoidByWeredPlayerController::SetPaddle()
+void AABWPlayerController::SetPaddle()
 {
 	APawn* ControlledPawn = GetPawn();
 	if (ControlledPawn)
@@ -116,7 +116,7 @@ void AArkanoidByWeredPlayerController::SetPaddle()
 	}
 }
 
-void AArkanoidByWeredPlayerController::MovePaddle(const float Value)
+void AABWPlayerController::MovePaddle(const float Value)
 {
 	if (Paddle)
 	{
@@ -124,7 +124,7 @@ void AArkanoidByWeredPlayerController::MovePaddle(const float Value)
 	}
 }
 
-void AArkanoidByWeredPlayerController::SpawnBall()
+void AABWPlayerController::SpawnBall()
 {
 	if (BallClass)
 	{
@@ -137,7 +137,7 @@ void AArkanoidByWeredPlayerController::SpawnBall()
 	}
 }
 
-void AArkanoidByWeredPlayerController::LaunchBall()
+void AABWPlayerController::LaunchBall()
 {
 	if (SpawnedBall)
 	{
@@ -145,7 +145,7 @@ void AArkanoidByWeredPlayerController::LaunchBall()
 	}
 }
 
-void AArkanoidByWeredPlayerController::UpdateIdleBallPosition() const
+void AABWPlayerController::UpdateIdleBallPosition() const
 {
 	if (Paddle && SpawnedBall)
 	{
