@@ -21,6 +21,7 @@ public:
 
 	void AddLife();
 	void SubLife();
+	int32 GetLife() const;
 
 protected:
 	// Called when the game starts or when spawned

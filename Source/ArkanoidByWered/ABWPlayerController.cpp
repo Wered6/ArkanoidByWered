@@ -60,6 +60,11 @@ void AABWPlayerController::SubLife()
 	}
 }
 
+int32 AABWPlayerController::GetLife() const
+{
+	return Lifes;
+}
+
 void AABWPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
