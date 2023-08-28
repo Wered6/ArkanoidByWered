@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Ball.generated.h"
 
+class AABWGameModeBase;
 class APaddle;
 
 UCLASS()
@@ -55,4 +56,7 @@ private:
 	FVector VelocityVector;
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 	float Angle{45.f};
+
+	UPROPERTY()
+	AABWGameModeBase* GameMode{nullptr};
 };

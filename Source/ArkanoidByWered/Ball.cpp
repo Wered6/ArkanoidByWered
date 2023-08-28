@@ -2,8 +2,8 @@
 
 
 #include "Ball.h"
-#include "ArkanoidByWeredPlayerController.h"
-#include "ArkanoidByWeredUserSettings.h"
+#include "ABWGameModeBase.h"
+#include "ABWUserSettings.h"
 #include "Paddle.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
@@ -32,6 +32,8 @@ void ABall::BeginPlay()
 	Super::BeginPlay();
 	
 	SetDefaultSprite();
+
+	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
 }
 
 // Called every frame
@@ -46,18 +48,11 @@ void ABall::Tick(float DeltaTime)
 void ABall::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
-
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-	AArkanoidByWeredPlayerController* MyController = Cast<AArkanoidByWeredPlayerController>(PlayerController);
 	
 	if (OtherActor->IsA(ATriggerBox::StaticClass()))
 	{
 		Destroy();
-		const int32 BallsCount = MyController->GetBallsCount();
-		if (BallsCount < 1)
-		{
-			MyController->SubLife();
-		}
+		GameMode->BallWasDestroyed();
 	}
 }
 
@@ -127,7 +122,7 @@ void ABall::BounceOffWall(const FVector& HitNormal)
 
 void ABall::SetDefaultSprite() const
 {
-	UArkanoidByWeredUserSettings* GameSettings = Cast<UArkanoidByWeredUserSettings>(GEngine->GetGameUserSettings());
+	UABWUserSettings* GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
 	if (GameSettings)
 	{
 		GameSettings->LoadSettings();
