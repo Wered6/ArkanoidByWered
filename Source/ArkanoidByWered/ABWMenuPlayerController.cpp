@@ -3,8 +3,9 @@
 
 #include "ABWMenuPlayerController.h"
 
-AABWMenuPlayerController::AABWMenuPlayerController()
+void AABWMenuPlayerController::BeginPlay()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	Super::BeginPlay();
+
 	bShowMouseCursor = true;
 }

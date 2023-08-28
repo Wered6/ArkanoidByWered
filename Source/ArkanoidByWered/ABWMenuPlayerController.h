@@ -11,6 +11,6 @@ class ARKANOIDBYWERED_API AABWMenuPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
-	AABWMenuPlayerController();
+protected:
+	virtual void BeginPlay() override;
 };
