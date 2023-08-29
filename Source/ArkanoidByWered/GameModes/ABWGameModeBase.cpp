@@ -4,9 +4,9 @@
 #include "ABWGameModeBase.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
 #include "ArkanoidByWered/PlayerControllers/ABWPlayerController.h"
-#include "ArkanoidByWered/Ball.h"
-#include "ArkanoidByWered/Brick.h"
-#include "ArkanoidByWered/Paddle.h"
+#include "ArkanoidByWered/GameplayElements/Ball.h"
+#include "ArkanoidByWered/GameplayElements/Brick.h"
+#include "ArkanoidByWered/GameplayElements/Paddle.h"
 #include "Kismet/GameplayStatics.h"
 
 void AABWGameModeBase::BeginPlay()
