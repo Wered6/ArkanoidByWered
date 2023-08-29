@@ -2,6 +2,7 @@
 
 
 #include "ABWGameModeBase.h"
+#include "ABWGameInstance.h"
 #include "ABWPlayerController.h"
 #include "Ball.h"
 #include "Brick.h"
@@ -13,30 +14,6 @@ void AABWGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	StartGame();
-}
-
-void AABWGameModeBase::StartGame()
-{
-	BallsNum = GetBallsCount();
-	BricksNum = GetBricksCount();
-	Paddle = Cast<APaddle>(UGameplayStatics::GetPlayerPawn(this, 0));
-	PlayerController = Cast<AABWPlayerController>(
-		UGameplayStatics::GetPlayerController(this, 0));
-}
-
-void AABWGameModeBase::LevelOver(const bool bWin)
-{
-	PlayerController->SetPlayerEnabledState(false);
-
-	if (bWin)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Level Won"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Level Lost"));
-	}
-	// todo add UI with buttons "Next level", "Menu"
 }
 
 void AABWGameModeBase::BallWasDestroyed()
@@ -58,6 +35,31 @@ void AABWGameModeBase::BrickWasDestroyed()
 	if (BricksNum <= 0)
 	{
 		LevelOver(true);
+	}
+}
+
+void AABWGameModeBase::StartGame()
+{
+	GameInstance = Cast<UABWGameInstance>(GetGameInstance());
+	PlayerController = Cast<AABWPlayerController>(
+		UGameplayStatics::GetPlayerController(this, 0));
+	Paddle = Cast<APaddle>(UGameplayStatics::GetPlayerPawn(this, 0));
+	BallsNum = GetBallsCount();
+	BricksNum = GetBricksCount();
+}
+
+void AABWGameModeBase::LevelOver(const bool bWin) const
+{
+	PlayerController->SetPlayerEnabledState(false);
+	if (bWin)
+	{
+		UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
+		GameInstance->SetHasPlayerLost(false);
+	}
+	else
+	{
+		UGameplayStatics::OpenLevel(GetWorld(),TEXT("MainMenu"));
+		GameInstance->SetHasPlayerLost(true);
 	}
 }
 
