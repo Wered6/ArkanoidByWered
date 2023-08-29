@@ -6,7 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "ABWMenuGameModeBase.generated.h"
 
-class AABWMenuPlayerController;
+class UABWGameInstance;
+class UWidgetSwitcher;
 class UMainMenuWidget;
 
 UCLASS()
@@ -18,11 +19,17 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	void Init();
+	void OpenMenu() const;
+	void OpenAppropriateWidget() const;
+
+	UPROPERTY()
+	UABWGameInstance* GameInstance;
+
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UUserWidget> MainMenuWidgetClass;
 	UPROPERTY()
 	UMainMenuWidget* MainMenu{nullptr};
-	
 	UPROPERTY()
-	AABWMenuPlayerController* PlayerController{nullptr};
+	UWidgetSwitcher* WidgetSwitcher{nullptr};
 };
