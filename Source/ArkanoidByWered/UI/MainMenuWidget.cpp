@@ -2,8 +2,8 @@
 
 
 #include "MainMenuWidget.h"
-#include "ABWUserSettings.h"
-#include "ArkanoidDataAsset.h"
+#include "ArkanoidByWered/ABWUserSettings.h"
+#include "ArkanoidByWered/ArkanoidDataAsset.h"
 #include "Components/Image.h"
 #include "PaperSprite.h"
 

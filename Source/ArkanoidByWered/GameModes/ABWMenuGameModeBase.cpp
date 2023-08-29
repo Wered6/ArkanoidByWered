@@ -3,7 +3,7 @@
 
 #include "ABWMenuGameModeBase.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
-#include "ArkanoidByWered/MainMenuWidget.h"
+#include "ArkanoidByWered/UI/MainMenuWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/WidgetSwitcher.h"
 

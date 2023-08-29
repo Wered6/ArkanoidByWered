@@ -3,7 +3,7 @@
 
 #include "ABWPlayerController.h"
 #include "ArkanoidByWered/GameplayElements/Ball.h"
-#include "ArkanoidByWered/HUDWidget.h"
+#include "ArkanoidByWered/UI/HUDWidget.h"
 #include "ArkanoidByWered/GameplayElements/Paddle.h"
 
 AABWPlayerController::AABWPlayerController()
