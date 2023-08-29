@@ -2,13 +2,13 @@
 
 
 #include "ABWUserSettings.h"
-#include "DefaultSettingsDataAsset.h"
+#include "DefaultBallPaddleDA.h"
 
 UABWUserSettings::UABWUserSettings()
 {
-	static ConstructorHelpers::FObjectFinder<UDefaultSettingsDataAsset> DefaultSettingsAssetFinder(
+	static ConstructorHelpers::FObjectFinder<UDefaultBallPaddleDA> DefaultSettingsAssetFinder(
 		TEXT(
-			"/Script/ArkanoidByWered.DefaultSettingsDataAsset'/Game/Assets/DataAssets/DefaultSettingsDA.DefaultSettingsDA'"));
+			"/Script/ArkanoidByWered.DefaultBallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/DefaultBallPaddleDA.DefaultBallPaddleDA'"));
 	if (DefaultSettingsAssetFinder.Succeeded())
 	{
 		DefaultSettingsAsset = DefaultSettingsAssetFinder.Object;

@@ -3,30 +3,24 @@
 
 #include "MainMenuWidget.h"
 #include "ArkanoidByWered/ABWUserSettings.h"
-#include "ArkanoidByWered/ArkanoidDataAsset.h"
+#include "ArkanoidByWered/BallPaddleDA.h"
 #include "Components/Image.h"
 #include "PaperSprite.h"
 
 UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> GreenAssetFinder(
-		TEXT(
-			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/GreenDataAsset.GreenDataAsset'"));
-	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> GreyAssetFinder(
-		TEXT(
-			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/GreyDataAsset.GreyDataAsset'"));
-	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> OrangeAssetFinder(
-		TEXT(
-			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/OrangeDataAsset.OrangeDataAsset'"));
-	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> PurpleAssetFinder(
-		TEXT(
-			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/PurpleDataAsset.PurpleDataAsset'"));
-	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> RedAssetFinder(
-		TEXT(
-			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/RedDataAsset.RedDataAsset'"));
-	static ConstructorHelpers::FObjectFinder<UArkanoidDataAsset> YellowAssetFinder(
-		TEXT(
-			"/Script/ArkanoidByWered.ArkanoidDataAsset'/Game/Assets/DataAssets/PaddlesAndBalls/YellowDataAsset.YellowDataAsset'"));
+	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> GreenAssetFinder(
+		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/GreenDA.GreenDA'"));
+	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> GreyAssetFinder(
+		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/GreyDa.GreyDa'"));
+	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> OrangeAssetFinder(
+		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/OrangeDA.OrangeDA'"));
+	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> PurpleAssetFinder(
+		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/PurpleDA.PurpleDA'"));
+	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> RedAssetFinder(
+		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/RedDA.RedDA'"));
+	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> YellowAssetFinder(
+		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/YellowDA.YellowDA'"));
 
 	if (GreenAssetFinder.Succeeded() && GreyAssetFinder.Succeeded() && OrangeAssetFinder.Succeeded() &&
 		PurpleAssetFinder.Succeeded() && RedAssetFinder.Succeeded() && YellowAssetFinder.Succeeded())
@@ -42,7 +36,7 @@ UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer) : 
 
 void UMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 {
-	const UArkanoidDataAsset* CurrentPalette = GetCurrentPalette();
+	const UBallPaddleDA* CurrentPalette = GetCurrentPalette();
 	if (!CurrentPalette)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
@@ -96,7 +90,7 @@ void UMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 
 void UMainMenuWidget::NextPaddle()
 {
-	const UArkanoidDataAsset* CurrentPalette = GetCurrentPalette();
+	const UBallPaddleDA* CurrentPalette = GetCurrentPalette();
 	if (!CurrentPalette)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
@@ -108,7 +102,7 @@ void UMainMenuWidget::NextPaddle()
 
 void UMainMenuWidget::PreviousPaddle()
 {
-	const UArkanoidDataAsset* CurrentPalette = GetCurrentPalette();
+	const UBallPaddleDA* CurrentPalette = GetCurrentPalette();
 	if (!CurrentPalette)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
@@ -130,7 +124,7 @@ void UMainMenuWidget::PreviousPalette()
 	UpdateIndex(PaletteIndex, PalettesCount, false);
 }
 
-const UArkanoidDataAsset* UMainMenuWidget::GetCurrentPalette()
+const UBallPaddleDA* UMainMenuWidget::GetCurrentPalette()
 {
 	if (Palettes.IsValidIndex(PaletteIndex))
 	{

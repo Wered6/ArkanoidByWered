@@ -5,13 +5,13 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "PaperFlipbook.h"
-#include "HeartsDataAsset.generated.h"
+#include "HeartsDA.generated.h"
 
 
 class UPaperSprite;
 
 UCLASS()
-class ARKANOIDBYWERED_API UHeartsDataAsset : public UDataAsset
+class ARKANOIDBYWERED_API UHeartsDA : public UDataAsset
 {
 	GENERATED_BODY()
 public:

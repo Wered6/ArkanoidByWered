@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "MainMenuWidget.generated.h"
 
-class UArkanoidDataAsset;
+class UBallPaddleDA;
 class UImage;
 
 UCLASS()
@@ -31,11 +31,11 @@ public:
 	void PreviousPalette();
 
 private:
-	const UArkanoidDataAsset* GetCurrentPalette();
+	const UBallPaddleDA* GetCurrentPalette();
 	void UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const;
 
 	UPROPERTY()
-	TArray<UArkanoidDataAsset*> Palettes;
+	TArray<UBallPaddleDA*> Palettes;
 	int32 PaletteIndex{0};
 	int32 PaddleIndex{0};
 	int32 BallIndex{0};

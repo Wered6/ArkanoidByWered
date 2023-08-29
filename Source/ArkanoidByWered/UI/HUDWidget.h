@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "HUDWidget.generated.h"
 
-class UHeartsDataAsset;
+class UHeartsDA;
 
 UCLASS()
 class ARKANOIDBYWERED_API UHUDWidget : public UUserWidget
@@ -25,5 +25,5 @@ public:
 
 private:
 	UPROPERTY()
-	UHeartsDataAsset* HeartsDataAsset;
+	UHeartsDA* HeartsDataAsset;
 };

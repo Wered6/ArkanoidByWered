@@ -2,12 +2,12 @@
 
 
 #include "HUDWidget.h"
-#include "ArkanoidByWered/HeartsDataAsset.h"
+#include "ArkanoidByWered/HeartsDA.h"
 
 UHUDWidget::UHUDWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	static ConstructorHelpers::FObjectFinder<UHeartsDataAsset> HeartAssetFinder(
-		TEXT("/Script/ArkanoidByWered.HeartsDataAsset'/Game/Assets/DataAssets/HeartsDataAsset.HeartsDataAsset'"));
+	static ConstructorHelpers::FObjectFinder<UHeartsDA> HeartAssetFinder(
+		TEXT("/Script/ArkanoidByWered.HeartsDA'/Game/Assets/DataAssets/Hearts/HeartsDA.HeartsDA'"));
 
 	if (HeartAssetFinder.Succeeded())
 	{
