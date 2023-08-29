@@ -2,7 +2,7 @@
 
 
 #include "ABWUserSettings.h"
-#include "DataAssets/DefaultBallPaddleDA.h"
+#include "ArkanoidByWered/DataAssets/DefaultBallPaddleDA.h"
 
 UABWUserSettings::UABWUserSettings()
 {

@@ -2,7 +2,7 @@
 
 
 #include "Paddle.h"
-#include "ArkanoidByWered/ABWUserSettings.h"
+#include "ArkanoidByWered/Settings/ABWUserSettings.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
