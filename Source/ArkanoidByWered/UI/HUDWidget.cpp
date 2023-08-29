@@ -2,7 +2,7 @@
 
 
 #include "HUDWidget.h"
-#include "ArkanoidByWered/HeartsDA.h"
+#include "ArkanoidByWered/DataAssets/HeartsDA.h"
 
 UHUDWidget::UHUDWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
