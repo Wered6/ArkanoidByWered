@@ -3,7 +3,7 @@
 
 #include "ABWGameModeBase.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
-#include "ArkanoidByWered/ABWPlayerController.h"
+#include "ArkanoidByWered/PlayerControllers/ABWPlayerController.h"
 #include "ArkanoidByWered/Ball.h"
 #include "ArkanoidByWered/Brick.h"
 #include "ArkanoidByWered/Paddle.h"
