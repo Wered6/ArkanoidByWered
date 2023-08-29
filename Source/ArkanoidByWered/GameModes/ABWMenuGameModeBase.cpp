@@ -2,8 +2,8 @@
 
 
 #include "ABWMenuGameModeBase.h"
-#include "GameInstance/ABWGameInstance.h"
-#include "MainMenuWidget.h"
+#include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
+#include "ArkanoidByWered/MainMenuWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/WidgetSwitcher.h"
 

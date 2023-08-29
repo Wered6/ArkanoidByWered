@@ -2,7 +2,7 @@
 
 
 #include "Ball.h"
-#include "ABWGameModeBase.h"
+#include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
 #include "ABWUserSettings.h"
 #include "Paddle.h"
 #include "PaperSpriteComponent.h"

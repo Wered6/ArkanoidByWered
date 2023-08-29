@@ -3,7 +3,7 @@
 
 #include "Brick.h"
 #include "Ball.h"
-#include "ABWGameModeBase.h"
+#include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
 #include "PaperSpriteComponent.h"
 
 // Sets default values

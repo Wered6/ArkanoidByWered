@@ -2,11 +2,11 @@
 
 
 #include "ABWGameModeBase.h"
-#include "GameInstance/ABWGameInstance.h"
-#include "ABWPlayerController.h"
-#include "Ball.h"
-#include "Brick.h"
-#include "Paddle.h"
+#include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
+#include "ArkanoidByWered/ABWPlayerController.h"
+#include "ArkanoidByWered/Ball.h"
+#include "ArkanoidByWered/Brick.h"
+#include "ArkanoidByWered/Paddle.h"
 #include "Kismet/GameplayStatics.h"
 
 void AABWGameModeBase::BeginPlay()
