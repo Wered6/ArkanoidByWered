@@ -2,7 +2,7 @@
 
 
 #include "ABWMenuGameModeBase.h"
-#include "ABWGameInstance.h"
+#include "GameInstance/ABWGameInstance.h"
 #include "MainMenuWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/WidgetSwitcher.h"

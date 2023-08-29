@@ -2,7 +2,7 @@
 
 
 #include "ABWGameModeBase.h"
-#include "ABWGameInstance.h"
+#include "GameInstance/ABWGameInstance.h"
 #include "ABWPlayerController.h"
 #include "Ball.h"
 #include "Brick.h"
