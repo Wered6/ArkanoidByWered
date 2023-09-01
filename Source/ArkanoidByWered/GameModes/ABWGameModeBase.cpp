@@ -58,7 +58,7 @@ void AABWGameModeBase::LevelOver(const bool bWin) const
 	}
 	else
 	{
-		UGameplayStatics::OpenLevel(GetWorld(),TEXT("MainMenu"));
+		UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
 		GameInstance->SetHasPlayerLost(true);
 	}
 }
