@@ -3,27 +3,6 @@
 
 #include "ABWGameInstance.h"
 
-UABWGameInstance::UABWGameInstance()
-{
-	FLevelInfo Level1Info;
-	Level1Info.LevelName = TEXT("Level1");
-	Level1Info.bIsLevelUnlocked = true;
-	Level1Info.bIsLevelCompleted = false;
-
-	FLevelInfo Level2Info;
-	Level2Info.LevelName = TEXT("Level2");
-	Level2Info.bIsLevelUnlocked = false;
-	Level2Info.bIsLevelCompleted = false;
-
-	FLevelInfo Level3Info;
-	Level3Info.LevelName = TEXT("Level3");
-	Level3Info.bIsLevelUnlocked = false;
-	Level3Info.bIsLevelCompleted = false;
-
-	LevelsInfo.Add(Level1Info);
-	LevelsInfo.Add(Level2Info);
-	LevelsInfo.Add(Level3Info);
-}
 
 bool UABWGameInstance::GetHasPlayerLost() const
 {
@@ -35,27 +14,12 @@ void UABWGameInstance::SetHasPlayerLost(const bool bPlayerHasLost)
 	bHasPlayerLost = bPlayerHasLost;
 }
 
-FString UABWGameInstance::GetLevelNameByIndex(const int32 LevelIndex) const
+bool UABWGameInstance::GetHasPlayerStartGame() const
 {
-	return LevelsInfo[LevelIndex].LevelName;
+	return bHasPlayerStartGame;
 }
 
-bool UABWGameInstance::GetIsLevelUnlockedByIndex(const int32 LevelIndex) const
+void UABWGameInstance::SetHasPlayerStartGame(const bool bPlayerHasStartGame)
 {
-	return LevelsInfo[LevelIndex].bIsLevelUnlocked;
-}
-
-bool UABWGameInstance::GetIsLevelCompletedByIndex(const int32 LevelIndex) const
-{
-	return LevelsInfo[LevelIndex].bIsLevelCompleted;
-}
-
-void UABWGameInstance::UnlockLevelByIndex(const int32 LevelIndex)
-{
-	LevelsInfo[LevelIndex].bIsLevelUnlocked = true;
-}
-
-void UABWGameInstance::CompleteLevelByIndex(const int32 LevelIndex)
-{
-	LevelsInfo[LevelIndex].bIsLevelCompleted = true;
+	bHasPlayerStartGame = bPlayerHasStartGame;
 }
