@@ -1,28 +1,28 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "MainMenuWidget.h"
+#include "ABWMenuWidget.h"
 #include "ArkanoidByWered/Settings/ABWUserSettings.h"
-#include "ArkanoidByWered/DataAssets/BallPaddleDA.h"
+#include "ArkanoidByWered/DataAssets/ABWBallPaddleDA.h"
 #include "Components/Image.h"
 #include "PaperSprite.h"
 #include "ArkanoidByWered/Core/LevelSystem/ABWLevelSubsystem.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
 #include "Components/Button.h"
 
-UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+UABWMenuWidget::UABWMenuWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> GreenAssetFinder(
+	static ConstructorHelpers::FObjectFinder<UABWBallPaddleDA> GreenAssetFinder(
 		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/GreenDA.GreenDA'"));
-	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> GreyAssetFinder(
+	static ConstructorHelpers::FObjectFinder<UABWBallPaddleDA> GreyAssetFinder(
 		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/GreyDa.GreyDa'"));
-	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> OrangeAssetFinder(
+	static ConstructorHelpers::FObjectFinder<UABWBallPaddleDA> OrangeAssetFinder(
 		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/OrangeDA.OrangeDA'"));
-	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> PurpleAssetFinder(
+	static ConstructorHelpers::FObjectFinder<UABWBallPaddleDA> PurpleAssetFinder(
 		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/PurpleDA.PurpleDA'"));
-	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> RedAssetFinder(
+	static ConstructorHelpers::FObjectFinder<UABWBallPaddleDA> RedAssetFinder(
 		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/RedDA.RedDA'"));
-	static ConstructorHelpers::FObjectFinder<UBallPaddleDA> YellowAssetFinder(
+	static ConstructorHelpers::FObjectFinder<UABWBallPaddleDA> YellowAssetFinder(
 		TEXT("/Script/ArkanoidByWered.BallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/YellowDA.YellowDA'"));
 
 	if (GreenAssetFinder.Succeeded() && GreyAssetFinder.Succeeded() && OrangeAssetFinder.Succeeded() &&
@@ -37,7 +37,7 @@ UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer) : 
 	}
 }
 
-void UMainMenuWidget::NativeConstruct()
+void UABWMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
@@ -48,9 +48,9 @@ void UMainMenuWidget::NativeConstruct()
 	SetLevelButtonsAvailability();
 }
 
-void UMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
+void UABWMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 {
-	const UBallPaddleDA* CurrentPalette = GetCurrentPalette();
+	const UABWBallPaddleDA* CurrentPalette = GetCurrentPalette();
 	if (!CurrentPalette)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
@@ -102,9 +102,9 @@ void UMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 	}
 }
 
-void UMainMenuWidget::NextPaddle()
+void UABWMenuWidget::NextPaddle()
 {
-	const UBallPaddleDA* CurrentPalette = GetCurrentPalette();
+	const UABWBallPaddleDA* CurrentPalette = GetCurrentPalette();
 	if (!CurrentPalette)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
@@ -114,9 +114,9 @@ void UMainMenuWidget::NextPaddle()
 	UpdateIndex(PaddleIndex, PaddlesCount, true);
 }
 
-void UMainMenuWidget::PreviousPaddle()
+void UABWMenuWidget::PreviousPaddle()
 {
-	const UBallPaddleDA* CurrentPalette = GetCurrentPalette();
+	const UABWBallPaddleDA* CurrentPalette = GetCurrentPalette();
 	if (!CurrentPalette)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
@@ -126,26 +126,26 @@ void UMainMenuWidget::PreviousPaddle()
 	UpdateIndex(PaddleIndex, PaddlesCount, false);
 }
 
-void UMainMenuWidget::NextPalette()
+void UABWMenuWidget::NextPalette()
 {
 	const int32 PalettesCount = Palettes.Num();
 	UpdateIndex(PaletteIndex, PalettesCount, true);
 }
 
-void UMainMenuWidget::PreviousPalette()
+void UABWMenuWidget::PreviousPalette()
 {
 	const int32 PalettesCount = Palettes.Num();
 	UpdateIndex(PaletteIndex, PalettesCount, false);
 }
 
-void UMainMenuWidget::SetLevelButtons()
+void UABWMenuWidget::SetLevelButtons()
 {
 	Level1Button = Cast<UButton>(GetWidgetFromName("LevelsLevel1Button"));
 	Level2Button = Cast<UButton>(GetWidgetFromName("LevelsLevel2Button"));
 	Level3Button = Cast<UButton>(GetWidgetFromName("LevelsLevel3Button"));
 }
 
-void UMainMenuWidget::SetLevelButtonsAvailability() const
+void UABWMenuWidget::SetLevelButtonsAvailability() const
 {
 	TArray<FLevelData*> LevelsData = LevelSubsystem->GetLevelsDataArray();
 
@@ -179,7 +179,7 @@ void UMainMenuWidget::SetLevelButtonsAvailability() const
 	}
 }
 
-const UBallPaddleDA* UMainMenuWidget::GetCurrentPalette()
+const UABWBallPaddleDA* UABWMenuWidget::GetCurrentPalette()
 {
 	if (Palettes.IsValidIndex(PaletteIndex))
 	{
@@ -189,7 +189,7 @@ const UBallPaddleDA* UMainMenuWidget::GetCurrentPalette()
 	return nullptr;
 }
 
-void UMainMenuWidget::UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const
+void UABWMenuWidget::UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const
 {
 	if (bIsIncrement)
 	{

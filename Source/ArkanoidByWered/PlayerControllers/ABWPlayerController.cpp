@@ -2,9 +2,9 @@
 
 
 #include "ABWPlayerController.h"
-#include "ArkanoidByWered/GameplayElements/Ball.h"
-#include "ArkanoidByWered/UI/HUD/HUDWidget.h"
-#include "ArkanoidByWered/GameplayElements/Paddle.h"
+#include "ArkanoidByWered/GameplayElements/ABWBall.h"
+#include "ArkanoidByWered/UI/HUD/ABWHUDWidget.h"
+#include "ArkanoidByWered/GameplayElements/ABWPaddle.h"
 
 AABWPlayerController::AABWPlayerController()
 {
@@ -108,7 +108,7 @@ void AABWPlayerController::SetHUD()
 {
 	if (HUDWidgetClass)
 	{
-		HUD = CreateWidget<UHUDWidget>(GetWorld(), HUDWidgetClass);
+		HUD = CreateWidget<UABWHUDWidget>(GetWorld(), HUDWidgetClass);
 		if (HUD)
 		{
 			HUD->AddToViewport();
@@ -125,7 +125,7 @@ void AABWPlayerController::SetPaddle()
 	APawn* ControlledPawn = GetPawn();
 	if (ControlledPawn)
 	{
-		Paddle = Cast<APaddle>(ControlledPawn);
+		Paddle = Cast<AABWPaddle>(ControlledPawn);
 	}
 }
 
@@ -141,7 +141,7 @@ void AABWPlayerController::SpawnBall()
 {
 	if (BallClass)
 	{
-		SpawnedBall = GetWorld()->SpawnActor<ABall>(BallClass, FVector::ZeroVector, FRotator::ZeroRotator);
+		SpawnedBall = GetWorld()->SpawnActor<AABWBall>(BallClass, FVector::ZeroVector, FRotator::ZeroRotator);
 		UpdateIdleBallPosition();
 	}
 	else

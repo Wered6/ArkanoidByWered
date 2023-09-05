@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Camera/CameraActor.h"
-#include "Camera.generated.h"
+#include "ABWCamera.generated.h"
 
 UCLASS()
-class ARKANOIDBYWERED_API ACamera : public ACameraActor
+class ARKANOIDBYWERED_API AABWCamera : public ACameraActor
 {
 	GENERATED_BODY()
 	

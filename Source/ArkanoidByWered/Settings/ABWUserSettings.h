@@ -6,7 +6,7 @@
 #include "GameFramework/GameUserSettings.h"
 #include "ABWUserSettings.generated.h"
 
-class UDefaultBallPaddleDA;
+class UABWDefaultBallPaddleDA;
 class UPaperSprite;
 
 UCLASS()
@@ -27,5 +27,5 @@ public:
 
 private:
 	UPROPERTY()
-	UDefaultBallPaddleDA* DefaultSettingsAsset;
+	UABWDefaultBallPaddleDA* DefaultSettingsAsset;
 };

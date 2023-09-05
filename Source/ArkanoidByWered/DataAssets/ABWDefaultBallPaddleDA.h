@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "DefaultBallPaddleDA.generated.h"
+#include "ABWDefaultBallPaddleDA.generated.h"
 
 class UPaperSprite;
 
 UCLASS()
-class ARKANOIDBYWERED_API UDefaultBallPaddleDA : public UDataAsset
+class ARKANOIDBYWERED_API UABWDefaultBallPaddleDA : public UDataAsset
 {
 	GENERATED_BODY()
 

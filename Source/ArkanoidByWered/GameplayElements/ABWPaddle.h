@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Paddle.generated.h"
+#include "ABWPaddle.generated.h"
 
 UCLASS()
-class ARKANOIDBYWERED_API APaddle : public APawn
+class ARKANOIDBYWERED_API AABWPaddle : public APawn
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this pawn's properties
-	APaddle();
+	AABWPaddle();
 
 protected:
 	// Called when the game starts or when spawned

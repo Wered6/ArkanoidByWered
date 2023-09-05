@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Ball.generated.h"
+#include "ABWBall.generated.h"
 
 class AABWGameModeBase;
-class APaddle;
+class AABWPaddle;
 
 UCLASS()
-class ARKANOIDBYWERED_API ABall : public AActor
+class ARKANOIDBYWERED_API AABWBall : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ABall();
+	AABWBall();
 
 protected:
 	// Called when the game starts or when spawned
@@ -37,7 +37,7 @@ public:
 	bool bIsLaunched{false};
 
 private:
-	void BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation);
+	void BounceOffPaddle(const AABWPaddle* Paddle, const FVector& HitLocation);
 	void BounceOffWall(const FVector& HitNormal);
 
 	void SetDefaultSprite() const;

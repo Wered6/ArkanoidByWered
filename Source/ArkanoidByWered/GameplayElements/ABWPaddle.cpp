@@ -1,14 +1,14 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "Paddle.h"
+#include "ABWPaddle.h"
 #include "ArkanoidByWered/Settings/ABWUserSettings.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 
 // Sets default values
-APaddle::APaddle()
+AABWPaddle::AABWPaddle()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -25,7 +25,7 @@ APaddle::APaddle()
 }
 
 // Called when the game starts or when spawned
-void APaddle::BeginPlay()
+void AABWPaddle::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -33,27 +33,27 @@ void APaddle::BeginPlay()
 }
 
 // Called every frame
-void APaddle::Tick(float DeltaTime)
+void AABWPaddle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-float APaddle::GetCollisionWidth() const
+float AABWPaddle::GetCollisionWidth() const
 {
 	return CollisionComp->GetUnscaledBoxExtent().X * 2.f;
 }
 
-float APaddle::GetCollisionHeight() const
+float AABWPaddle::GetCollisionHeight() const
 {
 	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
 }
 
-void APaddle::MoveHorizontal(const float Value)
+void AABWPaddle::MoveHorizontal(const float Value)
 {
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
 }
 
-void APaddle::SetDefaultSprite() const
+void AABWPaddle::SetDefaultSprite() const
 {
 	UABWUserSettings* GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
 	if (GameSettings)

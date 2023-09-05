@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Brick.generated.h"
+#include "ABWBrick.generated.h"
 
 class AABWGameModeBase;
 class UPaperSpriteComponent;
 
 UCLASS()
-class ARKANOIDBYWERED_API ABrick : public AActor
+class ARKANOIDBYWERED_API AABWBrick : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ABrick();
+	AABWBrick();
 
 protected:
 	// Called when the game starts or when spawned

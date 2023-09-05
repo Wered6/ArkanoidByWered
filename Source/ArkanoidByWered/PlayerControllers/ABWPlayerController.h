@@ -6,10 +6,10 @@
 #include "GameFramework/PlayerController.h"
 #include "ABWPlayerController.generated.h"
 
-class APaddle;
-class ABall;
+class AABWPaddle;
+class AABWBall;
 class UWidgetAnimation;
-class UHUDWidget;
+class UABWHUDWidget;
 
 UCLASS()
 class ARKANOIDBYWERED_API AABWPlayerController : public APlayerController
@@ -44,9 +44,9 @@ private:
 	void UpdateIdleBallPosition() const;
 
 	UPROPERTY(EditDefaultsOnly, Category="UI")
-	TSubclassOf<UHUDWidget> HUDWidgetClass;
+	TSubclassOf<UABWHUDWidget> HUDWidgetClass;
 	UPROPERTY()
-	UHUDWidget* HUD{nullptr};
+	UABWHUDWidget* HUD{nullptr};
 
 	UPROPERTY()
 	UWidgetAnimation* Animation1{nullptr};
@@ -56,12 +56,12 @@ private:
 	UWidgetAnimation* Animation3{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
-	TSubclassOf<ABall> BallClass;
+	TSubclassOf<AABWBall> BallClass;
 	UPROPERTY()
-	ABall* SpawnedBall{nullptr};
+	AABWBall* SpawnedBall{nullptr};
 
 	UPROPERTY()
-	APaddle* Paddle{nullptr};
+	AABWPaddle* Paddle{nullptr};
 
 	int32 Lifes{3};
 };

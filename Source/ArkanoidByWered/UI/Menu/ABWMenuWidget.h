@@ -4,20 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "MainMenuWidget.generated.h"
+#include "ABWMenuWidget.generated.h"
 
 class UABWLevelSubsystem;
 class UButton;
-class UBallPaddleDA;
+class UABWBallPaddleDA;
 class UImage;
 
 UCLASS()
-class ARKANOIDBYWERED_API UMainMenuWidget : public UUserWidget
+class ARKANOIDBYWERED_API UABWMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	UMainMenuWidget(const FObjectInitializer& ObjectInitializer);
+	UABWMenuWidget(const FObjectInitializer& ObjectInitializer);
 
 	virtual void NativeConstruct() override;
 	
@@ -38,11 +38,11 @@ public:
 	void SetLevelButtonsAvailability() const;
 
 private:
-	const UBallPaddleDA* GetCurrentPalette();
+	const UABWBallPaddleDA* GetCurrentPalette();
 	void UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const;
 
 	UPROPERTY()
-	TArray<UBallPaddleDA*> Palettes;
+	TArray<UABWBallPaddleDA*> Palettes;
 	int32 PaletteIndex{0};
 	int32 PaddleIndex{0};
 	int32 BallIndex{0};

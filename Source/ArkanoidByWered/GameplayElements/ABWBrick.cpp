@@ -1,13 +1,13 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "Brick.h"
-#include "Ball.h"
+#include "ABWBrick.h"
+#include "ABWBall.h"
 #include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
 #include "PaperSpriteComponent.h"
 
 // Sets default values
-ABrick::ABrick()
+AABWBrick::AABWBrick()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -18,24 +18,24 @@ ABrick::ABrick()
 }
 
 // Called when the game starts or when spawned
-void ABrick::BeginPlay()
+void AABWBrick::BeginPlay()
 {
 	Super::BeginPlay();
 
 	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
 	
-	OnActorHit.AddDynamic(this, &ABrick::HandleOnHit);
+	OnActorHit.AddDynamic(this, &AABWBrick::HandleOnHit);
 }
 
 // Called every frame
-void ABrick::Tick(float DeltaTime)
+void AABWBrick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-void ABrick::HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
+void AABWBrick::HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (OtherActor && OtherActor->IsA(ABall::StaticClass()))
+	if (OtherActor && OtherActor->IsA(AABWBall::StaticClass()))
 	{
 		if (NumOfHits < BrokenBrickSprites.Num() && BrokenBrickSprites[NumOfHits] != nullptr)
 		{

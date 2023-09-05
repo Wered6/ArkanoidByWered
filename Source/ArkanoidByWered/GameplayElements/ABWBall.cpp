@@ -1,16 +1,16 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "Ball.h"
+#include "ABWBall.h"
 #include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
 #include "ArkanoidByWered/Settings/ABWUserSettings.h"
-#include "Paddle.h"
+#include "ABWPaddle.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
 #include "Engine/TriggerBox.h"
 
 // Sets default values
-ABall::ABall()
+AABWBall::AABWBall()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -27,7 +27,7 @@ ABall::ABall()
 }
 
 // Called when the game starts or when spawned
-void ABall::BeginPlay()
+void AABWBall::BeginPlay()
 {
 	Super::BeginPlay();
 	
@@ -37,7 +37,7 @@ void ABall::BeginPlay()
 }
 
 // Called every frame
-void ABall::Tick(float DeltaTime)
+void AABWBall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -45,7 +45,7 @@ void ABall::Tick(float DeltaTime)
 	AddActorLocalOffset(Movement, true);
 }
 
-void ABall::NotifyActorBeginOverlap(AActor* OtherActor)
+void AABWBall::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 	
@@ -56,14 +56,14 @@ void ABall::NotifyActorBeginOverlap(AActor* OtherActor)
 	}
 }
 
-float ABall::GetCollisionHeight() const
+float AABWBall::GetCollisionHeight() const
 {
 	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
 }
 
-void ABall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor)
+void AABWBall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor)
 {
-	const APaddle* HitPaddle = Cast<APaddle>(HitActor);
+	const AABWPaddle* HitPaddle = Cast<AABWPaddle>(HitActor);
 	if (HitPaddle)
 	{
 		BounceOffPaddle(HitPaddle, HitLocation);
@@ -74,7 +74,7 @@ void ABall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, AAc
 	}
 }
 
-void ABall::LaunchBall()
+void AABWBall::LaunchBall()
 {
 	if (!bIsLaunched)
 	{
@@ -83,7 +83,7 @@ void ABall::LaunchBall()
 	}
 }
 
-void ABall::BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation)
+void AABWBall::BounceOffPaddle(const AABWPaddle* Paddle, const FVector& HitLocation)
 {
 	const float BallAndPaddleHalfWidth = CollisionComp->GetUnscaledBoxExtent().X + Paddle->GetCollisionWidth() / 2;
 	// Determine hit position on paddle (0.0 = leftmost, 1.0 = rightmost)
@@ -104,7 +104,7 @@ void ABall::BounceOffPaddle(const APaddle* Paddle, const FVector& HitLocation)
 	VelocityVector = NewDirection * BallSpeed;
 }
 
-void ABall::BounceOffWall(const FVector& HitNormal)
+void AABWBall::BounceOffWall(const FVector& HitNormal)
 {
 	if (FMath::IsNearlyEqual(HitNormal.Z, -1.f, 0.01f) || FMath::IsNearlyEqual(HitNormal.Z, 1.f, 0.01f))
 	{
@@ -120,7 +120,7 @@ void ABall::BounceOffWall(const FVector& HitNormal)
 	VelocityVector = VelocityVector * BallSpeed;
 }
 
-void ABall::SetDefaultSprite() const
+void AABWBall::SetDefaultSprite() const
 {
 	UABWUserSettings* GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
 	if (GameSettings)

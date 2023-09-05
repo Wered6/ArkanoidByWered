@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "HUDWidget.generated.h"
+#include "ABWHUDWidget.generated.h"
 
-class UHeartsDA;
+class UABWHeartsDA;
 
 UCLASS()
-class ARKANOIDBYWERED_API UHUDWidget : public UUserWidget
+class ARKANOIDBYWERED_API UABWHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	UHUDWidget(const FObjectInitializer& ObjectInitializer);
+	UABWHUDWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
 	UWidgetAnimation* HeartAnimation1{nullptr};
@@ -25,5 +25,5 @@ public:
 
 private:
 	UPROPERTY()
-	UHeartsDA* HeartsDataAsset;
+	UABWHeartsDA* HeartsDataAsset;
 };
