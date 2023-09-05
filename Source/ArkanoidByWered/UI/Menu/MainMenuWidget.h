@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "MainMenuWidget.generated.h"
 
+class UABWLevelSubsystem;
+class UButton;
 class UBallPaddleDA;
 class UImage;
 
@@ -17,6 +19,8 @@ class ARKANOIDBYWERED_API UMainMenuWidget : public UUserWidget
 public:
 	UMainMenuWidget(const FObjectInitializer& ObjectInitializer);
 
+	virtual void NativeConstruct() override;
+	
 	UFUNCTION(BlueprintCallable)
 	void SetCustomization(UImage* PaddleImage, UImage* BallImage);
 
@@ -29,6 +33,9 @@ public:
 	void NextPalette();
 	UFUNCTION(BlueprintCallable)
 	void PreviousPalette();
+	
+	void SetLevelButtons();
+	void SetLevelButtonsAvailability() const;
 
 private:
 	const UBallPaddleDA* GetCurrentPalette();
@@ -39,4 +46,14 @@ private:
 	int32 PaletteIndex{0};
 	int32 PaddleIndex{0};
 	int32 BallIndex{0};
+
+	UPROPERTY()
+	UABWLevelSubsystem* LevelSubsystem{nullptr};
+	
+	UPROPERTY()
+	UButton* Level1Button{nullptr};
+	UPROPERTY()
+	UButton* Level2Button{nullptr};
+	UPROPERTY()
+	UButton* Level3Button{nullptr};
 };

@@ -6,6 +6,9 @@
 #include "ArkanoidByWered/DataAssets/BallPaddleDA.h"
 #include "Components/Image.h"
 #include "PaperSprite.h"
+#include "ArkanoidByWered/Core/LevelSystem/ABWLevelSubsystem.h"
+#include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
+#include "Components/Button.h"
 
 UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -32,6 +35,17 @@ UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer) : 
 		Palettes.Add(RedAssetFinder.Object);
 		Palettes.Add(YellowAssetFinder.Object);
 	}
+}
+
+void UMainMenuWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	const UABWGameInstance* GameInstance = Cast<UABWGameInstance>(GetGameInstance());
+	LevelSubsystem = GameInstance->GetSubsystem<UABWLevelSubsystem>();
+
+	SetLevelButtons();
+	SetLevelButtonsAvailability();
 }
 
 void UMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
@@ -122,6 +136,47 @@ void UMainMenuWidget::PreviousPalette()
 {
 	const int32 PalettesCount = Palettes.Num();
 	UpdateIndex(PaletteIndex, PalettesCount, false);
+}
+
+void UMainMenuWidget::SetLevelButtons()
+{
+	Level1Button = Cast<UButton>(GetWidgetFromName("LevelsLevel1Button"));
+	Level2Button = Cast<UButton>(GetWidgetFromName("LevelsLevel2Button"));
+	Level3Button = Cast<UButton>(GetWidgetFromName("LevelsLevel3Button"));
+}
+
+void UMainMenuWidget::SetLevelButtonsAvailability() const
+{
+	TArray<FLevelData*> LevelsData = LevelSubsystem->GetLevelsDataArray();
+
+	const bool* bIsLevel1Unlocked = &LevelsData[0]->bIsLevelUnlocked;
+	const bool* bIsLevel2Unlocked = &LevelsData[1]->bIsLevelUnlocked;
+	const bool* bIsLevel3Unlocked = &LevelsData[2]->bIsLevelUnlocked;
+
+	if (Level1Button)
+	{
+		Level1Button->SetIsEnabled(*bIsLevel1Unlocked);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Level1Button is null"));
+	}
+	if (Level2Button)
+	{
+		Level2Button->SetIsEnabled(*bIsLevel2Unlocked);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Level2Button is null"));
+	}
+	if (Level3Button)
+	{
+		Level3Button->SetIsEnabled(*bIsLevel3Unlocked);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Level3Button is null"));
+	}
 }
 
 const UBallPaddleDA* UMainMenuWidget::GetCurrentPalette()
