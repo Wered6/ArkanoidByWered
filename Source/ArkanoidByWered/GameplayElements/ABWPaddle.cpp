@@ -10,7 +10,6 @@
 // Sets default values
 AABWPaddle::AABWPaddle()
 {
-	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collider"));
@@ -24,27 +23,34 @@ AABWPaddle::AABWPaddle()
 	FloatingPawnMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 }
 
-// Called when the game starts or when spawned
 void AABWPaddle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetDefaultSprite();
-}
+	GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
 
-// Called every frame
-void AABWPaddle::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	SetDefaultSprite();
 }
 
 float AABWPaddle::GetCollisionWidth() const
 {
+	if (!CollisionComp)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AABWPaddle::GetCollisionWidth|CollisionComp is null"));
+		return -1.f;
+	}
+
 	return CollisionComp->GetUnscaledBoxExtent().X * 2.f;
 }
 
 float AABWPaddle::GetCollisionHeight() const
 {
+	if (!CollisionComp)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AABWPaddle::GetCollisionWidth|CollisionComp is null"));
+		return -1.f;
+	}
+
 	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
 }
 
@@ -55,22 +61,19 @@ void AABWPaddle::MoveHorizontal(const float Value)
 
 void AABWPaddle::SetDefaultSprite() const
 {
-	UABWUserSettings* GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
-	if (GameSettings)
+	if (!GameSettings)
 	{
-		GameSettings->LoadSettings();
+		UE_LOG(LogTemp, Warning, TEXT("AABWPaddle::SetDefaultSprite|GameSettings is null"));
+		return;
+	}
 
-		if (SpriteComp)
-		{
-			SpriteComp->SetSprite(GameSettings->SelectedPaddle);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is not valid"));
-		}
-	}
-	else
+	GameSettings->LoadSettings();
+
+	if (!SpriteComp)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("GameSettings is not valid"));
+		UE_LOG(LogTemp, Warning, TEXT("AABWPaddle::SetDefaultSprite|SpriteComp is null"));
+		return;
 	}
+
+	SpriteComp->SetSprite(GameSettings->SelectedPaddle);
 }

@@ -6,23 +6,23 @@
 #include "GameFramework/Pawn.h"
 #include "ABWPaddle.generated.h"
 
+class UABWUserSettings;
+class UFloatingPawnMovement;
+class UPaperSpriteComponent;
+class UBoxComponent;
+
 UCLASS()
 class ARKANOIDBYWERED_API AABWPaddle : public APawn
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
 	AABWPaddle();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	float GetCollisionWidth() const;
 	float GetCollisionHeight() const;
 
@@ -32,9 +32,12 @@ private:
 	void SetDefaultSprite() const;
 
 	UPROPERTY(VisibleAnywhere)
-	class UBoxComponent* CollisionComp;
+	UBoxComponent* CollisionComp{nullptr};
 	UPROPERTY(VisibleAnywhere)
-	class UPaperSpriteComponent* SpriteComp;
+	UPaperSpriteComponent* SpriteComp{nullptr};
 	UPROPERTY(VisibleAnywhere)
-	class UFloatingPawnMovement* FloatingPawnMovement;
+	UFloatingPawnMovement* FloatingPawnMovement{nullptr};
+
+	UPROPERTY()
+	UABWUserSettings* GameSettings{nullptr};
 };
