@@ -6,10 +6,8 @@
 #include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
 #include "PaperSpriteComponent.h"
 
-// Sets default values
 AABWBrick::AABWBrick()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	MainSpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Main Sprite"));
@@ -17,7 +15,6 @@ AABWBrick::AABWBrick()
 	MainSpriteComp->SetCollisionProfileName(TEXT("BlockAll"));
 }
 
-// Called when the game starts or when spawned
 void AABWBrick::BeginPlay()
 {
 	Super::BeginPlay();
@@ -27,24 +24,27 @@ void AABWBrick::BeginPlay()
 	OnActorHit.AddDynamic(this, &AABWBrick::HandleOnHit);
 }
 
-// Called every frame
-void AABWBrick::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
 void AABWBrick::HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
 	if (OtherActor && OtherActor->IsA(AABWBall::StaticClass()))
 	{
-		if (NumOfHits < BrokenBrickSprites.Num() && BrokenBrickSprites[NumOfHits] != nullptr)
+		UPaperSprite* BrokenBrickSprite = BrokenBrickSprites[NumOfHits];
+
+		if (NumOfHits < BrokenBrickSprites.Num() && BrokenBrickSprite)
 		{
-			MainSpriteComp->SetSprite(BrokenBrickSprites[NumOfHits]);
+			MainSpriteComp->SetSprite(BrokenBrickSprite);
 		}
 		else
 		{
 			// todo add sound and maybe some animation
 			Destroy();
+
+			if (!GameMode)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("AABWBrick::HandleOnHit|GameMode is null"));
+				return;
+			}
+
 			GameMode->BrickWasDestroyed();
 		}
 		NumOfHits++;
