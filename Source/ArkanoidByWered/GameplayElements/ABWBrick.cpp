@@ -23,7 +23,7 @@ void AABWBrick::BeginPlay()
 	Super::BeginPlay();
 
 	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
-	
+
 	OnActorHit.AddDynamic(this, &AABWBrick::HandleOnHit);
 }
 
