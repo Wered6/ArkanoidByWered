@@ -16,7 +16,7 @@ UABWUserSettings::UABWUserSettings()
 		SelectedPaddle = DefaultSettingsAsset->DefaultPaddleSprite;
 	}
 }
-
+// todo when backing to Customize DefaultSettingsAssets are set
 void UABWUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
 {
 	Super::ApplySettings(bCheckForCommandLineOverrides);
