@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ArkanoidByWered/DataAssets/ABWBallPaddleDA.h"
 #include "Blueprint/UserWidget.h"
 #include "ABWMenuWidget.generated.h"
 
+class UABWUserSettings;
 class UABWLevelSubsystem;
 class UButton;
 class UABWBallPaddleDA;
@@ -20,7 +22,7 @@ public:
 	UABWMenuWidget(const FObjectInitializer& ObjectInitializer);
 
 	virtual void NativeConstruct() override;
-	
+
 	UFUNCTION(BlueprintCallable)
 	void SetCustomization(UImage* PaddleImage, UImage* BallImage);
 
@@ -33,12 +35,16 @@ public:
 	void NextPalette();
 	UFUNCTION(BlueprintCallable)
 	void PreviousPalette();
-	
+
 	void SetLevelButtons();
 	void SetLevelButtonsAvailability() const;
 
 private:
-	const UABWBallPaddleDA* GetCurrentPalette();
+	void SetCurrentPalette();
+
+	void SetPaddleColor(UImage* PaddleImage) const;
+	void SetBallColor(UImage* BallImage) const;
+
 	void UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const;
 
 	UPROPERTY()
@@ -48,12 +54,17 @@ private:
 	int32 BallIndex{0};
 
 	UPROPERTY()
-	UABWLevelSubsystem* LevelSubsystem{nullptr};
-	
+	UABWBallPaddleDA* CurrentPalette{nullptr};
+	UPROPERTY()
+	UABWUserSettings* GameSettings{nullptr};
+
 	UPROPERTY()
 	UButton* Level1Button{nullptr};
 	UPROPERTY()
 	UButton* Level2Button{nullptr};
 	UPROPERTY()
 	UButton* Level3Button{nullptr};
+
+	UPROPERTY()
+	UABWLevelSubsystem* LevelSubsystem{nullptr};
 };

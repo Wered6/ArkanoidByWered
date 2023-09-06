@@ -50,64 +50,32 @@ void UABWMenuWidget::NativeConstruct()
 
 void UABWMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 {
-	const UABWBallPaddleDA* CurrentPalette = GetCurrentPalette();
+	SetCurrentPalette();
 	if (!CurrentPalette)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetCustomization|CurrentPalette is null!"));
 		return;
 	}
 
-	if (!CurrentPalette->PaddlesSprites.IsValidIndex(PaddleIndex))
+	GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
+	if (!GameSettings)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PaddlesIndex out of bounds!"));
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetCustomization|GameSettings is null!"));
 		return;
 	}
-	UPaperSprite* PaddleSprite = CurrentPalette->PaddlesSprites[PaddleIndex];
 
-	if (!CurrentPalette->BallsSprites.IsValidIndex(BallIndex))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("BallIndex out of bounds"));
-		return;
-	}
-	UPaperSprite* BallSprite = CurrentPalette->BallsSprites[BallIndex];
+	SetPaddleColor(PaddleImage);
+	SetBallColor(BallImage);
 
-	if (PaddleSprite)
-	{
-		PaddleImage->SetBrushResourceObject(PaddleSprite);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PaddleSprite is null!"));
-	}
-
-	if (BallSprite)
-	{
-		BallImage->SetBrushResourceObject(BallSprite);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("BallSprite is null!"));
-	}
-
-	UABWUserSettings* GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
-	if (GameSettings)
-	{
-		GameSettings->SelectedBall = BallSprite;
-		GameSettings->SelectedPaddle = PaddleSprite;
-		GameSettings->SaveSettings();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GameSettings is null!"));
-	}
+	GameSettings->SaveSettings();
 }
 
 void UABWMenuWidget::NextPaddle()
 {
-	const UABWBallPaddleDA* CurrentPalette = GetCurrentPalette();
+	SetCurrentPalette();
 	if (!CurrentPalette)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::NextPaddle|CurrentPalette is null!"));
 		return;
 	}
 	const int32 PaddlesCount = CurrentPalette->PaddlesSprites.Num();
@@ -116,10 +84,10 @@ void UABWMenuWidget::NextPaddle()
 
 void UABWMenuWidget::PreviousPaddle()
 {
-	const UABWBallPaddleDA* CurrentPalette = GetCurrentPalette();
+	SetCurrentPalette();
 	if (!CurrentPalette)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("CurrentPalette is null!"));
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::PreviousPaddle|CurrentPalette is null!"));
 		return;
 	}
 	const int32 PaddlesCount = CurrentPalette->PaddlesSprites.Num();
@@ -153,40 +121,82 @@ void UABWMenuWidget::SetLevelButtonsAvailability() const
 	const bool* bIsLevel2Unlocked = &LevelsData[1]->bIsLevelUnlocked;
 	const bool* bIsLevel3Unlocked = &LevelsData[2]->bIsLevelUnlocked;
 
-	if (Level1Button)
+	if (!Level1Button)
 	{
-		Level1Button->SetIsEnabled(*bIsLevel1Unlocked);
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetLevelButtonsAvailability|Level1Button is null"));
+		return;
 	}
-	else
+	Level1Button->SetIsEnabled(*bIsLevel1Unlocked);
+
+	if (!Level2Button)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Level1Button is null"));
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetLevelButtonsAvailability|Level2Button is null"));
 	}
-	if (Level2Button)
+	Level2Button->SetIsEnabled(*bIsLevel2Unlocked);
+
+	if (!Level3Button)
 	{
-		Level2Button->SetIsEnabled(*bIsLevel2Unlocked);
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetLevelButtonsAvailability|Level3Button is null"));
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Level2Button is null"));
-	}
-	if (Level3Button)
-	{
-		Level3Button->SetIsEnabled(*bIsLevel3Unlocked);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Level3Button is null"));
-	}
+	Level3Button->SetIsEnabled(*bIsLevel3Unlocked);
 }
 
-const UABWBallPaddleDA* UABWMenuWidget::GetCurrentPalette()
+void UABWMenuWidget::SetCurrentPalette()
 {
-	if (Palettes.IsValidIndex(PaletteIndex))
+	if (!Palettes.IsValidIndex(PaletteIndex))
 	{
-		return Palettes[PaletteIndex];
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetCurrentPalette|PaletteIndex out of bounds!"));
+		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("PaletteIndex out of bounds!"));
-	return nullptr;
+	CurrentPalette = Palettes[PaletteIndex];
+}
+
+void UABWMenuWidget::SetPaddleColor(UImage* PaddleImage) const
+{
+	if (!CurrentPalette->PaddlesSprites.IsValidIndex(PaddleIndex))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetPaddleColor|PaddlesIndex out of bounds!"));
+		return;
+	}
+	UPaperSprite* PaddleSprite = CurrentPalette->PaddlesSprites[PaddleIndex];
+
+	if (!PaddleSprite)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetPaddleColor|PaddleSprite is null!"));
+		return;
+	}
+	PaddleImage->SetBrushResourceObject(PaddleSprite);
+
+	if (!GameSettings)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetPaddleColor|GameSettings is null"));
+		return;
+	}
+	GameSettings->SelectedPaddle = PaddleSprite;
+}
+
+void UABWMenuWidget::SetBallColor(UImage* BallImage) const
+{
+	if (!CurrentPalette->BallsSprites.IsValidIndex(BallIndex))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetCustomization|BallIndex out of bounds"));
+		return;
+	}
+	UPaperSprite* BallSprite = CurrentPalette->BallsSprites[BallIndex];
+
+	if (!BallSprite)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetCustomization|BallSprite is null!"));
+		return;
+	}
+	BallImage->SetBrushResourceObject(BallSprite);
+
+	if (!GameSettings)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetPaddleColor|GameSettings is null"));
+		return;
+	}
+	GameSettings->SelectedBall = BallSprite;
 }
 
 void UABWMenuWidget::UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const
