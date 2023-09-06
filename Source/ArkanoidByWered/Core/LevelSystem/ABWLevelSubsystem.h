@@ -41,16 +41,37 @@ public:
 	virtual void Deinitialize() override;
 	// USubsystem implementation End
 
-	FName GetCurrentLevelName() const;
+	UFUNCTION(BlueprintCallable, Category="Levels")
+	void OpenCurrentLevel();
+	UFUNCTION(BlueprintCallable, Category="Levels")
+	void OpenNextLevel();
+	
+	void SetCurrentLevelIndex();
+	int32 GetCurrentLevelIndex() const;
+	
 	void CompleteCurrentLevel();
+
+	TArray<FLevelData*> GetLevelsDataArray();
 
 private:
 	void InitializeLevels();
 	void DeinitializeLevels();
 
+	void UnlockNextLevel();
+
+	void SetCurrentLevelName();
+	void SetNextLevelName();
+
 	bool bInitialized{false};
 
 	int32 CurrentLevelIndex{0};
 
-	TArray<FLevelData> LevelsData;
+	FName CurrentLevelName{NAME_None};
+	FName NextLevelName{NAME_None};
+
+	FLevelData Level1Data{TEXT("Level1")};
+	FLevelData Level2Data{TEXT("Level2")};
+	FLevelData Level3Data{TEXT("Level3")};
+
+	TArray<FLevelData*> LevelsDataArray;
 };

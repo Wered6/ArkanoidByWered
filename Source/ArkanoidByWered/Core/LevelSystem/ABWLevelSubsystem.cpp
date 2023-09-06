@@ -2,6 +2,7 @@
 
 
 #include "ABWLevelSubsystem.h"
+#include "Kismet/GameplayStatics.h"
 
 void UABWLevelSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -19,35 +20,112 @@ void UABWLevelSubsystem::Deinitialize()
 	DeinitializeLevels();
 }
 
-FName UABWLevelSubsystem::GetCurrentLevelName() const
+void UABWLevelSubsystem::OpenCurrentLevel()
 {
-	return LevelsData[CurrentLevelIndex].LevelName;
+	SetCurrentLevelName();
+	if (CurrentLevelName.IsNone())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWLevelSubsystem::OpenCurrentLevel|CurrentLevelName is None"));
+		return;
+	}
+
+	UGameplayStatics::OpenLevel(GetWorld(), CurrentLevelName);
+}
+
+void UABWLevelSubsystem::OpenNextLevel()
+{
+	SetNextLevelName();
+	if (NextLevelName.IsNone())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWLevelSubsystem::OpenNextLevel|NextLevelName is None"));
+		return;
+	}
+
+	UGameplayStatics::OpenLevel(GetWorld(), NextLevelName);
+}
+
+void UABWLevelSubsystem::SetCurrentLevelIndex()
+{
+	const FName LevelName = FName(UGameplayStatics::GetCurrentLevelName(GetWorld()));
+
+	for (int i = 0; i < LevelsDataArray.Num(); i++)
+	{
+		if (LevelsDataArray[i]->LevelName == LevelName)
+		{
+			CurrentLevelIndex = i;
+			break;
+		}
+	}
+}
+
+int32 UABWLevelSubsystem::GetCurrentLevelIndex() const
+{
+	return CurrentLevelIndex;
 }
 
 void UABWLevelSubsystem::CompleteCurrentLevel()
 {
-	LevelsData[CurrentLevelIndex].bIsLevelCompleted = true;
-	CurrentLevelIndex++;
-	if (LevelsData.IsValidIndex(CurrentLevelIndex))
+	if (!LevelsDataArray.IsValidIndex(CurrentLevelIndex))
 	{
-		LevelsData[CurrentLevelIndex].bIsLevelUnlocked = true;
+		UE_LOG(LogTemp, Warning, TEXT("UABWLevelSubsystem::CompleteCurrentLevel|CurrentLevelIndex out of bounds!"));
+		return;
 	}
-	else
-	{
-		CurrentLevelIndex = -1;
-	}
+
+	LevelsDataArray[CurrentLevelIndex]->bIsLevelCompleted = true;
+	UnlockNextLevel();
+}
+
+TArray<FLevelData*> UABWLevelSubsystem::GetLevelsDataArray()
+{
+	return LevelsDataArray;
 }
 
 void UABWLevelSubsystem::InitializeLevels()
 {
-	LevelsData.Add(FLevelData(TEXT("Level1")));
-	LevelsData.Add(FLevelData(TEXT("Level2")));
-	LevelsData.Add(FLevelData(TEXT("Level3")));
+	LevelsDataArray.Add(&Level1Data);
+	LevelsDataArray.Add(&Level2Data);
+	LevelsDataArray.Add(&Level3Data);
 
-	LevelsData[0].bIsLevelUnlocked = true;
+	LevelsDataArray[0]->bIsLevelUnlocked = true;
 }
 
 void UABWLevelSubsystem::DeinitializeLevels()
 {
-	LevelsData.Empty();
+	LevelsDataArray.Empty();
+}
+
+void UABWLevelSubsystem::UnlockNextLevel()
+{
+	const int32 NextLevelIndex = CurrentLevelIndex + 1;
+	if (NextLevelIndex < LevelsDataArray.Num())
+	{
+		LevelsDataArray[NextLevelIndex]->bIsLevelUnlocked = true;
+	}
+}
+
+void UABWLevelSubsystem::SetCurrentLevelName()
+{
+	if (!LevelsDataArray.IsValidIndex(CurrentLevelIndex))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWLevelSubsystem::SetCurrentLevelName|CurrentLevelIndex out of bounds!"));
+		return;
+	}
+
+	const FLevelData* CurrentLevel = LevelsDataArray[CurrentLevelIndex];
+	CurrentLevelName = CurrentLevel->LevelName;
+}
+
+void UABWLevelSubsystem::SetNextLevelName()
+{
+	const int32 NextLevelIndex = CurrentLevelIndex + 1;
+
+	if (NextLevelIndex < LevelsDataArray.Num())
+	{
+		const FLevelData* CurrentLevel = LevelsDataArray[NextLevelIndex];
+		NextLevelName = CurrentLevel->LevelName;
+	}
+	else
+	{
+		NextLevelName = NAME_None;
+	}
 }
