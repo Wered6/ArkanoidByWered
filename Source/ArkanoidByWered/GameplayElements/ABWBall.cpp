@@ -61,6 +61,12 @@ void AABWBall::NotifyActorBeginOverlap(AActor* OtherActor)
 
 float AABWBall::GetCollisionHeight() const
 {
+	if (!CollisionComp)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AABWBall::GetCollisionHeight|CollisionComp is null"));
+		return -1.f;
+	}
+
 	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
 }
 
