@@ -2,16 +2,24 @@
 
 
 #include "ABWGameInstance.h"
+#include "ArkanoidByWered/Core/LevelSystem/ABWLevelSubsystem.h"
 
 
-bool UABWGameInstance::GetHasPlayerLost() const
+void UABWGameInstance::Init()
 {
-	return bHasPlayerLost;
+	Super::Init();
+
+	LevelSubsystem = GetSubsystem<UABWLevelSubsystem>();
 }
 
-void UABWGameInstance::SetHasPlayerLost(const bool bPlayerHasLost)
+bool UABWGameInstance::GetHasPlayerWonLevel() const
 {
-	bHasPlayerLost = bPlayerHasLost;
+	return bHasPlayerWonLevel;
+}
+
+void UABWGameInstance::SetHasPlayerWonLevel(const bool bPlayerWonLevel)
+{
+	bHasPlayerWonLevel = bPlayerWonLevel;
 }
 
 bool UABWGameInstance::GetHasPlayerStartGame() const
@@ -19,7 +27,31 @@ bool UABWGameInstance::GetHasPlayerStartGame() const
 	return bHasPlayerStartGame;
 }
 
-void UABWGameInstance::SetHasPlayerStartGame(const bool bPlayerHasStartGame)
+void UABWGameInstance::SetHasPlayerStartGame(const bool bPlayerStartGame)
 {
-	bHasPlayerStartGame = bPlayerHasStartGame;
+	bHasPlayerStartGame = bPlayerStartGame;
+}
+
+bool UABWGameInstance::GetHasCompletedAllLevels() const
+{
+	bool bAllLevelsCompleted{false};
+	TArray<FLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
+	
+	for (const auto& LevelData : LevelsDataArray)
+	{
+		bAllLevelsCompleted = LevelData->bIsLevelCompleted;
+		if (!bAllLevelsCompleted)
+		{
+			break;
+		}
+	}
+	return bAllLevelsCompleted;
+}
+
+bool UABWGameInstance::GetIsCurrentLevelLast() const
+{
+	const int32 CurrentLevelIndex = LevelSubsystem->GetCurrentLevelIndex();
+	const TArray<FLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
+
+	return CurrentLevelIndex == LevelsDataArray.Num() - 1;
 }
