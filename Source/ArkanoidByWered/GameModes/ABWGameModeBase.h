@@ -6,9 +6,10 @@
 #include "GameFramework/GameModeBase.h"
 #include "ABWGameModeBase.generated.h"
 
-class UABWGameInstance;
 class AABWPlayerController;
-class APaddle;
+class UABWLevelSubsystem;
+class UABWGameInstance;
+class AABWPaddle;
 
 UCLASS()
 class ARKANOIDBYWERED_API AABWGameModeBase : public AGameModeBase
@@ -23,20 +24,20 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	void Init();
 	void StartGame();
 	void LevelOver(const bool bWin) const;
 
 	int32 GetBallsCount() const;
 	int32 GetBricksCount() const;
 
+	int32 BallsNum{0};
+	int32 BricksNum{0};
+	
 	UPROPERTY()
 	UABWGameInstance* GameInstance{nullptr};
 	UPROPERTY()
-	AABWPlayerController* PlayerController{nullptr};
-
+	UABWLevelSubsystem* LevelSubsystem{nullptr};
 	UPROPERTY()
-	APaddle* Paddle{nullptr};
-
-	int32 BallsNum{0};
-	int32 BricksNum{0};
+	AABWPlayerController* PlayerController{nullptr};
 };

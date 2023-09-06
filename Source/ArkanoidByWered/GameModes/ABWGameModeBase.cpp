@@ -2,17 +2,18 @@
 
 
 #include "ABWGameModeBase.h"
+#include "ArkanoidByWered/Core/LevelSystem/ABWLevelSubsystem.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
 #include "ArkanoidByWered/PlayerControllers/ABWPlayerController.h"
-#include "ArkanoidByWered/GameplayElements/Ball.h"
-#include "ArkanoidByWered/GameplayElements/Brick.h"
-#include "ArkanoidByWered/GameplayElements/Paddle.h"
+#include "ArkanoidByWered/GameplayElements/ABWBall.h"
+#include "ArkanoidByWered/GameplayElements/ABWBrick.h"
 #include "Kismet/GameplayStatics.h"
 
 void AABWGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Init();
 	StartGame();
 }
 
@@ -38,14 +39,20 @@ void AABWGameModeBase::BrickWasDestroyed()
 	}
 }
 
-void AABWGameModeBase::StartGame()
+void AABWGameModeBase::Init()
 {
 	GameInstance = Cast<UABWGameInstance>(GetGameInstance());
+	LevelSubsystem = GameInstance->GetSubsystem<UABWLevelSubsystem>();
 	PlayerController = Cast<AABWPlayerController>(
 		UGameplayStatics::GetPlayerController(this, 0));
-	Paddle = Cast<APaddle>(UGameplayStatics::GetPlayerPawn(this, 0));
+}
+
+void AABWGameModeBase::StartGame()
+{
 	BallsNum = GetBallsCount();
 	BricksNum = GetBricksCount();
+
+	GameInstance->SetHasPlayerStartGame(true);
 }
 
 void AABWGameModeBase::LevelOver(const bool bWin) const
@@ -54,25 +61,28 @@ void AABWGameModeBase::LevelOver(const bool bWin) const
 	if (bWin)
 	{
 		UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
-		GameInstance->SetHasPlayerLost(false);
+		GameInstance->SetHasPlayerWonLevel(true);
+
+		LevelSubsystem->SetCurrentLevelIndex();
+		LevelSubsystem->CompleteCurrentLevel();
 	}
 	else
 	{
 		UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
-		GameInstance->SetHasPlayerLost(true);
+		GameInstance->SetHasPlayerWonLevel(false);
 	}
 }
 
 int32 AABWGameModeBase::GetBallsCount() const
 {
 	TArray<AActor*> Balls;
-	UGameplayStatics::GetAllActorsOfClass(this, ABall::StaticClass(), Balls);
+	UGameplayStatics::GetAllActorsOfClass(this, AABWBall::StaticClass(), Balls);
 	return Balls.Num();
 }
 
 int32 AABWGameModeBase::GetBricksCount() const
 {
 	TArray<AActor*> Bricks;
-	UGameplayStatics::GetAllActorsOfClass(this, ABrick::StaticClass(), Bricks);
+	UGameplayStatics::GetAllActorsOfClass(this, AABWBrick::StaticClass(), Bricks);
 	return Bricks.Num();
 }
