@@ -28,11 +28,9 @@ void AABWBrick::HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector Norma
 {
 	if (OtherActor && OtherActor->IsA(AABWBall::StaticClass()))
 	{
-		UPaperSprite* BrokenBrickSprite = BrokenBrickSprites[NumOfHits];
-
-		if (NumOfHits < BrokenBrickSprites.Num() && BrokenBrickSprite)
+		if (NumOfHits < BrokenBrickSprites.Num() && BrokenBrickSprites[NumOfHits])
 		{
-			MainSpriteComp->SetSprite(BrokenBrickSprite);
+			MainSpriteComp->SetSprite(BrokenBrickSprites[NumOfHits]);
 		}
 		else
 		{
