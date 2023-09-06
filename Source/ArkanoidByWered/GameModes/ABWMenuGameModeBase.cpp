@@ -3,75 +3,77 @@
 
 #include "ABWMenuGameModeBase.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
-#include "ArkanoidByWered/UI/MainMenuWidget.h"
+#include "ArkanoidByWered/UI/Menu/ABWEndGameWidget.h"
+#include "ArkanoidByWered/UI/Menu/ABWMenuWidget.h"
+#include "ArkanoidByWered/UI/Menu/ABWWonLostWidget.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/WidgetSwitcher.h"
 
 void AABWMenuGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
 	Init();
-	OpenMenu();
+	InitWidgets();
+	OpenAppropriateWidget();
 }
 
 void AABWMenuGameModeBase::Init()
 {
 	GameInstance = Cast<UABWGameInstance>(GetGameInstance());
-	if (MainMenuWidgetClass)
-	{
-		MainMenu = Cast<UMainMenuWidget>(CreateWidget<UUserWidget>(GetWorld(), MainMenuWidgetClass));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("MainMenuWidgetClass is null"));
-	}
-	if (MainMenu)
-	{
-		WidgetSwitcher = Cast<UWidgetSwitcher>(MainMenu->GetWidgetFromName(TEXT("WidgetSwitcher")));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("MainMenu is null"));
-	}
 }
 
-void AABWMenuGameModeBase::OpenMenu() const
+void AABWMenuGameModeBase::InitWidgets()
 {
-	if (MainMenu)
+	if (!MenuWidgetClass)
 	{
-		MainMenu->AddToViewport();
+		UE_LOG(LogTemp, Warning, TEXT("AABWMenuGameModeBase::InitWidgets|MenuWidgetClass is null"));
+		return;
 	}
-	else
+
+	MenuWidget = Cast<UABWMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
+
+	if (!WonLostWidgetClass)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("MainMenu is null"));
+		UE_LOG(LogTemp, Warning, TEXT("AABWMenuGameModeBase::InitWidgets|WonLostWidgetClass is null"));
+		return;
 	}
-	OpenAppropriateWidget();
+
+	WonLostWidget = Cast<UABWWonLostWidget>(CreateWidget(GetWorld(), WonLostWidgetClass));
+
+	if (!EndGameWidgetClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AABWMenuGameModeBase::InitWidgets|EndGameWidgetClass is null"));
+		return;
+	}
+
+	EndGameWidget = Cast<UABWEndGameWidget>(CreateWidget(GetWorld(), EndGameWidgetClass));
 }
 
 void AABWMenuGameModeBase::OpenAppropriateWidget() const
 {
-	if (WidgetSwitcher)
+	const bool bHasCompletedAllLevels = GameInstance->GetHasCompletedAllLevels();
+	const bool bIsCurrentLevelLast = GameInstance->GetIsCurrentLevelLast();
+	const bool bHasPlayerStartGame = GameInstance->GetHasPlayerStartGame();
+	const bool bHasPlayerWonLevel = GameInstance->GetHasPlayerWonLevel();
+
+	if (bHasCompletedAllLevels && bIsCurrentLevelLast && bHasPlayerWonLevel)
 	{
-		if (GameInstance)
+		EndGameWidget->AddToViewport();
+	}
+	else if (bHasPlayerStartGame)
+	{
+		WonLostWidget->AddToViewport();
+		if (bHasPlayerWonLevel)
 		{
-			const bool bHasPlayerLost{GameInstance->GetHasPlayerLost()};
-			if (bHasPlayerLost)
-			{
-				WidgetSwitcher->SetActiveWidgetIndex(3);
-			}
-			else
-			{
-				// todo WidgetSwitcher na Widget z "Next Level", "Menu"
-			}
+			WonLostWidget->ActivateLevelWonWidget();
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("GameInstance is null"));
+			WonLostWidget->ActivateLevelLostWidget();
 		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("WidgetSwitcher is null"));
+		MenuWidget->AddToViewport();
 	}
 }
