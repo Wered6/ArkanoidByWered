@@ -9,10 +9,8 @@
 #include "Components/BoxComponent.h"
 #include "Engine/TriggerBox.h"
 
-// Sets default values
 AABWBall::AABWBall()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collider"));
@@ -26,17 +24,16 @@ AABWBall::AABWBall()
 	VelocityVector = InitialVelocityVector * InitialBallSpeed;
 }
 
-// Called when the game starts or when spawned
 void AABWBall::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	SetDefaultSprite();
 
 	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
+	GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
+
+	SetDefaultSprite();
 }
 
-// Called every frame
 void AABWBall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -48,10 +45,16 @@ void AABWBall::Tick(float DeltaTime)
 void AABWBall::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
-	
+
 	if (OtherActor->IsA(ATriggerBox::StaticClass()))
 	{
 		Destroy();
+
+		if (!GameMode)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("AABWBall::NotifyActorBeginOverlap|GameMode is null"));
+		}
+
 		GameMode->BallWasDestroyed();
 	}
 }
@@ -101,6 +104,7 @@ void AABWBall::BounceOffPaddle(const AABWPaddle* Paddle, const FVector& HitLocat
 
 	FVector NewDirection = FMath::Lerp(LeftmostBounceDirection, RightmostBounceDirection, ModificatedPosition);
 	NewDirection.Normalize();
+
 	VelocityVector = NewDirection * BallSpeed;
 }
 
@@ -122,22 +126,19 @@ void AABWBall::BounceOffWall(const FVector& HitNormal)
 
 void AABWBall::SetDefaultSprite() const
 {
-	UABWUserSettings* GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
-	if (GameSettings)
+	if (!GameSettings)
 	{
-		GameSettings->LoadSettings();
+		UE_LOG(LogTemp, Warning, TEXT("AABWBall::SetDefaultSprite|GameSettings is null"));
+		return;
+	}
 
-		if (SpriteComp)
-		{
-			SpriteComp->SetSprite(GameSettings->SelectedBall);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("SpriteComp is not valid"));
-		}
-	}
-	else
+	GameSettings->LoadSettings();
+
+	if (!SpriteComp)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("GameSettings is not valid"));
+		UE_LOG(LogTemp, Warning, TEXT("AABWBall::SetDefaultSprite|SpriteComp is null"));
+		return;
 	}
+
+	SpriteComp->SetSprite(GameSettings->SelectedBall);
 }

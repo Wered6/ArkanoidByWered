@@ -6,7 +6,10 @@
 #include "GameFramework/Actor.h"
 #include "ABWBall.generated.h"
 
+class UABWUserSettings;
 class AABWGameModeBase;
+class UPaperSpriteComponent;
+class UBoxComponent;
 class AABWPaddle;
 
 UCLASS()
@@ -15,15 +18,12 @@ class ARKANOIDBYWERED_API AABWBall : public AActor
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	AABWBall();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
@@ -43,9 +43,9 @@ private:
 	void SetDefaultSprite() const;
 
 	UPROPERTY(VisibleAnywhere)
-	class UBoxComponent* CollisionComp;
+	UBoxComponent* CollisionComp{nullptr};
 	UPROPERTY(VisibleAnywhere)
-	class UPaperSpriteComponent* SpriteComp;
+	UPaperSpriteComponent* SpriteComp{nullptr};
 
 	FVector InitialVelocityVector{0, 0, 1};
 	float InitialBallSpeed{0.f};
@@ -53,10 +53,13 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 	float BallSpeed{200.f};
 	UPROPERTY(VisibleAnywhere, Category="Movement")
-	FVector VelocityVector;
+	FVector VelocityVector{FVector::ZeroVector};
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 	float Angle{45.f};
 
 	UPROPERTY()
 	AABWGameModeBase* GameMode{nullptr};
+
+	UPROPERTY()
+	UABWUserSettings* GameSettings{nullptr};
 };
