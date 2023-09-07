@@ -16,16 +16,16 @@ class ARKANOIDBYWERED_API UABWUserSettings : public UGameUserSettings
 
 public:
 	UABWUserSettings();
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Gameplay")
-	UPaperSprite* SelectedPaddle;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Gameplay")
-	UPaperSprite* SelectedBall;
+	UPaperSprite* SelectedPaddle{nullptr};
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Gameplay")
+	UPaperSprite* SelectedBall{nullptr};
 
 	virtual void ApplySettings(bool bCheckForCommandLineOverrides) override;
 
 private:
 	UPROPERTY()
-	UABWDefaultBallPaddleDA* DefaultSettingsAsset;
+	UABWDefaultBallPaddleDA* DefaultSettingsAsset{nullptr};
 };
