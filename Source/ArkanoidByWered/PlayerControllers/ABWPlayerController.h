@@ -24,7 +24,6 @@ public:
 	int32 GetLife() const;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
@@ -35,6 +34,8 @@ public:
 
 private:
 	void SetHUD();
+
+	void HeartAnimation(const bool bReverse) const;
 
 	void SetPaddle();
 	void MovePaddle(const float Value);
