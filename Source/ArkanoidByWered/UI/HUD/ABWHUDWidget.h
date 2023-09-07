@@ -25,5 +25,5 @@ public:
 
 private:
 	UPROPERTY()
-	UABWHeartsDA* HeartsDataAsset;
+	UABWHeartsDA* HeartsDataAsset{nullptr};
 };
