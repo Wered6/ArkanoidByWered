@@ -26,6 +26,8 @@ protected:
 private:
 	void Init();
 	void StartGame();
+	bool CheckNullPointers() const;
+	
 	void LevelOver(const bool bWin) const;
 
 	int32 GetBallsCount() const;

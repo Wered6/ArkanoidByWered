@@ -14,6 +14,7 @@ void AABWGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	Init();
+	check(CheckNullPointers());
 	StartGame();
 }
 
@@ -59,6 +60,26 @@ void AABWGameModeBase::StartGame()
 	BricksNum = GetBricksCount();
 
 	GameInstance->SetHasPlayerStartGame(true);
+}
+
+bool AABWGameModeBase::CheckNullPointers() const
+{
+	if (!GameInstance)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::CheckNullPointers|GameInstance is null"));
+		return false;
+	}
+	if (!LevelSubsystem)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::CheckNullPointers|LevelSubsystem is null"));
+		return false;
+	}
+	if (!PlayerController)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::CheckNullPointers|PlayerController is null"));
+		return false;
+	}
+	return true;
 }
 
 void AABWGameModeBase::LevelOver(const bool bWin) const
