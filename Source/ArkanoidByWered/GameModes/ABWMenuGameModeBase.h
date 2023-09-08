@@ -22,6 +22,9 @@ protected:
 private:
 	void Init();
 	void InitWidgets();
+	bool CheckNullClasses() const;
+	bool CheckNullPointers() const;
+
 	void OpenAppropriateWidget() const;
 
 	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
