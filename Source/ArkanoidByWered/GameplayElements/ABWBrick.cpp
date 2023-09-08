@@ -43,7 +43,7 @@ void AABWBrick::HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector Norma
 				return;
 			}
 
-			GameMode->BrickWasDestroyed();
+			GameMode->HandleBrickDestruction();
 		}
 		NumOfHits++;
 	}

@@ -55,7 +55,7 @@ void AABWBall::NotifyActorBeginOverlap(AActor* OtherActor)
 			UE_LOG(LogTemp, Warning, TEXT("AABWBall::NotifyActorBeginOverlap|GameMode is null"));
 		}
 
-		GameMode->BallWasDestroyed();
+		GameMode->HandleBallDestruction();
 	}
 }
 

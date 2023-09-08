@@ -18,7 +18,7 @@ void AABWGameModeBase::BeginPlay()
 	StartGame();
 }
 
-void AABWGameModeBase::BallWasDestroyed()
+void AABWGameModeBase::HandleBallDestruction()
 {
 	BallsNum--;
 	if (BallsNum <= 0)
@@ -37,7 +37,7 @@ void AABWGameModeBase::BallWasDestroyed()
 	}
 }
 
-void AABWGameModeBase::BrickWasDestroyed()
+void AABWGameModeBase::HandleBrickDestruction()
 {
 	BricksNum--;
 	if (BricksNum <= 0)

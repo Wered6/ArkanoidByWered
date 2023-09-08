@@ -17,8 +17,8 @@ class ARKANOIDBYWERED_API AABWGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	void BallWasDestroyed();
-	void BrickWasDestroyed();
+	void HandleBallDestruction();
+	void HandleBrickDestruction();
 
 protected:
 	virtual void BeginPlay() override;
