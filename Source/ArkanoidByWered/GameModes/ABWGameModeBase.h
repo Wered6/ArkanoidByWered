@@ -28,8 +28,6 @@ private:
 	void StartGame();
 	void LevelOver(const bool bWin) const;
 
-	void HandleLevelOver(const bool bWin) const;
-
 	int32 GetBallsCount() const;
 	int32 GetBricksCount() const;
 

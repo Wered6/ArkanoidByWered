@@ -23,10 +23,16 @@ void AABWGameModeBase::BallWasDestroyed()
 	if (BallsNum <= 0)
 	{
 		PlayerController->SubLife();
-	}
-	if (PlayerController->GetLife() <= 0)
-	{
-		LevelOver(false);
+
+		if (PlayerController->GetLife() <= 0)
+		{
+			FTimerHandle TimerHandle;
+
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
+			{
+				LevelOver(false);
+			}, 1.5f, false);
+		}
 	}
 }
 
@@ -58,29 +64,15 @@ void AABWGameModeBase::StartGame()
 void AABWGameModeBase::LevelOver(const bool bWin) const
 {
 	PlayerController->SetPlayerEnabledState(false);
+	GameInstance->SetHasPlayerWonLevel(bWin);
 
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, bWin]()
-	{
-		HandleLevelOver(bWin);
-	}, 1.5f, false);
-}
-
-void AABWGameModeBase::HandleLevelOver(const bool bWin) const
-{
 	if (bWin)
 	{
-		UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
-		GameInstance->SetHasPlayerWonLevel(true);
-
 		LevelSubsystem->SetCurrentLevelIndex();
 		LevelSubsystem->CompleteCurrentLevel();
 	}
-	else
-	{
-		UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
-		GameInstance->SetHasPlayerWonLevel(false);
-	}
+
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
 }
 
 int32 AABWGameModeBase::GetBallsCount() const
