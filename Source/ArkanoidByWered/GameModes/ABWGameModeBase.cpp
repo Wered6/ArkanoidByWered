@@ -58,6 +58,16 @@ void AABWGameModeBase::StartGame()
 void AABWGameModeBase::LevelOver(const bool bWin) const
 {
 	PlayerController->SetPlayerEnabledState(false);
+
+	FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, bWin]()
+	{
+		HandleLevelOver(bWin);
+	}, 1.5f, false);
+}
+
+void AABWGameModeBase::HandleLevelOver(const bool bWin) const
+{
 	if (bWin)
 	{
 		UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));

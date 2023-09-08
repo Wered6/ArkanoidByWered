@@ -28,12 +28,14 @@ private:
 	void StartGame();
 	void LevelOver(const bool bWin) const;
 
+	void HandleLevelOver(const bool bWin) const;
+
 	int32 GetBallsCount() const;
 	int32 GetBricksCount() const;
 
 	int32 BallsNum{0};
 	int32 BricksNum{0};
-	
+
 	UPROPERTY()
 	UABWGameInstance* GameInstance{nullptr};
 	UPROPERTY()
