@@ -35,8 +35,6 @@ public:
 private:
 	void SetHUD();
 
-	void HeartAnimation(const bool bReverse) const;
-
 	void SetPaddle();
 	void MovePaddle(const float Value);
 
@@ -48,13 +46,6 @@ private:
 	TSubclassOf<UABWHUDWidget> HUDWidgetClass;
 	UPROPERTY()
 	UABWHUDWidget* HUD{nullptr};
-
-	UPROPERTY()
-	UWidgetAnimation* Animation1{nullptr};
-	UPROPERTY()
-	UWidgetAnimation* Animation2{nullptr};
-	UPROPERTY()
-	UWidgetAnimation* Animation3{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
 	TSubclassOf<AABWBall> BallClass;

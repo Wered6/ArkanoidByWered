@@ -2,15 +2,38 @@
 
 
 #include "ABWHUDWidget.h"
-#include "ArkanoidByWered/DataAssets/ABWHeartsDA.h"
 
-UABWHUDWidget::UABWHUDWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+void UABWHUDWidget::NativeConstruct()
 {
-	static ConstructorHelpers::FObjectFinder<UABWHeartsDA> HeartAssetFinder(
-		TEXT("/Script/ArkanoidByWered.HeartsDA'/Game/Assets/DataAssets/Hearts/HeartsDA.HeartsDA'"));
+	Super::NativeConstruct();
 
-	if (HeartAssetFinder.Succeeded())
+	HeartsAnimations.Add(HeartAnimation1);
+	HeartsAnimations.Add(HeartAnimation2);
+	HeartsAnimations.Add(HeartAnimation3);
+}
+
+void UABWHUDWidget::PlayHeartEmptyAnimaion(const int32 Lifes)
+{
+	const int32 AnimationIndex = Lifes - 1;
+
+	if (!HeartsAnimations.IsValidIndex(AnimationIndex))
 	{
-		HeartsDataAsset = HeartAssetFinder.Object;
+		UE_LOG(LogTemp, Warning, TEXT("UABWHUDWidget::PlayHeartEmptyAnimaion|AnimationIndex out of bounds!"));
+		return;
 	}
+
+	PlayAnimation(HeartsAnimations[AnimationIndex]);
+}
+
+void UABWHUDWidget::PlayHeartFillAnimaion(const int32 Lifes)
+{
+	const int32 AnimationIndex = Lifes;
+
+	if (!HeartsAnimations.IsValidIndex(AnimationIndex))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWHUDWidget::PlayHeartFillAnimaion|AnimationIndex out of bounds!"));
+		return;
+	}
+
+	PlayAnimation(HeartsAnimations[AnimationIndex], 0, 1, EUMGSequencePlayMode::Reverse);
 }

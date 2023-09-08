@@ -13,17 +13,21 @@ class ARKANOIDBYWERED_API UABWHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
-	UABWHUDWidget(const FObjectInitializer& ObjectInitializer);
+protected:
+	virtual void NativeConstruct() override;
 
-	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
+public:
+	void PlayHeartEmptyAnimaion(const int32 Lifes);
+	void PlayHeartFillAnimaion(const int32 Lifes);
+
+	UPROPERTY(Transient, meta=(BindWidgetAnim))
 	UWidgetAnimation* HeartAnimation1{nullptr};
-	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
+	UPROPERTY(Transient, meta=(BindWidgetAnim))
 	UWidgetAnimation* HeartAnimation2{nullptr};
-	UPROPERTY(BlueprintReadOnly, Transient, Category="Animations", meta=(BindWidgetAnim))
+	UPROPERTY(Transient, meta=(BindWidgetAnim))
 	UWidgetAnimation* HeartAnimation3{nullptr};
 
 private:
 	UPROPERTY()
-	UABWHeartsDA* HeartsDataAsset{nullptr};
+	TArray<UWidgetAnimation*> HeartsAnimations;
 };

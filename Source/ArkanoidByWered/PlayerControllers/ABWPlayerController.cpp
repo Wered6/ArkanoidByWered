@@ -13,7 +13,13 @@ AABWPlayerController::AABWPlayerController()
 
 void AABWPlayerController::AddLife()
 {
-	HeartAnimation(false);
+	if (!HUD)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::AddLife|HUD is null"));
+		return;
+	}
+
+	HUD->PlayHeartEmptyAnimaion(Lifes);
 
 	if (Lifes < 3)
 	{
@@ -23,7 +29,13 @@ void AABWPlayerController::AddLife()
 
 void AABWPlayerController::SubLife()
 {
-	HeartAnimation(true);
+	if (!HUD)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::SubLife|HUD is null"));
+		return;
+	}
+
+	HUD->PlayHeartEmptyAnimaion(Lifes);
 
 	if (Lifes > 0)
 	{
@@ -96,63 +108,6 @@ void AABWPlayerController::SetHUD()
 	}
 
 	HUD->AddToViewport();
-	Animation1 = HUD->HeartAnimation1;
-	Animation2 = HUD->HeartAnimation2;
-	Animation3 = HUD->HeartAnimation3;
-}
-
-void AABWPlayerController::HeartAnimation(const bool bReverse) const
-{
-	if (!HUD)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::HeartAnimation|HUD is null"));
-		return;
-	}
-	if (!Animation1)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::HeartAnimation|Animation1 is null"));
-		return;
-	}
-	if (!Animation2)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::HeartAnimation|Animation2 is null"));
-		return;
-	}
-	if (!Animation3)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::HeartAnimation|Animation3 is null"));
-		return;
-	}
-
-	if (!bReverse)
-	{
-		switch (Lifes)
-		{
-		case 1:
-			HUD->PlayAnimation(Animation2, 0, 1, EUMGSequencePlayMode::Reverse);
-		case 2:
-			HUD->PlayAnimation(Animation3, 0, 1, EUMGSequencePlayMode::Reverse);
-		default:
-			break;
-		}
-	}
-	else
-	{
-		switch (Lifes)
-		{
-		case 3:
-			HUD->PlayAnimation(Animation3);
-			break;
-		case 2:
-			HUD->PlayAnimation(Animation2);
-			break;
-		case 1:
-			HUD->PlayAnimation(Animation1);
-			break;
-		default:
-			break;
-		}
-	}
 }
 
 void AABWPlayerController::SetPaddle()
