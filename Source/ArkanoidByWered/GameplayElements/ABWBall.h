@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "ABWBall.generated.h"
 
-class UABWUserSettings;
+class UABWCustomizationSaveGame;
 class AABWGameModeBase;
 class UPaperSpriteComponent;
 class UBoxComponent;
@@ -40,8 +40,10 @@ private:
 	void BounceOffPaddle(const AABWPaddle* Paddle, const FVector& HitLocation);
 	void BounceOffWall(const FVector& HitNormal);
 
+	void Init();
 	void SetDefaultSprite() const;
-
+	bool CheckNullPointers() const;
+	
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* CollisionComp{nullptr};
 	UPROPERTY(VisibleAnywhere)
@@ -61,5 +63,5 @@ private:
 	AABWGameModeBase* GameMode{nullptr};
 
 	UPROPERTY()
-	UABWUserSettings* GameSettings{nullptr};
+	UABWCustomizationSaveGame* LoadGameInstance{nullptr};
 };

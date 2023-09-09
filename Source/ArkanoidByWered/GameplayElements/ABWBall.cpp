@@ -3,11 +3,12 @@
 
 #include "ABWBall.h"
 #include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
-#include "ArkanoidByWered/Settings/ABWUserSettings.h"
 #include "ABWPaddle.h"
 #include "PaperSpriteComponent.h"
+#include "ArkanoidByWered/SaveGame/ABWCustomizationSaveGame.h"
 #include "Components/BoxComponent.h"
 #include "Engine/TriggerBox.h"
+#include "Kismet/GameplayStatics.h"
 
 AABWBall::AABWBall()
 {
@@ -28,10 +29,9 @@ void AABWBall::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
-	GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
-
+	Init();
 	SetDefaultSprite();
+	check(CheckNullPointers());
 }
 
 void AABWBall::Tick(float DeltaTime)
@@ -49,24 +49,12 @@ void AABWBall::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (OtherActor->IsA(ATriggerBox::StaticClass()))
 	{
 		Destroy();
-
-		if (!GameMode)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("AABWBall::NotifyActorBeginOverlap|GameMode is null"));
-		}
-
 		GameMode->HandleBallDestruction();
 	}
 }
 
 float AABWBall::GetCollisionHeight() const
 {
-	if (!CollisionComp)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWBall::GetCollisionHeight|CollisionComp is null"));
-		return -1.f;
-	}
-
 	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
 }
 
@@ -130,21 +118,43 @@ void AABWBall::BounceOffWall(const FVector& HitNormal)
 	VelocityVector = VelocityVector * BallSpeed;
 }
 
+void AABWBall::Init()
+{
+	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
+	LoadGameInstance = Cast<UABWCustomizationSaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("Slot1"), 0));
+	if (!LoadGameInstance)
+	{
+		LoadGameInstance = Cast<UABWCustomizationSaveGame>(
+			UGameplayStatics::CreateSaveGameObject(UABWCustomizationSaveGame::StaticClass()));
+	}
+}
+
 void AABWBall::SetDefaultSprite() const
 {
-	if (!GameSettings)
+	SpriteComp->SetSprite(LoadGameInstance->GetBallSprite());
+}
+
+bool AABWBall::CheckNullPointers() const
+{
+	if (!GameMode)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWBall::SetDefaultSprite|GameSettings is null"));
-		return;
+		UE_LOG(LogGameMode, Warning, TEXT("AABWBall::CheckNullPointers|GameMode is null"));
+		return false;
 	}
-
-	GameSettings->LoadSettings();
-
+	if (!LoadGameInstance)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWBall::CheckNullPointers|LoadGameInstance is null"));
+		return false;
+	}
+	if (!CollisionComp)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWBall::CheckNullPointers|CollisionComp is null"));
+		return false;
+	}
 	if (!SpriteComp)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWBall::SetDefaultSprite|SpriteComp is null"));
-		return;
+		UE_LOG(LogGameMode, Warning, TEXT("AABWBall::CheckNullPointers|SpriteComp is null"));
+		return false;
 	}
-
-	SpriteComp->SetSprite(GameSettings->SelectedBall);
+	return true;
 }
