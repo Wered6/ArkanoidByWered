@@ -2,10 +2,11 @@
 
 
 #include "ABWPaddle.h"
-#include "ArkanoidByWered/Settings/ABWUserSettings.h"
 #include "PaperSpriteComponent.h"
+#include "ArkanoidByWered/SaveGame/ABWCustomizationSaveGame.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AABWPaddle::AABWPaddle()
@@ -27,30 +28,18 @@ void AABWPaddle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameSettings = Cast<UABWUserSettings>(GEngine->GetGameUserSettings());
-
+	Init();
 	SetDefaultSprite();
+	check(CheckNullPointers());
 }
 
 float AABWPaddle::GetCollisionWidth() const
 {
-	if (!CollisionComp)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPaddle::GetCollisionWidth|CollisionComp is null"));
-		return -1.f;
-	}
-
 	return CollisionComp->GetUnscaledBoxExtent().X * 2.f;
 }
 
 float AABWPaddle::GetCollisionHeight() const
 {
-	if (!CollisionComp)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPaddle::GetCollisionWidth|CollisionComp is null"));
-		return -1.f;
-	}
-
 	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
 }
 
@@ -59,21 +48,42 @@ void AABWPaddle::MoveHorizontal(const float Value)
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
 }
 
+void AABWPaddle::Init()
+{
+	LoadGameInstance = Cast<UABWCustomizationSaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("Slot1"), 0));
+	if (!LoadGameInstance)
+	{
+		LoadGameInstance = Cast<UABWCustomizationSaveGame>(
+			UGameplayStatics::CreateSaveGameObject(UABWCustomizationSaveGame::StaticClass()));
+	}
+}
+
 void AABWPaddle::SetDefaultSprite() const
 {
-	if (!GameSettings)
+	SpriteComp->SetSprite(LoadGameInstance->GetPaddleSprite());
+}
+
+bool AABWPaddle::CheckNullPointers() const
+{
+	if (!CollisionComp)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPaddle::SetDefaultSprite|GameSettings is null"));
-		return;
+		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::CheckNullPointers|CollisionComp is null"));
+		return false;
 	}
-
-	GameSettings->LoadSettings();
-
 	if (!SpriteComp)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPaddle::SetDefaultSprite|SpriteComp is null"));
-		return;
+		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::CheckNullPointers|SpriteComp is null"));
+		return false;
 	}
-
-	SpriteComp->SetSprite(GameSettings->SelectedPaddle);
+	if (!FloatingPawnMovement)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::CheckNullPointers|FloatingPawnMovement is null"));
+		return false;
+	}
+	if (!LoadGameInstance)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::CheckNullPointers|LoadGameInstance is null"));
+		return false;
+	}
+	return true;
 }

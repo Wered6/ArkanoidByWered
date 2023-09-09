@@ -6,7 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "ABWPaddle.generated.h"
 
-class UABWUserSettings;
+class UABWCustomizationSaveGame;
 class UFloatingPawnMovement;
 class UPaperSpriteComponent;
 class UBoxComponent;
@@ -29,7 +29,9 @@ public:
 	void MoveHorizontal(const float Value);
 
 private:
+	void Init();
 	void SetDefaultSprite() const;
+	bool CheckNullPointers() const;
 
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* CollisionComp{nullptr};
@@ -39,5 +41,5 @@ private:
 	UFloatingPawnMovement* FloatingPawnMovement{nullptr};
 
 	UPROPERTY()
-	UABWUserSettings* GameSettings{nullptr};
+	UABWCustomizationSaveGame* LoadGameInstance{nullptr};
 };
