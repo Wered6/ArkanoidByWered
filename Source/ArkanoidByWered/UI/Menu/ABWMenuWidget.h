@@ -5,9 +5,10 @@
 #include "CoreMinimal.h"
 #include "ArkanoidByWered/DataAssets/ABWBallPaddleDA.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Image.h"
 #include "ABWMenuWidget.generated.h"
 
-class UABWUserSettings;
+class UABWCustomizationSaveGame;
 class UABWLevelSubsystem;
 class UButton;
 class UABWBallPaddleDA;
@@ -25,6 +26,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetCustomization(UImage* PaddleImage, UImage* BallImage);
+	UFUNCTION(BlueprintCallable)
+	void ConfirmCustomization();
+	UFUNCTION(BlueprintCallable)
+	void ResetIndexes();
 
 	UFUNCTION(BlueprintCallable)
 	void NextPaddle();
@@ -36,16 +41,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PreviousPalette();
 
-	void SetLevelButtons();
-	void SetLevelButtonsAvailability() const;
-
 private:
-	void SetCurrentPalette();
+	void Init();
+	void SetLevelButtons();
+	void UpdateLevelButtonStates() const;
+	void SetActiveColorPalette();
+	bool AreRequiredPointersValid() const;
 
 	void SetPaddleColor(UImage* PaddleImage) const;
 	void SetBallColor(UImage* BallImage) const;
 
-	void UpdateIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const;
+	void CycleArrayIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const;
 
 	UPROPERTY()
 	TArray<UABWBallPaddleDA*> Palettes;
@@ -55,8 +61,6 @@ private:
 
 	UPROPERTY()
 	UABWBallPaddleDA* CurrentPalette{nullptr};
-	UPROPERTY()
-	UABWUserSettings* GameSettings{nullptr};
 
 	UPROPERTY()
 	UButton* Level1Button{nullptr};
@@ -65,6 +69,8 @@ private:
 	UPROPERTY()
 	UButton* Level3Button{nullptr};
 
+	UPROPERTY()
+	UABWCustomizationSaveGame* SaveGameInstance{nullptr};
 	UPROPERTY()
 	UABWLevelSubsystem* LevelSubsystem{nullptr};
 };
