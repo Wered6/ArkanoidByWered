@@ -43,11 +43,6 @@ private:
 	void Init();
 	void SetDefaultSprite() const;
 	bool CheckNullPointers() const;
-	
-	UPROPERTY(VisibleAnywhere)
-	UBoxComponent* CollisionComp{nullptr};
-	UPROPERTY(VisibleAnywhere)
-	UPaperSpriteComponent* SpriteComp{nullptr};
 
 	FVector InitialVelocityVector{0, 0, 1};
 	float InitialBallSpeed{0.f};
@@ -59,9 +54,13 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 	float Angle{45.f};
 
+	UPROPERTY(VisibleAnywhere)
+	UBoxComponent* CollisionComp{nullptr};
+	UPROPERTY(VisibleAnywhere)
+	UPaperSpriteComponent* SpriteComp{nullptr};
+
 	UPROPERTY()
 	AABWGameModeBase* GameMode{nullptr};
-
 	UPROPERTY()
 	UABWCustomizationSaveGame* LoadGameInstance{nullptr};
 };

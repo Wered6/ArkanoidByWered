@@ -136,24 +136,24 @@ void AABWBall::SetDefaultSprite() const
 
 bool AABWBall::CheckNullPointers() const
 {
-	if (!GameMode)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWBall::CheckNullPointers|GameMode is null"));
-		return false;
-	}
-	if (!LoadGameInstance)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWBall::CheckNullPointers|LoadGameInstance is null"));
-		return false;
-	}
 	if (!CollisionComp)
 	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWBall::CheckNullPointers|CollisionComp is null"));
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::CheckNullPointers|CollisionComp is null"));
 		return false;
 	}
 	if (!SpriteComp)
 	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWBall::CheckNullPointers|SpriteComp is null"));
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::CheckNullPointers|SpriteComp is null"));
+		return false;
+	}
+	if (!GameMode)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::CheckNullPointers|GameMode is null"));
+		return false;
+	}
+	if (!LoadGameInstance)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::CheckNullPointers|LoadGameInstance is null"));
 		return false;
 	}
 	return true;
