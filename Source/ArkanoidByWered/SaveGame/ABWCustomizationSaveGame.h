@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
-#include "ABWSaveGame.generated.h"
+#include "ABWCustomizationSaveGame.generated.h"
 
 class UABWDefaultBallPaddleDA;
 class UPaperSprite;
 
 UCLASS()
-class ARKANOIDBYWERED_API UABWSaveGame : public USaveGame
+class ARKANOIDBYWERED_API UABWCustomizationSaveGame : public USaveGame
 {
 	GENERATED_BODY()
 
 public:
-	UABWSaveGame();
-	
+	UABWCustomizationSaveGame();
+
 	void SetBallSprite(UPaperSprite* SelectedBallSprite);
 	void SetPaddleSprite(UPaperSprite* SelectedPaddleSprite);
 	UPaperSprite* GetBallSprite() const;
@@ -27,7 +27,7 @@ private:
 	UPaperSprite* BallSprite{nullptr};
 	UPROPERTY()
 	UPaperSprite* PaddleSprite{nullptr};
-	
+
 	UPROPERTY()
 	UABWDefaultBallPaddleDA* DefaultBallPaddleDA{nullptr};
 };

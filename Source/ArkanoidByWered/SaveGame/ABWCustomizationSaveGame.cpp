@@ -1,10 +1,10 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "ABWSaveGame.h"
+#include "ABWCustomizationSaveGame.h"
 #include "ArkanoidByWered/DataAssets/ABWDefaultBallPaddleDA.h"
 
-UABWSaveGame::UABWSaveGame()
+UABWCustomizationSaveGame::UABWCustomizationSaveGame()
 {
 	static ConstructorHelpers::FObjectFinder<UABWDefaultBallPaddleDA> DefaultBallPaddleDAFinder(
 		TEXT(
@@ -19,22 +19,22 @@ UABWSaveGame::UABWSaveGame()
 	PaddleSprite = DefaultBallPaddleDA->DefaultPaddleSprite;
 }
 
-void UABWSaveGame::SetBallSprite(UPaperSprite* SelectedBallSprite)
+void UABWCustomizationSaveGame::SetBallSprite(UPaperSprite* SelectedBallSprite)
 {
 	BallSprite = SelectedBallSprite;
 }
 
-void UABWSaveGame::SetPaddleSprite(UPaperSprite* SelectedPaddleSprite)
+void UABWCustomizationSaveGame::SetPaddleSprite(UPaperSprite* SelectedPaddleSprite)
 {
 	PaddleSprite = SelectedPaddleSprite;
 }
 
-UPaperSprite* UABWSaveGame::GetBallSprite() const
+UPaperSprite* UABWCustomizationSaveGame::GetBallSprite() const
 {
 	return BallSprite;
 }
 
-UPaperSprite* UABWSaveGame::GetPaddleSprite() const
+UPaperSprite* UABWCustomizationSaveGame::GetPaddleSprite() const
 {
 	return PaddleSprite;
 }
