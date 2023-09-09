@@ -5,7 +5,7 @@
 #include "ArkanoidByWered/DataAssets/ABWBallPaddleDA.h"
 #include "Components/Image.h"
 #include "PaperSprite.h"
-#include "ArkanoidByWered/Core/LevelSystem/ABWLevelSubsystem.h"
+#include "ArkanoidByWered/Systems/LevelSystem/ABWLevelSubsystem.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
 #include "ArkanoidByWered/SaveGame/ABWCustomizationSaveGame.h"
 #include "Components/Button.h"
