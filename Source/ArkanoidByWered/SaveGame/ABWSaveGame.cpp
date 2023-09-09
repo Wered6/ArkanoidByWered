@@ -2,7 +2,6 @@
 
 
 #include "ABWSaveGame.h"
-
 #include "ArkanoidByWered/DataAssets/ABWDefaultBallPaddleDA.h"
 
 UABWSaveGame::UABWSaveGame()
