@@ -46,11 +46,11 @@ void UABWLevelSubsystem::OpenNextLevel()
 
 void UABWLevelSubsystem::SetCurrentLevelIndex()
 {
-	const FName LevelName = FName(UGameplayStatics::GetCurrentLevelName(GetWorld()));
+	const FName CurrLevelName = FName(UGameplayStatics::GetCurrentLevelName(GetWorld()));
 
 	for (int i = 0; i < LevelsDataArray.Num(); i++)
 	{
-		if (LevelsDataArray[i]->LevelName == LevelName)
+		if (LevelsDataArray[i]->LevelName == CurrLevelName)
 		{
 			CurrentLevelIndex = i;
 			break;
@@ -75,7 +75,7 @@ void UABWLevelSubsystem::CompleteCurrentLevel()
 	UnlockNextLevel();
 }
 
-TArray<FLevelData*> UABWLevelSubsystem::GetLevelsDataArray()
+const TArray<FLevelData*>& UABWLevelSubsystem::GetLevelsDataArray() const
 {
 	return LevelsDataArray;
 }

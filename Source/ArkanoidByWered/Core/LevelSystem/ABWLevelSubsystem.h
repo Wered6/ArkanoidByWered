@@ -51,7 +51,7 @@ public:
 	
 	void CompleteCurrentLevel();
 
-	TArray<FLevelData*> GetLevelsDataArray();
+	const TArray<FLevelData*>& GetLevelsDataArray() const;
 
 private:
 	void InitializeLevels();
