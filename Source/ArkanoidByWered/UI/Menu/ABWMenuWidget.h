@@ -57,7 +57,7 @@ private:
 	TArray<UABWBallPaddleDA*> Palettes;
 	int32 PaletteIndex{0};
 	int32 PaddleIndex{0};
-	int32 BallIndex{0};
+	int32 BallIndex{2};
 
 	UPROPERTY()
 	UABWBallPaddleDA* CurrentPalette{nullptr};

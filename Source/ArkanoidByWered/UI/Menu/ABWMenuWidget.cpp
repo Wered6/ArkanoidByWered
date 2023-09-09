@@ -64,7 +64,7 @@ void UABWMenuWidget::ResetIndexes()
 {
 	PaletteIndex = 0;
 	PaddleIndex = 0;
-	BallIndex = 0;
+	BallIndex = 2;
 }
 
 void UABWMenuWidget::NextPaddle()
