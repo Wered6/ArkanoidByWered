@@ -10,5 +10,7 @@ UCLASS()
 class ARKANOIDBYWERED_API AABWCamera : public ACameraActor
 {
 	GENERATED_BODY()
-	
+
+public:
+	AABWCamera();
 };
