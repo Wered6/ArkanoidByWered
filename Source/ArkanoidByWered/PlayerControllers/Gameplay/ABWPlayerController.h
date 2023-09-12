@@ -20,10 +20,6 @@ class ARKANOIDBYWERED_API AABWPlayerController : public APlayerController
 public:
 	AABWPlayerController();
 
-	void AddLife();
-	void SubLife();
-	int32 GetLife() const;
-
 protected:
 	virtual void BeginPlay() override;
 
@@ -33,10 +29,19 @@ public:
 
 	void SetPlayerEnabledState(const bool bPlayerEnabled);
 
-private:
-	void SetHUD();
+	void AddLife();
+	void SubLife();
+	int32 GetLife() const;
 
+private:
+	void Init();
+	void SetHUD();
 	void SetPaddle();
+	void SetGameMode();
+	bool CheckNullPointers() const;
+
+	void StartGame();
+
 	void MovePaddle(const float Value);
 
 	void SpawnBall();
@@ -56,7 +61,9 @@ private:
 	UPROPERTY()
 	AABWPaddle* Paddle{nullptr};
 
-	int32 Lifes{3};
+	const int32 MaxLifes{3};
+	const int32 MinLifes{0};
+	int32 Lifes;
 
 	UPROPERTY()
 	AABWGameModeBase* GameMode{nullptr};
