@@ -56,7 +56,6 @@ void AABWBall::NotifyActorBeginOverlap(AActor* OtherActor)
 
 void AABWBall::Activate()
 {
-	SetActorTickEnabled(true);
 	SpriteComp->SetVisibility(true);
 	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
 	CollisionComp->SetSimulatePhysics(true);
@@ -83,6 +82,7 @@ void AABWBall::LaunchBall()
 	{
 		bIsLaunched = true;
 		VelocityVector = InitialVelocityVector * BallSpeed;
+		SetActorTickEnabled(true);
 	}
 }
 
