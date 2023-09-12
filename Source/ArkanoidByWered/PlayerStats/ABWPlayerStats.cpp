@@ -5,26 +5,36 @@
 
 UABWPlayerStats::UABWPlayerStats()
 {
-	Lifes = MaxLifes;
+	CurrentLifes = MaxLifes;
 }
 
 void UABWPlayerStats::AddLife()
 {
-	if (Lifes < MaxLifes)
+	if (CurrentLifes < MaxLifes)
 	{
-		++Lifes;
+		++CurrentLifes;
 	}
 }
 
 void UABWPlayerStats::SubLife()
 {
-	if (Lifes > MinLifes)
+	if (CurrentLifes > MinLifes)
 	{
-		--Lifes;
+		--CurrentLifes;
 	}
 }
 
-int32 UABWPlayerStats::GetLife() const
+int32 UABWPlayerStats::GetCurrentLifes() const
 {
-	return Lifes;
+	return CurrentLifes;
+}
+
+int32 UABWPlayerStats::GetMinLifes() const
+{
+	return MinLifes;
+}
+
+int32 UABWPlayerStats::GetMaxLifes() const
+{
+	return MaxLifes;
 }

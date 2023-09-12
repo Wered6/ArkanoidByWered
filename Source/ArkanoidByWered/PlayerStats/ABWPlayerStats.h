@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-// #include "UObject/NoExportTypes.h"
 #include "ABWPlayerStats.generated.h"
 
 UCLASS()
@@ -16,10 +15,13 @@ public:
 
 	void AddLife();
 	void SubLife();
-	int32 GetLife() const;
+
+	int32 GetCurrentLifes() const;
+	int32 GetMinLifes() const;
+	int32 GetMaxLifes() const;
 
 private:
-	const int32 MaxLifes{3};
+	int32 CurrentLifes;
 	const int32 MinLifes{0};
-	int32 Lifes;
+	const int32 MaxLifes{3};
 };
