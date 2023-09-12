@@ -2,7 +2,7 @@
 
 
 #include "ABWBrick.h"
-#include "ABWBall.h"
+#include "ArkanoidByWered/GameplayElements/Ball/ABWBall.h"
 #include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
 #include "PaperSpriteComponent.h"
 

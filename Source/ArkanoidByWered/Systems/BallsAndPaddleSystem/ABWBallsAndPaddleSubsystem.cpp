@@ -2,7 +2,7 @@
 
 
 #include "ABWBallsAndPaddleSubsystem.h"
-#include "ArkanoidByWered/GameplayElements/ABWBall.h"
+#include "ArkanoidByWered/GameplayElements/Ball/ABWBall.h"
 
 void UABWBallsAndPaddleSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {

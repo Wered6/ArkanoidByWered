@@ -3,9 +3,9 @@
 
 #include "ABWPlayerController.h"
 #include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
-#include "ArkanoidByWered/GameplayElements/ABWBall.h"
+#include "ArkanoidByWered/GameplayElements/Ball/ABWBall.h"
 #include "ArkanoidByWered/UI/HUD/ABWHUDWidget.h"
-#include "ArkanoidByWered/GameplayElements/ABWPaddle.h"
+#include "ArkanoidByWered/GameplayElements/Paddle/ABWPaddle.h"
 
 AABWPlayerController::AABWPlayerController()
 {

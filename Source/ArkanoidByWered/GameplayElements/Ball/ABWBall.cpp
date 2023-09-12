@@ -3,7 +3,7 @@
 
 #include "ABWBall.h"
 #include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
-#include "ABWPaddle.h"
+#include "ArkanoidByWered/GameplayElements/Paddle/ABWPaddle.h"
 #include "PaperSpriteComponent.h"
 #include "ArkanoidByWered/SaveGame/ABWCustomizationSaveGame.h"
 #include "Components/BoxComponent.h"

@@ -5,8 +5,8 @@
 #include "ArkanoidByWered/Systems/LevelSystem/ABWLevelSubsystem.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
 #include "ArkanoidByWered/PlayerControllers/ABWPlayerController.h"
-#include "ArkanoidByWered/GameplayElements/ABWBall.h"
-#include "ArkanoidByWered/GameplayElements/ABWBrick.h"
+#include "ArkanoidByWered/GameplayElements/Ball/ABWBall.h"
+#include "ArkanoidByWered/GameplayElements/Brick/ABWBrick.h"
 #include "Kismet/GameplayStatics.h"
 
 void AABWGameModeBase::BeginPlay()
