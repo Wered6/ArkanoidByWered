@@ -2,7 +2,6 @@
 
 
 #include "ABWCamera.h"
-
 #include "Camera/CameraComponent.h"
 
 AABWCamera::AABWCamera()
@@ -10,7 +9,7 @@ AABWCamera::AABWCamera()
 	PrimaryActorTick.bCanEverTick = true;
 
 	UCameraComponent* CameraComp = GetCameraComponent();
-	
+
 	if (CameraComp)
 	{
 		CameraComp->ProjectionMode = ECameraProjectionMode::Orthographic;
