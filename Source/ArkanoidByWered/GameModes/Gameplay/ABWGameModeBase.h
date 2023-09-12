@@ -38,10 +38,10 @@ private:
 	int32 GetBricksCount() const;
 
 	void InitializeBallsPool(const int32 NumberOfBalls);
-	
+
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay Elements")
 	TSubclassOf<AABWBall> BallClass;
-	
+
 	UPROPERTY()
 	TArray<AABWBall*> InactiveBalls;
 	UPROPERTY()

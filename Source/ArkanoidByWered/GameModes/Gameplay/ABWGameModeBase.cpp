@@ -23,7 +23,7 @@ void AABWGameModeBase::HandleBallDestruction(AABWBall* Ball)
 {
 	ReturnBall(Ball);
 	const int32 NumberOfActiveBalls = ActiveBalls.Num();
-	
+
 	if (NumberOfActiveBalls <= 0)
 	{
 		PlayerController->SubLife();
