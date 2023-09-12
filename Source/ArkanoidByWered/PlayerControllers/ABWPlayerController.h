@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "ABWPlayerController.generated.h"
 
+class AABWGameModeBase;
 class AABWPaddle;
 class AABWBall;
 class UWidgetAnimation;
@@ -56,4 +57,7 @@ private:
 	AABWPaddle* Paddle{nullptr};
 
 	int32 Lifes{3};
+
+	UPROPERTY()
+	AABWGameModeBase* GameMode{nullptr};
 };

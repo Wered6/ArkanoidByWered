@@ -15,13 +15,16 @@ void AABWGameModeBase::BeginPlay()
 
 	Init();
 	check(CheckNullPointers());
+	InitializeBallsPool(64);
 	StartGame();
 }
 
-void AABWGameModeBase::HandleBallDestruction()
+void AABWGameModeBase::HandleBallDestruction(AABWBall* Ball)
 {
-	BallsNum--;
-	if (BallsNum <= 0)
+	ReturnBall(Ball);
+	const int32 NumberOfActiveBalls = ActiveBalls.Num();
+	
+	if (NumberOfActiveBalls <= 0)
 	{
 		PlayerController->SubLife();
 
@@ -39,8 +42,8 @@ void AABWGameModeBase::HandleBallDestruction()
 
 void AABWGameModeBase::HandleBrickDestruction()
 {
-	BricksNum--;
-	if (BricksNum <= 0)
+	NumberOfBricks--;
+	if (NumberOfBricks <= 0)
 	{
 		LevelOver(true);
 	}
@@ -56,8 +59,7 @@ void AABWGameModeBase::Init()
 
 void AABWGameModeBase::StartGame()
 {
-	BallsNum = GetBallsCount();
-	BricksNum = GetBricksCount();
+	NumberOfBricks = GetBricksCount();
 
 	GameInstance->SetHasPlayerStartGame(true);
 }
@@ -108,4 +110,32 @@ int32 AABWGameModeBase::GetBricksCount() const
 	TArray<AActor*> Bricks;
 	UGameplayStatics::GetAllActorsOfClass(this, AABWBrick::StaticClass(), Bricks);
 	return Bricks.Num();
+}
+
+void AABWGameModeBase::InitializeBallsPool(const int32 NumberOfBalls)
+{
+	for (int i = 0; i < NumberOfBalls; ++i)
+	{
+		AABWBall* Ball = GetWorld()->SpawnActor<AABWBall>(BallClass, FVector::ZeroVector, FRotator::ZeroRotator);
+		InactiveBalls.Add(Ball);
+	}
+}
+
+AABWBall* AABWGameModeBase::GetBall()
+{
+	if (InactiveBalls.Num() > 0)
+	{
+		AABWBall* Ball = InactiveBalls.Pop();
+		Ball->Activate();
+		ActiveBalls.Add(Ball);
+		return Ball;
+	}
+	return nullptr;
+}
+
+void AABWGameModeBase::ReturnBall(AABWBall* Ball)
+{
+	ActiveBalls.Remove(Ball);
+	Ball->Deactivate();
+	InactiveBalls.Add(Ball);
 }

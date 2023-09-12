@@ -2,6 +2,7 @@
 
 
 #include "ABWPlayerController.h"
+#include "ArkanoidByWered/GameModes/ABWGameModeBase.h"
 #include "ArkanoidByWered/GameplayElements/ABWBall.h"
 #include "ArkanoidByWered/UI/HUD/ABWHUDWidget.h"
 #include "ArkanoidByWered/GameplayElements/ABWPaddle.h"
@@ -57,8 +58,9 @@ void AABWPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	SetPaddle();
-	SpawnBall();
 	SetHUD();
+	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
+	SpawnBall();
 }
 
 void AABWPlayerController::Tick(float DeltaTime)
@@ -142,7 +144,7 @@ void AABWPlayerController::SpawnBall()
 		return;
 	}
 
-	SpawnedBall = GetWorld()->SpawnActor<AABWBall>(BallClass, FVector::ZeroVector, FRotator::ZeroRotator);
+	SpawnedBall = GameMode->GetBall();
 	UpdateIdleBallPosition();
 }
 

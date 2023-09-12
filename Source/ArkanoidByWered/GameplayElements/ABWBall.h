@@ -20,6 +20,9 @@ class ARKANOIDBYWERED_API AABWBall : public AActor
 public:
 	AABWBall();
 
+	void Activate();
+	void Deactivate();
+
 protected:
 	virtual void BeginPlay() override;
 

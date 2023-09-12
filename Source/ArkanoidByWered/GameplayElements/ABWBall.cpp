@@ -23,6 +23,26 @@ AABWBall::AABWBall()
 	SpriteComp->SetCollisionProfileName(TEXT("NoCollision"));
 
 	VelocityVector = InitialVelocityVector * InitialBallSpeed;
+
+	Deactivate();
+}
+
+void AABWBall::Activate()
+{
+	SetActorTickEnabled(true);
+	SpriteComp->SetVisibility(true);
+	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
+	CollisionComp->SetSimulatePhysics(true);
+}
+
+void AABWBall::Deactivate()
+{
+	SetActorTickEnabled(false);
+	SpriteComp->SetVisibility(false);
+	CollisionComp->SetSimulatePhysics(false);
+	CollisionComp->SetCollisionProfileName(TEXT("NoCollision"));
+	SetActorLocation(FVector::ZeroVector);
+	bIsLaunched = false;
 }
 
 void AABWBall::BeginPlay()
@@ -48,8 +68,7 @@ void AABWBall::NotifyActorBeginOverlap(AActor* OtherActor)
 
 	if (OtherActor->IsA(ATriggerBox::StaticClass()))
 	{
-		Destroy();
-		GameMode->HandleBallDestruction();
+		GameMode->HandleBallDestruction(this);
 	}
 }
 
