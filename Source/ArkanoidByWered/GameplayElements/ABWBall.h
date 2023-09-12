@@ -20,15 +20,15 @@ class ARKANOIDBYWERED_API AABWBall : public AActor
 public:
 	AABWBall();
 
-	void Activate();
-	void Deactivate();
-
 protected:
 	virtual void BeginPlay() override;
 
 public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+	void Activate();
+	void Deactivate();
 
 	float GetCollisionHeight() const;
 

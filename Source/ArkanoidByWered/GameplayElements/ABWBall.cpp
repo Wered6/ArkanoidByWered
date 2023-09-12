@@ -27,24 +27,6 @@ AABWBall::AABWBall()
 	Deactivate();
 }
 
-void AABWBall::Activate()
-{
-	SetActorTickEnabled(true);
-	SpriteComp->SetVisibility(true);
-	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
-	CollisionComp->SetSimulatePhysics(true);
-}
-
-void AABWBall::Deactivate()
-{
-	SetActorTickEnabled(false);
-	SpriteComp->SetVisibility(false);
-	CollisionComp->SetSimulatePhysics(false);
-	CollisionComp->SetCollisionProfileName(TEXT("NoCollision"));
-	SetActorLocation(FVector::ZeroVector);
-	bIsLaunched = false;
-}
-
 void AABWBall::BeginPlay()
 {
 	Super::BeginPlay();
@@ -72,9 +54,36 @@ void AABWBall::NotifyActorBeginOverlap(AActor* OtherActor)
 	}
 }
 
+void AABWBall::Activate()
+{
+	SetActorTickEnabled(true);
+	SpriteComp->SetVisibility(true);
+	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
+	CollisionComp->SetSimulatePhysics(true);
+}
+
+void AABWBall::Deactivate()
+{
+	SetActorTickEnabled(false);
+	SpriteComp->SetVisibility(false);
+	CollisionComp->SetSimulatePhysics(false);
+	CollisionComp->SetCollisionProfileName(TEXT("NoCollision"));
+	SetActorLocation(FVector::ZeroVector);
+	bIsLaunched = false;
+}
+
 float AABWBall::GetCollisionHeight() const
 {
 	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
+}
+
+void AABWBall::LaunchBall()
+{
+	if (!bIsLaunched)
+	{
+		bIsLaunched = true;
+		VelocityVector = InitialVelocityVector * BallSpeed;
+	}
 }
 
 void AABWBall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, AActor* HitActor)
@@ -87,15 +96,6 @@ void AABWBall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, 
 	else
 	{
 		BounceOffWall(HitNormal);
-	}
-}
-
-void AABWBall::LaunchBall()
-{
-	if (!bIsLaunched)
-	{
-		bIsLaunched = true;
-		VelocityVector = InitialVelocityVector * BallSpeed;
 	}
 }
 
