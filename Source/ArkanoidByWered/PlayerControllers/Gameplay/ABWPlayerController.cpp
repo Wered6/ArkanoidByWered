@@ -6,20 +6,21 @@
 #include "ArkanoidByWered/GameplayElements/Ball/ABWBall.h"
 #include "ArkanoidByWered/UI/HUD/ABWHUDWidget.h"
 #include "ArkanoidByWered/GameplayElements/Paddle/ABWPaddle.h"
+#include "ArkanoidByWered/PlayerStats/ABWPlayerStats.h"
 
 AABWPlayerController::AABWPlayerController()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	Lifes = MaxLifes;
 }
 
 void AABWPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Init();
-	check(CheckNullPointers());
+	InitializeHUD();
+	InitializeGameplayElements();
+	InitializeGameLogic();
+
 	StartGame();
 }
 
@@ -53,131 +54,171 @@ void AABWPlayerController::SetPlayerEnabledState(const bool bPlayerEnabled)
 	}
 }
 
-void AABWPlayerController::AddLife()
+void AABWPlayerController::IncrementLife()
 {
-	HUD->PlayHeartFillAnimaion(Lifes);
-
-	if (Lifes < MaxLifes)
+	if (PlayerStats)
 	{
-		Lifes++;
+		const int32 CurrentLifes = PlayerStats->GetCurrentLifes();
+		if (HUD)
+		{
+			HUD->PlayHeartFillAnimaion(CurrentLifes);
+			PlayerStats->AddLife();
+		}
+		else
+		{
+			UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::IncrementLife|HUD is nullptr"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::IncrementLife|PlayerStats is nullptr"));
 	}
 }
 
-void AABWPlayerController::SubLife()
+void AABWPlayerController::DecrementLife()
 {
-	HUD->PlayHeartEmptyAnimaion(Lifes);
-
-	if (Lifes > MinLifes)
+	if (PlayerStats)
 	{
-		Lifes--;
+		const int32 MinLifes = PlayerStats->GetMinLifes();
+		if (HUD)
+		{
+			HUD->PlayHeartEmptyAnimaion(PlayerStats->GetCurrentLifes());
+			PlayerStats->SubLife();
+			if (PlayerStats->GetCurrentLifes() > MinLifes)
+			{
+				SpawnBall();
+			}
+		}
+		else
+		{
+			UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::DecrementLife|HUD is nullptr"));
+		}
 	}
-	if (Lifes > MinLifes)
+	else
 	{
-		SpawnBall();
+		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::DecrementLife|PlayerStats is nullptr"));
 	}
 }
 
 int32 AABWPlayerController::GetLife() const
 {
-	return Lifes;
-}
-
-void AABWPlayerController::Init()
-{
-	SetHUD();
-	SetPaddle();
-	SetGameMode();
-}
-
-void AABWPlayerController::SetHUD()
-{
-	if (!HUDWidgetClass)
+	if (PlayerStats)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::SetHUD|HUDWidgetClass is null"));
-		return;
+		return PlayerStats->GetCurrentLifes();
 	}
-	HUD = CreateWidget<UABWHUDWidget>(GetWorld(), HUDWidgetClass);
+	UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::GetLife|PlayerStats is nullptr"));
+	return -1;
 }
 
-void AABWPlayerController::SetPaddle()
+void AABWPlayerController::InitializeGameLogic()
+{
+	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
+	PlayerStats = NewObject<UABWPlayerStats>();
+}
+
+void AABWPlayerController::InitializeGameplayElements()
 {
 	APawn* ControlledPawn = GetPawn();
 
-	if (!ControlledPawn)
+	if (ControlledPawn)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::SetPaddle|ControlledPawn is null"));
-		return;
+		Paddle = Cast<AABWPaddle>(ControlledPawn);
 	}
-	Paddle = Cast<AABWPaddle>(ControlledPawn);
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::SetPaddle|ControlledPawn is nullptr"));
+	}
 }
 
-void AABWPlayerController::SetGameMode()
+void AABWPlayerController::InitializeHUD()
 {
-	GameMode = Cast<AABWGameModeBase>(GetWorld()->GetAuthGameMode());
-}
-
-bool AABWPlayerController::CheckNullPointers() const
-{
-	if (!HUD)
+	if (HUDWidgetClass)
 	{
-		UE_LOG(LogActor, Warning, TEXT("AABWPlayerController::CheckNullPointers|HUD is null"));
-		return false;
+		HUD = CreateWidget<UABWHUDWidget>(GetWorld(), HUDWidgetClass);
 	}
-	if (!Paddle)
+	else
 	{
-		UE_LOG(LogActor, Warning, TEXT("AABWPlayerController::CheckNullPointers|Paddle is null"));
-		return false;
+		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::SetHUD|HUDWidgetClass is null"));
 	}
-	if (!GameMode)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWPlayerController::CheckNullPointers|GameMode is null"));
-		return false;
-	}
-	return true;
 }
 
 void AABWPlayerController::StartGame()
 {
-	HUD->AddToViewport();
+	if (HUD)
+	{
+		HUD->AddToViewport();
+	}
+	else
+	{
+		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::StartGame|HUD is nullptr"));
+	}
+
 	SpawnBall();
 }
 
 void AABWPlayerController::MovePaddle(const float Value)
 {
-	Paddle->MoveHorizontal(Value);
+	if (Paddle)
+	{
+		Paddle->MoveHorizontal(Value);
+	}
+	else
+	{
+		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::MovePaddle|Paddle is nullptr"));
+	}
 }
 
 void AABWPlayerController::SpawnBall()
 {
-	SpawnedBall = GameMode->GetBall();
+	if (GameMode)
+	{
+		SpawnedBall = GameMode->GetBall();
+	}
+	else
+	{
+		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::SpawnBall|GameMode is nullptr"));
+	}
+
 	UpdateIdleBallPosition();
 }
 
 void AABWPlayerController::LaunchBall()
 {
-	if (!SpawnedBall)
+	if (SpawnedBall)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::LaunchBall|SpawnedBall is null"));
-		return;
+		SpawnedBall->LaunchBall();
 	}
-
-	SpawnedBall->LaunchBall();
+	else
+	{
+		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::LaunchBall|SpawnedBall is nullptr"));
+	}
 }
 
 void AABWPlayerController::UpdateIdleBallPosition() const
 {
-	if (!SpawnedBall)
+	if (Paddle)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::UpdateIdleBallPosition|SpawnedBall is null"));
-		return;
+		FVector BallStartPosition = Paddle->GetActorLocation();
+		if (SpawnedBall)
+		{
+			constexpr float BallToPaddleOffset{0.01f};
+			BallStartPosition.Z = BallStartPosition.Z
+				+ Paddle->GetCollisionHeight() / 2
+				+ SpawnedBall->GetCollisionHeight() / 2
+				+ BallToPaddleOffset;
+
+			SpawnedBall->SetActorLocation(BallStartPosition);
+		}
+		else
+		{
+			UE_LOG(LogPlayerController, Warning,
+			       TEXT("AABWPlayerController::UpdateIdleBallPosition|SpawnedBall is nullptr"));
+		}
 	}
-
-	FVector BallStartPosition = Paddle->GetActorLocation();
-	constexpr float BallToPaddleOffset{0.01f};
-	BallStartPosition.Z = BallStartPosition.Z
-		+ Paddle->GetCollisionHeight() / 2
-		+ SpawnedBall->GetCollisionHeight() / 2
-		+ BallToPaddleOffset;
-
-	SpawnedBall->SetActorLocation(BallStartPosition);
+	else
+	{
+		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::UpdateIdleBallPosition|Paddle is nullptr"));
+	}
 }
+
+// todo PlayerState for PlayerStats and HUD in PlayerController

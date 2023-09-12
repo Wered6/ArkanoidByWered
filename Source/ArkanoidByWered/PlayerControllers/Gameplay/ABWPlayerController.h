@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "ABWPlayerController.generated.h"
 
+class UABWPlayerStats;
 class AABWGameModeBase;
 class AABWPaddle;
 class AABWBall;
@@ -29,16 +30,14 @@ public:
 
 	void SetPlayerEnabledState(const bool bPlayerEnabled);
 
-	void AddLife();
-	void SubLife();
+	void IncrementLife();
+	void DecrementLife();
 	int32 GetLife() const;
 
 private:
-	void Init();
-	void SetHUD();
-	void SetPaddle();
-	void SetGameMode();
-	bool CheckNullPointers() const;
+	void InitializeGameLogic();
+	void InitializeGameplayElements();
+	void InitializeHUD();
 
 	void StartGame();
 
@@ -61,9 +60,8 @@ private:
 	UPROPERTY()
 	AABWPaddle* Paddle{nullptr};
 
-	const int32 MaxLifes{3};
-	const int32 MinLifes{0};
-	int32 Lifes;
+	UPROPERTY()
+	UABWPlayerStats* PlayerStats{nullptr};
 
 	UPROPERTY()
 	AABWGameModeBase* GameMode{nullptr};

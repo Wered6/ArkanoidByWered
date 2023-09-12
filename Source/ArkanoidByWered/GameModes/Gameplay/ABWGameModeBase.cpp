@@ -26,7 +26,7 @@ void AABWGameModeBase::HandleBallDestruction(AABWBall* Ball)
 
 	if (NumberOfActiveBalls <= 0)
 	{
-		PlayerController->SubLife();
+		PlayerController->DecrementLife();
 
 		if (PlayerController->GetLife() <= 0)
 		{
