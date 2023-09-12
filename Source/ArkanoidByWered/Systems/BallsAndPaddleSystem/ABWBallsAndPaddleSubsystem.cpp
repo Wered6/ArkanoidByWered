@@ -3,7 +3,6 @@
 
 #include "ABWBallsAndPaddleSubsystem.h"
 #include "ArkanoidByWered/GameplayElements/ABWBall.h"
-#include "Kismet/GameplayStatics.h"
 
 void UABWBallsAndPaddleSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
