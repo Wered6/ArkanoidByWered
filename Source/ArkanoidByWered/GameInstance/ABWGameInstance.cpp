@@ -34,9 +34,15 @@ void UABWGameInstance::SetHasPlayerStartGame(const bool bPlayerStartGame)
 
 bool UABWGameInstance::GetHasCompletedAllLevels() const
 {
+	if (!LevelSubsystem)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWGameInstance::GetHasCompletedAllLevels|LevelSubsystem is nullptr"));
+		return false;
+	}
+
 	bool bAllLevelsCompleted{false};
 	TArray<FLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
-	
+
 	for (const auto& LevelData : LevelsDataArray)
 	{
 		bAllLevelsCompleted = LevelData->bIsLevelCompleted;
@@ -50,6 +56,12 @@ bool UABWGameInstance::GetHasCompletedAllLevels() const
 
 bool UABWGameInstance::GetIsCurrentLevelLast() const
 {
+	if (!LevelSubsystem)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UABWGameInstance::GetIsCurrentLevelLast|LevelSubsystem is nullptr"));
+		return false;
+	}
+
 	const int32 CurrentLevelIndex = LevelSubsystem->GetCurrentLevelIndex();
 	const TArray<FLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
 
