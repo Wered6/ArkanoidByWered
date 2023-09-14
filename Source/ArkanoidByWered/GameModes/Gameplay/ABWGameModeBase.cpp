@@ -147,10 +147,10 @@ void AABWGameModeBase::LevelOver(const bool bWin)
 
 	PlayerController->SetPlayerEnabledState(false);
 	GameInstance->SetHasPlayerWonLevel(bWin);
+	LevelSubsystem->SetCurrentLevelIndex();
 
 	if (bWin)
 	{
-		LevelSubsystem->SetCurrentLevelIndex();
 		LevelSubsystem->CompleteCurrentLevel();
 	}
 
