@@ -24,7 +24,7 @@ AABWBall::AABWBall()
 
 	VelocityVector = InitialVelocityVector * InitialBallSpeed;
 
-	Deactivate();
+	Activate(false);
 }
 
 void AABWBall::BeginPlay()
@@ -33,7 +33,6 @@ void AABWBall::BeginPlay()
 
 	Init();
 	SetDefaultSprite();
-	check(CheckNullPointers());
 }
 
 void AABWBall::Tick(float DeltaTime)
@@ -48,31 +47,55 @@ void AABWBall::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 
+	if (!GameMode)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::NotifyActorBeginOverlap|GameMode is nullptr"));
+		return;
+	}
+
 	if (OtherActor->IsA(ATriggerBox::StaticClass()))
 	{
 		GameMode->HandleBallDestruction(this);
 	}
 }
 
-void AABWBall::Activate()
+void AABWBall::Activate(const bool bActivate)
 {
-	SpriteComp->SetVisibility(true);
-	CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
-	CollisionComp->SetSimulatePhysics(true);
-}
+	if (!SpriteComp)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::Activate|SpriteComp is nullptr"));
+		return;
+	}
+	if (!CollisionComp)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::Activate|CollisionComp is nullptr"));
+		return;
+	}
 
-void AABWBall::Deactivate()
-{
-	SetActorTickEnabled(false);
-	SpriteComp->SetVisibility(false);
-	CollisionComp->SetSimulatePhysics(false);
-	CollisionComp->SetCollisionProfileName(TEXT("NoCollision"));
-	SetActorLocation(FVector::ZeroVector);
-	bIsLaunched = false;
+	SpriteComp->SetVisibility(bActivate);
+	CollisionComp->SetSimulatePhysics(bActivate);
+
+	if (bActivate)
+	{
+		CollisionComp->SetCollisionProfileName(TEXT("BlockAll"));
+	}
+	else
+	{
+		CollisionComp->SetCollisionProfileName(TEXT("NoCollision"));
+		SetActorTickEnabled(false);
+		SetActorLocation(FVector::ZeroVector);
+		bIsLaunched = false;
+	}
 }
 
 float AABWBall::GetCollisionHeight() const
 {
+	if (!CollisionComp)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::GetCollisionHeight|CollisionComp is nullptr"));
+		return -1;
+	}
+
 	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
 }
 
@@ -101,6 +124,12 @@ void AABWBall::BounceBall(const FVector& HitLocation, const FVector& HitNormal, 
 
 void AABWBall::BounceOffPaddle(const AABWPaddle* Paddle, const FVector& HitLocation)
 {
+	if (!CollisionComp)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::BounceOffPaddle|CollisionComp is nullptr"));
+		return;
+	}
+
 	const float BallAndPaddleHalfWidth = CollisionComp->GetUnscaledBoxExtent().X + Paddle->GetCollisionWidth() / 2;
 	// Determine hit position on paddle (0.0 = leftmost, 1.0 = rightmost)
 	const float HitPosition = (HitLocation.X - Paddle->GetActorLocation().X + BallAndPaddleHalfWidth) / (
@@ -150,30 +179,11 @@ void AABWBall::Init()
 
 void AABWBall::SetDefaultSprite() const
 {
-	SpriteComp->SetSprite(LoadGameInstance->GetBallSprite());
-}
-
-bool AABWBall::CheckNullPointers() const
-{
-	if (!CollisionComp)
-	{
-		UE_LOG(LogActor, Warning, TEXT("AABWBall::CheckNullPointers|CollisionComp is null"));
-		return false;
-	}
 	if (!SpriteComp)
 	{
-		UE_LOG(LogActor, Warning, TEXT("AABWBall::CheckNullPointers|SpriteComp is null"));
-		return false;
+		UE_LOG(LogActor, Warning, TEXT("AABWBall::SetDefaultSprite|SpriteComp is nullptr"));
+		return;
 	}
-	if (!GameMode)
-	{
-		UE_LOG(LogActor, Warning, TEXT("AABWBall::CheckNullPointers|GameMode is null"));
-		return false;
-	}
-	if (!LoadGameInstance)
-	{
-		UE_LOG(LogActor, Warning, TEXT("AABWBall::CheckNullPointers|LoadGameInstance is null"));
-		return false;
-	}
-	return true;
+
+	SpriteComp->SetSprite(LoadGameInstance->GetBallSprite());
 }

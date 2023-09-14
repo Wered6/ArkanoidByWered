@@ -27,8 +27,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
-	void Activate();
-	void Deactivate();
+	void Activate(const bool bActivate);
 
 	float GetCollisionHeight() const;
 
@@ -45,7 +44,6 @@ private:
 
 	void Init();
 	void SetDefaultSprite() const;
-	bool CheckNullPointers() const;
 
 	FVector InitialVelocityVector{0, 0, 1};
 	float InitialBallSpeed{0.f};

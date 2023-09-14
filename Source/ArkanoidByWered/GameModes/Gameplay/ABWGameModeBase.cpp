@@ -52,7 +52,7 @@ AABWBall* AABWGameModeBase::GetBall()
 	{
 		AABWBall* Ball = InactiveBalls.Pop();
 
-		Ball->Activate();
+		Ball->Activate(true);
 		ActiveBalls.Add(Ball);
 		return Ball;
 	}
@@ -68,7 +68,7 @@ void AABWGameModeBase::ReturnBall(AABWBall* Ball)
 	}
 
 	ActiveBalls.Remove(Ball);
-	Ball->Deactivate();
+	Ball->Activate(false);
 	InactiveBalls.Add(Ball);
 }
 
