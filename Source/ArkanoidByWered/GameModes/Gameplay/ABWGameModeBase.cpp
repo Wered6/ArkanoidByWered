@@ -11,25 +11,23 @@
 
 void AABWGameModeBase::HandleBallDestruction(AABWBall* Ball)
 {
-	ReturnBall(Ball);
-	const int32 NumberOfActiveBalls = ActiveBalls.Num();
-
 	if (!PlayerController)
 	{
 		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::HandleBallDestruction|PlayerController is nullptr"));
 		return;
 	}
-	if (!GetWorld())
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::HandleBallDestruction|GetWorld() is nullptr"));
-		return;
-	}
+
+	const int32 NumberOfActiveBalls = ActiveBalls.Num();
+
+	ReturnBall(Ball);
 
 	if (NumberOfActiveBalls <= 0)
 	{
 		PlayerController->DecrementLife();
 
-		if (PlayerController->GetLife() <= 0)
+		const int32 CurrentLifes = PlayerController->GetLifes();
+
+		if (CurrentLifes <= 0)
 		{
 			GetWorld()->GetTimerManager().SetTimer(LevelOverTimerHandle, [this]()
 			{
@@ -53,6 +51,7 @@ AABWBall* AABWGameModeBase::GetBall()
 	if (InactiveBalls.Num() > 0)
 	{
 		AABWBall* Ball = InactiveBalls.Pop();
+
 		Ball->Activate();
 		ActiveBalls.Add(Ball);
 		return Ball;
@@ -62,6 +61,12 @@ AABWBall* AABWGameModeBase::GetBall()
 
 void AABWGameModeBase::ReturnBall(AABWBall* Ball)
 {
+	if (!Ball)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::ReturnBall|Ball is nullptr"));
+		return;
+	}
+
 	ActiveBalls.Remove(Ball);
 	Ball->Deactivate();
 	InactiveBalls.Add(Ball);
@@ -79,12 +84,6 @@ void AABWGameModeBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-	if (!GetWorld())
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::~AABWGameModeBase|GetWorld() is nullptr"));
-		return;
-	}
-
 	GetWorld()->GetTimerManager().ClearTimer(LevelOverTimerHandle);
 }
 
@@ -96,7 +95,7 @@ void AABWGameModeBase::InitializeGameLogic()
 
 	if (!GameInstance)
 	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::Init|GameInstance is nullptr"));
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::InitializeGameLogic|GameInstance is nullptr"));
 		return;
 	}
 

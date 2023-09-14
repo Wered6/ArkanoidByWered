@@ -32,7 +32,7 @@ public:
 
 	void IncrementLife();
 	void DecrementLife();
-	int32 GetLife() const;
+	int32 GetLifes() const;
 
 private:
 	void InitializeGameLogic();

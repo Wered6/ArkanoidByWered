@@ -96,7 +96,7 @@ void AABWPlayerController::DecrementLife()
 	}
 }
 
-int32 AABWPlayerController::GetLife() const
+int32 AABWPlayerController::GetLifes() const
 {
 	if (!PlayerStats)
 	{

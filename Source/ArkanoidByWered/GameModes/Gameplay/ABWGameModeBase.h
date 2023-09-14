@@ -6,11 +6,10 @@
 #include "GameFramework/GameModeBase.h"
 #include "ABWGameModeBase.generated.h"
 
-class AABWBall;
 class AABWPlayerController;
 class UABWLevelSubsystem;
 class UABWGameInstance;
-class AABWPaddle;
+class AABWBall;
 
 UCLASS()
 class ARKANOIDBYWERED_API AABWGameModeBase : public AGameModeBase
