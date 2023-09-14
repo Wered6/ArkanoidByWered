@@ -31,7 +31,6 @@ void UABWLevelOverWidget::OpenMenu()
 	}
 
 	MenuWidget->AddToViewport();
-	this->RemoveFromParent();
 }
 
 void UABWLevelOverWidget::ActivateLevelWonWidget() const
