@@ -4,9 +4,9 @@
 #include "ABWPlayerController.h"
 #include "ArkanoidByWered/GameModes/Gameplay/ABWGameModeBase.h"
 #include "ArkanoidByWered/GameplayElements/Ball/ABWBall.h"
-#include "ArkanoidByWered/UI/HUD/ABWHeartsWidget.h"
 #include "ArkanoidByWered/GameplayElements/Paddle/ABWPaddle.h"
 #include "ArkanoidByWered/PlayerStats/ABWPlayerStats.h"
+#include "ArkanoidByWered/UI/HUD/ABWHUD.h"
 
 AABWPlayerController::AABWPlayerController()
 {
@@ -61,7 +61,7 @@ void AABWPlayerController::IncrementLife()
 		const int32 CurrentLifes = PlayerStats->GetCurrentLifes();
 		if (HUD)
 		{
-			HUD->PlayHeartFillAnimaion(CurrentLifes);
+			HUD->PlayHeartAnimation(CurrentLifes, true);
 			PlayerStats->AddLife();
 		}
 		else
@@ -82,7 +82,7 @@ void AABWPlayerController::DecrementLife()
 		const int32 MinLifes = PlayerStats->GetMinLifes();
 		if (HUD)
 		{
-			HUD->PlayHeartEmptyAnimaion(PlayerStats->GetCurrentLifes());
+			HUD->PlayHeartAnimation(PlayerStats->GetCurrentLifes(), false);
 			PlayerStats->SubLife();
 			if (PlayerStats->GetCurrentLifes() > MinLifes)
 			{
@@ -132,14 +132,7 @@ void AABWPlayerController::InitializeGameplayElements()
 
 void AABWPlayerController::InitializeHUD()
 {
-	if (HUDWidgetClass)
-	{
-		HUD = CreateWidget<UABWHeartsWidget>(GetWorld(), HUDWidgetClass);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AABWPlayerController::SetHUD|HUDWidgetClass is null"));
-	}
+	HUD = Cast<AABWHUD>(GetHUD());
 }
 
 void AABWPlayerController::StartGame()

@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "ABWHUD.generated.h"
 
+class UABWHeartsWidget;
 
 UCLASS()
 class ARKANOIDBYWERED_API AABWHUD : public AHUD
@@ -13,8 +14,13 @@ class ARKANOIDBYWERED_API AABWHUD : public AHUD
 	GENERATED_BODY()
 
 public:
-	
+	void AddToViewport();
+
+	void PlayHeartAnimation(const int32 CurrentLifes, const bool bFill);
+
 private:
-	// UPROPERTY(EditDefaultsOnly, Category="Hearts")
-	// TSubclassOf<>
+	UPROPERTY(EditDefaultsOnly, Category="Hearts")
+	TSubclassOf<UABWHeartsWidget> HeartsWidgetClass;
+	UPROPERTY()
+	UABWHeartsWidget* HeartsWidget{nullptr};
 };

@@ -6,12 +6,12 @@
 #include "GameFramework/PlayerController.h"
 #include "ABWPlayerController.generated.h"
 
+class AABWHUD;
 class UABWPlayerStats;
 class AABWGameModeBase;
 class AABWPaddle;
 class AABWBall;
 class UWidgetAnimation;
-class UABWHeartsWidget;
 
 UCLASS()
 class ARKANOIDBYWERED_API AABWPlayerController : public APlayerController
@@ -47,10 +47,8 @@ private:
 	void LaunchBall();
 	void UpdateIdleBallPosition() const;
 
-	UPROPERTY(EditDefaultsOnly, Category="UI")
-	TSubclassOf<UABWHeartsWidget> HUDWidgetClass;
 	UPROPERTY()
-	UABWHeartsWidget* HUD{nullptr};
+	AABWHUD* HUD{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
 	TSubclassOf<AABWBall> BallClass;

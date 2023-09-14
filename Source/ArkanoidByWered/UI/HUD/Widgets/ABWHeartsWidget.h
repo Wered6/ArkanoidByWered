@@ -17,8 +17,8 @@ protected:
 	virtual void NativeConstruct() override;
 
 public:
-	void PlayHeartEmptyAnimaion(const int32 Lifes);
-	void PlayHeartFillAnimaion(const int32 Lifes);
+	void PlayEmptyAnimation(const int32 CurrentLifes);
+	void PlayFillAnimation(const int32 CurrentLifes);
 
 	UPROPERTY(Transient, meta=(BindWidgetAnim))
 	UWidgetAnimation* HeartAnimation1{nullptr};

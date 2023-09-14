@@ -12,9 +12,9 @@ void UABWHeartsWidget::NativeConstruct()
 	HeartsAnimations.Add(HeartAnimation3);
 }
 
-void UABWHeartsWidget::PlayHeartEmptyAnimaion(const int32 Lifes)
+void UABWHeartsWidget::PlayEmptyAnimation(const int32 CurrentLifes)
 {
-	const int32 AnimationIndex = Lifes - 1;
+	const int32 AnimationIndex = CurrentLifes - 1;
 
 	if (!HeartsAnimations.IsValidIndex(AnimationIndex))
 	{
@@ -25,9 +25,9 @@ void UABWHeartsWidget::PlayHeartEmptyAnimaion(const int32 Lifes)
 	PlayAnimation(HeartsAnimations[AnimationIndex]);
 }
 
-void UABWHeartsWidget::PlayHeartFillAnimaion(const int32 Lifes)
+void UABWHeartsWidget::PlayFillAnimation(const int32 CurrentLifes)
 {
-	const int32 AnimationIndex = Lifes;
+	const int32 AnimationIndex = CurrentLifes;
 
 	if (!HeartsAnimations.IsValidIndex(AnimationIndex))
 	{
