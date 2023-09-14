@@ -17,9 +17,9 @@ void AABWGameModeBase::HandleBallDestruction(AABWBall* Ball)
 		return;
 	}
 
-	const int32 NumberOfActiveBalls = ActiveBalls.Num();
-
 	ReturnBall(Ball);
+
+	const int32 NumberOfActiveBalls = ActiveBalls.Num();
 
 	if (NumberOfActiveBalls <= 0)
 	{
