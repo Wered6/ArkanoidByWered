@@ -2,6 +2,7 @@
 
 
 #include "ABWCamera.h"
+#include "ComponentReregisterContext.h"
 #include "Camera/CameraComponent.h"
 
 AABWCamera::AABWCamera()
@@ -10,9 +11,12 @@ AABWCamera::AABWCamera()
 
 	UCameraComponent* CameraComp = GetCameraComponent();
 
-	if (CameraComp)
+	if (!CameraComp)
 	{
-		CameraComp->ProjectionMode = ECameraProjectionMode::Orthographic;
-		CameraComp->OrthoWidth = 512.f;
+		UE_LOG(LogActorComponent, Warning, TEXT("AABWCamera::AABWCamera|CameraComp is nullptr"));
+		return;
 	}
+
+	CameraComp->ProjectionMode = ECameraProjectionMode::Orthographic;
+	CameraComp->OrthoWidth = 512.f;
 }
