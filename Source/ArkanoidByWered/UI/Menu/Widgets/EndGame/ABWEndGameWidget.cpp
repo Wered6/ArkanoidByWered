@@ -26,5 +26,4 @@ void UABWEndGameWidget::OpenMenu()
 	}
 
 	MenuWidget->AddToViewport();
-	this->RemoveFromParent();
 }
