@@ -6,7 +6,7 @@
 #include "ArkanoidByWered/DataAssets/ABWBallPaddleDA.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
-#include "ABWMenuWidget.generated.h"
+#include "ABWMainMenuWidget.generated.h"
 
 class UABWCustomizationSaveGame;
 class UABWLevelSubsystem;
@@ -15,12 +15,12 @@ class UABWBallPaddleDA;
 class UImage;
 
 UCLASS()
-class ARKANOIDBYWERED_API UABWMenuWidget : public UUserWidget
+class ARKANOIDBYWERED_API UABWMainMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	UABWMenuWidget(const FObjectInitializer& ObjectInitializer);
+	UABWMainMenuWidget(const FObjectInitializer& ObjectInitializer);
 
 	virtual void NativeConstruct() override;
 

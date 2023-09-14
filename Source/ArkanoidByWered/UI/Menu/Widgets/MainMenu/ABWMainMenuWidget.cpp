@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "ABWMenuWidget.h"
+#include "ABWMainMenuWidget.h"
 #include "ArkanoidByWered/DataAssets/ABWBallPaddleDA.h"
 #include "Components/Image.h"
 #include "PaperSprite.h"
@@ -11,7 +11,7 @@
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 
-UABWMenuWidget::UABWMenuWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+UABWMainMenuWidget::UABWMainMenuWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	TArray<FString> ColorNames = {"Green", "Grey", "Orange", "Purple", "Red", "Yellow"};
 
@@ -30,7 +30,7 @@ UABWMenuWidget::UABWMenuWidget(const FObjectInitializer& ObjectInitializer) : Su
 	}
 }
 
-void UABWMenuWidget::NativeConstruct()
+void UABWMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
@@ -41,7 +41,7 @@ void UABWMenuWidget::NativeConstruct()
 	check(AreRequiredPointersValid());
 }
 
-void UABWMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
+void UABWMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 {
 	SetActiveColorPalette();
 
@@ -49,7 +49,7 @@ void UABWMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
 	SetBallColor(BallImage);
 }
 
-void UABWMenuWidget::ConfirmCustomization()
+void UABWMainMenuWidget::ConfirmCustomization()
 {
 	UPaperSprite* PaddleSprite = CurrentPalette->PaddlesSprites[PaddleIndex];
 	UPaperSprite* BallSprite = CurrentPalette->BallsSprites[BallIndex];
@@ -60,38 +60,38 @@ void UABWMenuWidget::ConfirmCustomization()
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, TEXT("Slot1"), 0);
 }
 
-void UABWMenuWidget::ResetIndexes()
+void UABWMainMenuWidget::ResetIndexes()
 {
 	PaletteIndex = 0;
 	PaddleIndex = 0;
 	BallIndex = 2;
 }
 
-void UABWMenuWidget::NextPaddle()
+void UABWMainMenuWidget::NextPaddle()
 {
 	const int32 PaddlesCount = CurrentPalette->PaddlesSprites.Num();
 	CycleArrayIndex(PaddleIndex, PaddlesCount, true);
 }
 
-void UABWMenuWidget::PreviousPaddle()
+void UABWMainMenuWidget::PreviousPaddle()
 {
 	const int32 PaddlesCount = CurrentPalette->PaddlesSprites.Num();
 	CycleArrayIndex(PaddleIndex, PaddlesCount, false);
 }
 
-void UABWMenuWidget::NextPalette()
+void UABWMainMenuWidget::NextPalette()
 {
 	const int32 PalettesCount = Palettes.Num();
 	CycleArrayIndex(PaletteIndex, PalettesCount, true);
 }
 
-void UABWMenuWidget::PreviousPalette()
+void UABWMainMenuWidget::PreviousPalette()
 {
 	const int32 PalettesCount = Palettes.Num();
 	CycleArrayIndex(PaletteIndex, PalettesCount, false);
 }
 
-void UABWMenuWidget::Init()
+void UABWMainMenuWidget::Init()
 {
 	SaveGameInstance = Cast<UABWCustomizationSaveGame>(
 		UGameplayStatics::CreateSaveGameObject(UABWCustomizationSaveGame::StaticClass()));
@@ -99,14 +99,14 @@ void UABWMenuWidget::Init()
 	LevelSubsystem = GameInstance->GetSubsystem<UABWLevelSubsystem>();
 }
 
-void UABWMenuWidget::SetLevelButtons()
+void UABWMainMenuWidget::SetLevelButtons()
 {
 	Level1Button = Cast<UButton>(GetWidgetFromName("LevelsLevel1Button"));
 	Level2Button = Cast<UButton>(GetWidgetFromName("LevelsLevel2Button"));
 	Level3Button = Cast<UButton>(GetWidgetFromName("LevelsLevel3Button"));
 }
 
-void UABWMenuWidget::UpdateLevelButtonStates() const
+void UABWMainMenuWidget::UpdateLevelButtonStates() const
 {
 	TArray<FLevelData*> LevelsData = LevelSubsystem->GetLevelsDataArray();
 
@@ -119,7 +119,7 @@ void UABWMenuWidget::UpdateLevelButtonStates() const
 	Level3Button->SetIsEnabled(*bIsLevel3Unlocked);
 }
 
-void UABWMenuWidget::SetActiveColorPalette()
+void UABWMainMenuWidget::SetActiveColorPalette()
 {
 	if (!Palettes.IsValidIndex(PaletteIndex))
 	{
@@ -129,7 +129,7 @@ void UABWMenuWidget::SetActiveColorPalette()
 	CurrentPalette = Palettes[PaletteIndex];
 }
 
-bool UABWMenuWidget::AreRequiredPointersValid() const
+bool UABWMainMenuWidget::AreRequiredPointersValid() const
 {
 	if (!CurrentPalette)
 	{
@@ -164,7 +164,7 @@ bool UABWMenuWidget::AreRequiredPointersValid() const
 	return true;
 }
 
-void UABWMenuWidget::SetPaddleColor(UImage* PaddleImage) const
+void UABWMainMenuWidget::SetPaddleColor(UImage* PaddleImage) const
 {
 	if (!CurrentPalette->PaddlesSprites.IsValidIndex(PaddleIndex))
 	{
@@ -176,7 +176,7 @@ void UABWMenuWidget::SetPaddleColor(UImage* PaddleImage) const
 	PaddleImage->SetBrushResourceObject(PaddleSprite);
 }
 
-void UABWMenuWidget::SetBallColor(UImage* BallImage) const
+void UABWMainMenuWidget::SetBallColor(UImage* BallImage) const
 {
 	if (!CurrentPalette->BallsSprites.IsValidIndex(BallIndex))
 	{
@@ -188,7 +188,7 @@ void UABWMenuWidget::SetBallColor(UImage* BallImage) const
 	BallImage->SetBrushResourceObject(BallSprite);
 }
 
-void UABWMenuWidget::CycleArrayIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const
+void UABWMainMenuWidget::CycleArrayIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const
 {
 	if (bIsIncrement)
 	{

@@ -1,12 +1,12 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "ABWWonLostWidget.h"
-#include "ABWMenuWidget.h"
+#include "ABWLevelOverWidget.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/MainMenu/ABWMainMenuWidget.h"
 #include "Components/CanvasPanel.h"
 #include "Components/WidgetSwitcher.h"
 
-void UABWWonLostWidget::NativeConstruct()
+void UABWLevelOverWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
@@ -16,13 +16,13 @@ void UABWWonLostWidget::NativeConstruct()
 		return;
 	}
 
-	MenuWidget = Cast<UABWMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
+	MenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
 	WidSwitcher = Cast<UWidgetSwitcher>(GetWidgetFromName(TEXT("WidgetSwitcher")));
 
 	SetWidgets();
 }
 
-void UABWWonLostWidget::OpenMenu()
+void UABWLevelOverWidget::OpenMenu()
 {
 	if (!MenuWidget)
 	{
@@ -34,7 +34,7 @@ void UABWWonLostWidget::OpenMenu()
 	this->RemoveFromParent();
 }
 
-void UABWWonLostWidget::ActivateLevelWonWidget() const
+void UABWLevelOverWidget::ActivateLevelWonWidget() const
 {
 	if (!WidSwitcher)
 	{
@@ -50,7 +50,7 @@ void UABWWonLostWidget::ActivateLevelWonWidget() const
 	WidSwitcher->SetActiveWidget(LevelWonWid);
 }
 
-void UABWWonLostWidget::ActivateLevelLostWidget() const
+void UABWLevelOverWidget::ActivateLevelLostWidget() const
 {
 	if (!WidSwitcher)
 	{
@@ -66,7 +66,7 @@ void UABWWonLostWidget::ActivateLevelLostWidget() const
 	WidSwitcher->SetActiveWidget(LevelLostWid);
 }
 
-void UABWWonLostWidget::SetWidgets()
+void UABWLevelOverWidget::SetWidgets()
 {
 	LevelWonWid = Cast<UCanvasPanel>(GetWidgetFromName(TEXT("LevelWonWidget")));
 	LevelLostWid = Cast<UCanvasPanel>(GetWidgetFromName(TEXT("LevelLostWidget")));

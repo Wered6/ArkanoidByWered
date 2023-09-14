@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "ABWWonLostWidget.generated.h"
+#include "ABWLevelOverWidget.generated.h"
 
 class UCanvasPanel;
 class UWidgetSwitcher;
-class UABWMenuWidget;
+class UABWMainMenuWidget;
 
 UCLASS()
-class ARKANOIDBYWERED_API UABWWonLostWidget : public UUserWidget
+class ARKANOIDBYWERED_API UABWLevelOverWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
@@ -30,7 +30,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
 	TSubclassOf<UUserWidget> MenuWidgetClass;
 	UPROPERTY()
-	UABWMenuWidget* MenuWidget{nullptr};
+	UABWMainMenuWidget* MenuWidget{nullptr};
 
 	UPROPERTY()
 	UWidgetSwitcher* WidSwitcher{nullptr};

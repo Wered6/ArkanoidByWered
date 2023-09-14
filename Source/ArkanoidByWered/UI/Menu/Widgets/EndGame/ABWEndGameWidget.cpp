@@ -2,7 +2,7 @@
 
 
 #include "ABWEndGameWidget.h"
-#include "ABWMenuWidget.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/MainMenu/ABWMainMenuWidget.h"
 
 void UABWEndGameWidget::NativeConstruct()
 {
@@ -14,7 +14,7 @@ void UABWEndGameWidget::NativeConstruct()
 		return;
 	}
 
-	MenuWidget = Cast<UABWMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
+	MenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
 }
 
 void UABWEndGameWidget::OpenMenu()

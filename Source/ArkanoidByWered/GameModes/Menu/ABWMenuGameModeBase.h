@@ -8,8 +8,8 @@
 
 class UABWGameInstance;
 class UABWEndGameWidget;
-class UABWWonLostWidget;
-class UABWMenuWidget;
+class UABWLevelOverWidget;
+class UABWMainMenuWidget;
 
 UCLASS()
 class ARKANOIDBYWERED_API AABWMenuGameModeBase : public AGameModeBase
@@ -30,12 +30,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
 	TSubclassOf<UUserWidget> MenuWidgetClass;
 	UPROPERTY()
-	UABWMenuWidget* MenuWidget{nullptr};
+	UABWMainMenuWidget* MenuWidget{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
 	TSubclassOf<UUserWidget> WonLostWidgetClass;
 	UPROPERTY()
-	UABWWonLostWidget* WonLostWidget{nullptr};
+	UABWLevelOverWidget* WonLostWidget{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
 	TSubclassOf<UUserWidget> EndGameWidgetClass;

@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "ABWEndGameWidget.generated.h"
 
-class UABWMenuWidget;
+class UABWMainMenuWidget;
 
 UCLASS()
 class ARKANOIDBYWERED_API UABWEndGameWidget : public UUserWidget
@@ -23,5 +23,5 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
 	TSubclassOf<UUserWidget> MenuWidgetClass;
 	UPROPERTY()
-	UABWMenuWidget* MenuWidget{nullptr};
+	UABWMainMenuWidget* MenuWidget{nullptr};
 };

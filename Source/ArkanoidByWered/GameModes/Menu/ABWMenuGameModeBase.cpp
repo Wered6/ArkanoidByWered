@@ -3,9 +3,9 @@
 
 #include "ABWMenuGameModeBase.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
-#include "ArkanoidByWered/UI/Menu/ABWEndGameWidget.h"
-#include "ArkanoidByWered/UI/Menu/ABWMenuWidget.h"
-#include "ArkanoidByWered/UI/Menu/ABWWonLostWidget.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/EndGame/ABWEndGameWidget.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/MainMenu/ABWMainMenuWidget.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/LevelOver/ABWLevelOverWidget.h"
 #include "Blueprint/UserWidget.h"
 
 void AABWMenuGameModeBase::BeginPlay()
@@ -26,8 +26,8 @@ void AABWMenuGameModeBase::Init()
 
 void AABWMenuGameModeBase::InitWidgets()
 {
-	MenuWidget = Cast<UABWMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
-	WonLostWidget = Cast<UABWWonLostWidget>(CreateWidget(GetWorld(), WonLostWidgetClass));
+	MenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
+	WonLostWidget = Cast<UABWLevelOverWidget>(CreateWidget(GetWorld(), WonLostWidgetClass));
 	EndGameWidget = Cast<UABWEndGameWidget>(CreateWidget(GetWorld(), EndGameWidgetClass));
 }
 
