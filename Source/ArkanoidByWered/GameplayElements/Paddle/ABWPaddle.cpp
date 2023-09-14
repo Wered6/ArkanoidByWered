@@ -30,16 +30,27 @@ void AABWPaddle::BeginPlay()
 
 	Init();
 	SetDefaultSprite();
-	check(CheckNullPointers());
 }
 
 float AABWPaddle::GetCollisionWidth() const
 {
+	if (!CollisionComp)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::GetCollisionWidth|CollisionComp is nullptr"));
+		return -1;
+	}
+
 	return CollisionComp->GetUnscaledBoxExtent().X * 2.f;
 }
 
 float AABWPaddle::GetCollisionHeight() const
 {
+	if (!CollisionComp)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::GetCollisionHeight|CollisionComp is nullptr"));
+		return -1;
+	}
+
 	return CollisionComp->GetUnscaledBoxExtent().Z * 2.f;
 }
 
@@ -60,30 +71,11 @@ void AABWPaddle::Init()
 
 void AABWPaddle::SetDefaultSprite() const
 {
-	SpriteComp->SetSprite(LoadGameInstance->GetPaddleSprite());
-}
-
-bool AABWPaddle::CheckNullPointers() const
-{
-	if (!CollisionComp)
-	{
-		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::CheckNullPointers|CollisionComp is null"));
-		return false;
-	}
 	if (!SpriteComp)
 	{
-		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::CheckNullPointers|SpriteComp is null"));
-		return false;
+		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::SetDefaultSprite|SpriteComp is nullptr"));
+		return;
 	}
-	if (!FloatingPawnMovement)
-	{
-		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::CheckNullPointers|FloatingPawnMovement is null"));
-		return false;
-	}
-	if (!LoadGameInstance)
-	{
-		UE_LOG(LogActor, Warning, TEXT("AABWPaddle::CheckNullPointers|LoadGameInstance is null"));
-		return false;
-	}
-	return true;
+
+	SpriteComp->SetSprite(LoadGameInstance->GetPaddleSprite());
 }

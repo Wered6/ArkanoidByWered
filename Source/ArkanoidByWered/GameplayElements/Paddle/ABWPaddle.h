@@ -31,7 +31,6 @@ public:
 private:
 	void Init();
 	void SetDefaultSprite() const;
-	bool CheckNullPointers() const;
 
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* CollisionComp{nullptr};
