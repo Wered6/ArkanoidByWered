@@ -25,9 +25,9 @@ private:
 	UFUNCTION()
 	void HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
-	UPROPERTY(EditAnywhere, Category="Sprites")
+	UPROPERTY(EditDefaultsOnly, Category="Sprites")
 	TArray<UPaperSprite*> BrokenBrickSprites;
-	UPROPERTY(VisibleAnywhere, Category="Sprites")
+	UPROPERTY(EditDefaultsOnly)
 	UPaperSpriteComponent* SpriteComp{nullptr};
 
 	int32 NumOfHits{0};

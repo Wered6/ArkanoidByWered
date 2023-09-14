@@ -33,7 +33,7 @@ void AABWBrick::HandleOnHit(AActor* SelfActor, AActor* OtherActor, FVector Norma
 	}
 	if (!SpriteComp)
 	{
-		UE_LOG(LogActor, Warning, TEXT("AABWBrick::HandleOnHit|SpriteCOmp is nullptr"));
+		UE_LOG(LogActor, Warning, TEXT("AABWBrick::HandleOnHit|SpriteComp is nullptr"));
 		return;
 	}
 	
