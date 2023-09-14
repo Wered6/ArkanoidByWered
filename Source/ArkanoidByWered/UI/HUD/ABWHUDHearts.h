@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "ABWHUDWidget.generated.h"
+#include "ABWHUDHearts.generated.h"
 
 class UABWHeartsDA;
 
 UCLASS()
-class ARKANOIDBYWERED_API UABWHUDWidget : public UUserWidget
+class ARKANOIDBYWERED_API UABWHUDHearts : public UUserWidget
 {
 	GENERATED_BODY()
 

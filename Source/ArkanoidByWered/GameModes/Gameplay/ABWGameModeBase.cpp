@@ -9,21 +9,6 @@
 #include "ArkanoidByWered/GameplayElements/Brick/ABWBrick.h"
 #include "Kismet/GameplayStatics.h"
 
-AABWGameModeBase::AABWGameModeBase()
-{
-}
-
-AABWGameModeBase::~AABWGameModeBase()
-{
-	if (!GetWorld())
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::~AABWGameModeBase|GetWorld() is nullptr"));
-		return;
-	}
-	
-	GetWorld()->GetTimerManager().ClearTimer(LevelOverTimerHandle);
-}
-
 void AABWGameModeBase::HandleBallDestruction(AABWBall* Ball)
 {
 	ReturnBall(Ball);
@@ -88,6 +73,19 @@ void AABWGameModeBase::BeginPlay()
 
 	InitializeGameLogic();
 	InitializeBallsPool(64);
+}
+
+void AABWGameModeBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	if (!GetWorld())
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::~AABWGameModeBase|GetWorld() is nullptr"));
+		return;
+	}
+
+	GetWorld()->GetTimerManager().ClearTimer(LevelOverTimerHandle);
 }
 
 void AABWGameModeBase::InitializeGameLogic()

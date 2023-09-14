@@ -18,9 +18,6 @@ class ARKANOIDBYWERED_API AABWGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	AABWGameModeBase();
-	virtual ~AABWGameModeBase() override;
-
 	// Ball and Brick destruction handlers
 	void HandleBallDestruction(AABWBall* Ball);
 	void HandleBrickDestruction();
@@ -31,6 +28,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
 	// Initialization methods

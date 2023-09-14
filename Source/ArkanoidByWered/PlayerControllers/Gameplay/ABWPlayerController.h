@@ -11,7 +11,7 @@ class AABWGameModeBase;
 class AABWPaddle;
 class AABWBall;
 class UWidgetAnimation;
-class UABWHUDWidget;
+class UABWHUDHearts;
 
 UCLASS()
 class ARKANOIDBYWERED_API AABWPlayerController : public APlayerController
@@ -48,9 +48,9 @@ private:
 	void UpdateIdleBallPosition() const;
 
 	UPROPERTY(EditDefaultsOnly, Category="UI")
-	TSubclassOf<UABWHUDWidget> HUDWidgetClass;
+	TSubclassOf<UABWHUDHearts> HUDWidgetClass;
 	UPROPERTY()
-	UABWHUDWidget* HUD{nullptr};
+	UABWHUDHearts* HUD{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
 	TSubclassOf<AABWBall> BallClass;
