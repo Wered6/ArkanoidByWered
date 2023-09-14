@@ -28,7 +28,7 @@ private:
 	UPROPERTY(EditAnywhere, Category="Sprites")
 	TArray<UPaperSprite*> BrokenBrickSprites;
 	UPROPERTY(VisibleAnywhere, Category="Sprites")
-	UPaperSpriteComponent* MainSpriteComp{nullptr};
+	UPaperSpriteComponent* SpriteComp{nullptr};
 
 	int32 NumOfHits{0};
 
