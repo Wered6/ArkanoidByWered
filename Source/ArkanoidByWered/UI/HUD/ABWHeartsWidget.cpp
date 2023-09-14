@@ -1,9 +1,9 @@
 // Copyright (c) 2023 Wered. All rights reserved.
 
 
-#include "ABWHUDHearts.h"
+#include "ABWHeartsWidget.h"
 
-void UABWHUDHearts::NativeConstruct()
+void UABWHeartsWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
@@ -12,7 +12,7 @@ void UABWHUDHearts::NativeConstruct()
 	HeartsAnimations.Add(HeartAnimation3);
 }
 
-void UABWHUDHearts::PlayHeartEmptyAnimaion(const int32 Lifes)
+void UABWHeartsWidget::PlayHeartEmptyAnimaion(const int32 Lifes)
 {
 	const int32 AnimationIndex = Lifes - 1;
 
@@ -25,7 +25,7 @@ void UABWHUDHearts::PlayHeartEmptyAnimaion(const int32 Lifes)
 	PlayAnimation(HeartsAnimations[AnimationIndex]);
 }
 
-void UABWHUDHearts::PlayHeartFillAnimaion(const int32 Lifes)
+void UABWHeartsWidget::PlayHeartFillAnimaion(const int32 Lifes)
 {
 	const int32 AnimationIndex = Lifes;
 

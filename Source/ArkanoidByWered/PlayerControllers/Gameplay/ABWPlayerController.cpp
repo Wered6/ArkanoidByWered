@@ -4,7 +4,7 @@
 #include "ABWPlayerController.h"
 #include "ArkanoidByWered/GameModes/Gameplay/ABWGameModeBase.h"
 #include "ArkanoidByWered/GameplayElements/Ball/ABWBall.h"
-#include "ArkanoidByWered/UI/HUD/ABWHUDHearts.h"
+#include "ArkanoidByWered/UI/HUD/ABWHeartsWidget.h"
 #include "ArkanoidByWered/GameplayElements/Paddle/ABWPaddle.h"
 #include "ArkanoidByWered/PlayerStats/ABWPlayerStats.h"
 
@@ -134,7 +134,7 @@ void AABWPlayerController::InitializeHUD()
 {
 	if (HUDWidgetClass)
 	{
-		HUD = CreateWidget<UABWHUDHearts>(GetWorld(), HUDWidgetClass);
+		HUD = CreateWidget<UABWHeartsWidget>(GetWorld(), HUDWidgetClass);
 	}
 	else
 	{
