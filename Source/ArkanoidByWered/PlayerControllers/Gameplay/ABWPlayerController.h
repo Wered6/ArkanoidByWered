@@ -6,12 +6,11 @@
 #include "GameFramework/PlayerController.h"
 #include "ABWPlayerController.generated.h"
 
-class AABWHUD;
-class UABWPlayerStats;
 class AABWGameModeBase;
+class UABWPlayerStats;
 class AABWPaddle;
 class AABWBall;
-class UWidgetAnimation;
+class AABWHUD;
 
 UCLASS()
 class ARKANOIDBYWERED_API AABWPlayerController : public APlayerController
@@ -38,8 +37,6 @@ private:
 	void InitializeGameLogic();
 	void InitializeGameplayElements();
 	void InitializeHUD();
-
-	void StartGame();
 
 	void MovePaddle(const float Value);
 

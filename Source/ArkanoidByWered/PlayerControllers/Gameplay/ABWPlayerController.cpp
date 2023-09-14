@@ -21,7 +21,7 @@ void AABWPlayerController::BeginPlay()
 	InitializeGameplayElements();
 	InitializeGameLogic();
 
-	StartGame();
+	SpawnBall();
 }
 
 void AABWPlayerController::Tick(float DeltaTime)
@@ -130,10 +130,7 @@ void AABWPlayerController::InitializeGameplayElements()
 void AABWPlayerController::InitializeHUD()
 {
 	HUD = Cast<AABWHUD>(GetHUD());
-}
 
-void AABWPlayerController::StartGame()
-{
 	if (!HUD)
 	{
 		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::StartGame|HUD is nullptr"));
@@ -141,7 +138,6 @@ void AABWPlayerController::StartGame()
 	}
 
 	HUD->AddToViewport();
-	SpawnBall();
 }
 
 void AABWPlayerController::MovePaddle(const float Value)
@@ -160,6 +156,11 @@ void AABWPlayerController::SpawnBall()
 	if (!GameMode)
 	{
 		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::SpawnBall|GameMode is nullptr"));
+		return;
+	}
+	if (!SpawnedBall)
+	{
+		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::SpawnBall|SpawnedBall is nullptr"));
 		return;
 	}
 
@@ -202,5 +203,3 @@ void AABWPlayerController::UpdateIdleBallPosition() const
 
 	SpawnedBall->SetActorLocation(BallStartPosition);
 }
-
-// todo PlayerState for PlayerStats and HUD in PlayerController
