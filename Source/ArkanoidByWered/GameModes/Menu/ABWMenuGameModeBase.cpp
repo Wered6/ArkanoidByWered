@@ -3,81 +3,41 @@
 
 #include "ABWMenuGameModeBase.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
-#include "ArkanoidByWered/UI/Menu/Widgets/EndGame/ABWEndGameWidget.h"
-#include "ArkanoidByWered/UI/Menu/Widgets/MainMenu/ABWMainMenuWidget.h"
-#include "ArkanoidByWered/UI/Menu/Widgets/LevelOver/ABWLevelOverWidget.h"
-#include "Blueprint/UserWidget.h"
+#include "ArkanoidByWered/UI/Menu/ABWMenu.h"
 
 void AABWMenuGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
 	Init();
-	check(CheckNullPointers());
 	OpenAppropriateWidget();
 }
 
 void AABWMenuGameModeBase::Init()
 {
+	if (!MenuClass)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::Init|MenuClass is nullptr"));
+		return;
+	}
+	
+	Menu = NewObject<UABWMenu>(this, MenuClass);
 	GameInstance = Cast<UABWGameInstance>(GetGameInstance());
-	check(CheckNullClasses());
-	InitWidgets();
-}
-
-void AABWMenuGameModeBase::InitWidgets()
-{
-	MenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
-	WonLostWidget = Cast<UABWLevelOverWidget>(CreateWidget(GetWorld(), WonLostWidgetClass));
-	EndGameWidget = Cast<UABWEndGameWidget>(CreateWidget(GetWorld(), EndGameWidgetClass));
-}
-
-bool AABWMenuGameModeBase::CheckNullClasses() const
-{
-	if (!MenuWidgetClass)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::CheckNullClasses|MenuWidgetClass is null"));
-		return false;
-	}
-	if (!WonLostWidgetClass)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::CheckNullClasses|WonLostWidgetClass is null"));
-		return false;
-	}
-	if (!EndGameWidgetClass)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::CheckNullClasses|EndGameWidgetClass is null"));
-		return false;
-	}
-	return true;
-}
-
-bool AABWMenuGameModeBase::CheckNullPointers() const
-{
-	if (!GameInstance)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::CheckNullPointers|GameInstance is null"));
-		return false;
-	}
-	if (!MenuWidget)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::CheckNullPointers|MenuWidget is null"));
-		return false;
-	}
-	if (!WonLostWidget)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::CheckNullPointers|WonLostWidget is null"));
-		return false;
-	}
-	if (!EndGameWidget)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::CheckNullPointers|EndGameWidget is null"));
-		return false;
-	}
-	return true;
 }
 
 void AABWMenuGameModeBase::OpenAppropriateWidget() const
 {
+	if (!GameInstance)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::OpenAppropriateWidget|GameInstance is nullptr"));
+		return;
+	}
+	if (!Menu)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::OpenAppropriateWidget|Menu is nullptr"));
+		return;
+	}
+
 	const bool bHasCompletedAllLevels = GameInstance->GetHasCompletedAllLevels();
 	const bool bIsCurrentLevelLast = GameInstance->GetIsCurrentLevelLast();
 	const bool bHasPlayerStartGame = GameInstance->GetHasPlayerStartGame();
@@ -85,22 +45,14 @@ void AABWMenuGameModeBase::OpenAppropriateWidget() const
 
 	if (bHasCompletedAllLevels && bIsCurrentLevelLast && bHasPlayerWonLevel)
 	{
-		EndGameWidget->AddToViewport();
+		Menu->OpenEndGameWidget();
 	}
 	else if (bHasPlayerStartGame)
 	{
-		WonLostWidget->AddToViewport();
-		if (bHasPlayerWonLevel)
-		{
-			WonLostWidget->ActivateLevelWonWidget();
-		}
-		else
-		{
-			WonLostWidget->ActivateLevelLostWidget();
-		}
+		Menu->OpenLevelOverWidget(bHasPlayerWonLevel);
 	}
 	else
 	{
-		MenuWidget->AddToViewport();
+		Menu->OpenMainMenuWidget();
 	}
 }

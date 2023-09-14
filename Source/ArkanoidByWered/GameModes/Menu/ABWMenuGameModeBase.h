@@ -7,9 +7,7 @@
 #include "ABWMenuGameModeBase.generated.h"
 
 class UABWGameInstance;
-class UABWEndGameWidget;
-class UABWLevelOverWidget;
-class UABWMainMenuWidget;
+class UABWMenu;
 
 UCLASS()
 class ARKANOIDBYWERED_API AABWMenuGameModeBase : public AGameModeBase
@@ -21,26 +19,13 @@ protected:
 
 private:
 	void Init();
-	void InitWidgets();
-	bool CheckNullClasses() const;
-	bool CheckNullPointers() const;
 
 	void OpenAppropriateWidget() const;
 
-	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
-	TSubclassOf<UUserWidget> MenuWidgetClass;
+	UPROPERTY(EditDefaultsOnly, Category="Menu")
+	TSubclassOf<UABWMenu> MenuClass;
 	UPROPERTY()
-	UABWMainMenuWidget* MenuWidget{nullptr};
-
-	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
-	TSubclassOf<UUserWidget> WonLostWidgetClass;
-	UPROPERTY()
-	UABWLevelOverWidget* WonLostWidget{nullptr};
-
-	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
-	TSubclassOf<UUserWidget> EndGameWidgetClass;
-	UPROPERTY()
-	UABWEndGameWidget* EndGameWidget{nullptr};
+	UABWMenu* Menu{nullptr};
 
 	UPROPERTY()
 	UABWGameInstance* GameInstance{nullptr};
