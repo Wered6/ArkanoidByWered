@@ -6,6 +6,8 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ABWLevelSubsystem.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogLevelSubsystem, Log, All);
+
 USTRUCT()
 struct FLevelData
 {
@@ -45,10 +47,10 @@ public:
 	void OpenCurrentLevel();
 	UFUNCTION(BlueprintCallable, Category="Levels")
 	void OpenNextLevel();
-	
+
 	void SetCurrentLevelIndex();
 	int32 GetCurrentLevelIndex() const;
-	
+
 	void CompleteCurrentLevel();
 
 	const TArray<FLevelData*>& GetLevelsDataArray() const;

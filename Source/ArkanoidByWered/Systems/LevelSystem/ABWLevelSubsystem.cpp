@@ -4,6 +4,8 @@
 #include "ABWLevelSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 
+DEFINE_LOG_CATEGORY(LogLevelSubsystem);
+
 void UABWLevelSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	check(!bInitialized);
@@ -23,9 +25,10 @@ void UABWLevelSubsystem::Deinitialize()
 void UABWLevelSubsystem::OpenCurrentLevel()
 {
 	SetCurrentLevelName();
+
 	if (CurrentLevelName.IsNone())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWLevelSubsystem::OpenCurrentLevel|CurrentLevelName is None"));
+		UE_LOG(LogLevelSubsystem, Warning, TEXT("UABWLevelSubsystem::OpenCurrentLevel|CurrentLevelName is None"));
 		return;
 	}
 
@@ -35,9 +38,10 @@ void UABWLevelSubsystem::OpenCurrentLevel()
 void UABWLevelSubsystem::OpenNextLevel()
 {
 	SetNextLevelName();
+
 	if (NextLevelName.IsNone())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWLevelSubsystem::OpenNextLevel|NextLevelName is None"));
+		UE_LOG(LogLevelSubsystem, Warning, TEXT("UABWLevelSubsystem::OpenNextLevel|NextLevelName is None"));
 		return;
 	}
 
@@ -67,7 +71,8 @@ void UABWLevelSubsystem::CompleteCurrentLevel()
 {
 	if (!LevelsDataArray.IsValidIndex(CurrentLevelIndex))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWLevelSubsystem::CompleteCurrentLevel|CurrentLevelIndex out of bounds!"));
+		UE_LOG(LogLevelSubsystem, Warning,
+		       TEXT("UABWLevelSubsystem::CompleteCurrentLevel|CurrentLevelIndex out of bounds!"));
 		return;
 	}
 
@@ -107,7 +112,8 @@ void UABWLevelSubsystem::SetCurrentLevelName()
 {
 	if (!LevelsDataArray.IsValidIndex(CurrentLevelIndex))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWLevelSubsystem::SetCurrentLevelName|CurrentLevelIndex out of bounds!"));
+		UE_LOG(LogLevelSubsystem, Warning,
+		       TEXT("UABWLevelSubsystem::SetCurrentLevelName|CurrentLevelIndex out of bounds!"));
 		return;
 	}
 
