@@ -9,14 +9,18 @@
 #include "ArkanoidByWered/GameplayElements/Brick/ABWBrick.h"
 #include "Kismet/GameplayStatics.h"
 
-void AABWGameModeBase::BeginPlay()
+AABWGameModeBase::AABWGameModeBase()
 {
-	Super::BeginPlay();
+}
 
-	Init();
-	check(CheckNullPointers());
-	InitializeBallsPool(64);
-	StartGame();
+AABWGameModeBase::~AABWGameModeBase()
+{
+	if (!GetWorld())
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::~AABWGameModeBase|GetWorld() is nullptr"));
+		return;
+	}
+	GetWorld()->GetTimerManager().ClearTimer(LevelOverTimerHandle);
 }
 
 void AABWGameModeBase::HandleBallDestruction(AABWBall* Ball)
@@ -24,15 +28,24 @@ void AABWGameModeBase::HandleBallDestruction(AABWBall* Ball)
 	ReturnBall(Ball);
 	const int32 NumberOfActiveBalls = ActiveBalls.Num();
 
+	if (!PlayerController)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::HandleBallDestruction|PlayerController is nullptr"));
+		return;
+	}
+	if (!GetWorld())
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::HandleBallDestruction|GetWorld() is nullptr"));
+		return;
+	}
+
 	if (NumberOfActiveBalls <= 0)
 	{
 		PlayerController->DecrementLife();
 
 		if (PlayerController->GetLife() <= 0)
 		{
-			FTimerHandle TimerHandle;
-
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
+			GetWorld()->GetTimerManager().SetTimer(LevelOverTimerHandle, [this]()
 			{
 				LevelOver(false);
 			}, 1.5f, false);
@@ -46,78 +59,6 @@ void AABWGameModeBase::HandleBrickDestruction()
 	if (NumberOfBricks <= 0)
 	{
 		LevelOver(true);
-	}
-}
-
-void AABWGameModeBase::Init()
-{
-	GameInstance = Cast<UABWGameInstance>(GetGameInstance());
-	LevelSubsystem = GameInstance->GetSubsystem<UABWLevelSubsystem>();
-	PlayerController = Cast<AABWPlayerController>(
-		UGameplayStatics::GetPlayerController(this, 0));
-}
-
-void AABWGameModeBase::StartGame()
-{
-	NumberOfBricks = GetBricksCount();
-
-	GameInstance->SetHasPlayerStartGame(true);
-}
-
-bool AABWGameModeBase::CheckNullPointers() const
-{
-	if (!GameInstance)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::CheckNullPointers|GameInstance is null"));
-		return false;
-	}
-	if (!LevelSubsystem)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::CheckNullPointers|LevelSubsystem is null"));
-		return false;
-	}
-	if (!PlayerController)
-	{
-		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::CheckNullPointers|PlayerController is null"));
-		return false;
-	}
-	return true;
-}
-
-void AABWGameModeBase::LevelOver(const bool bWin) const
-{
-	PlayerController->SetPlayerEnabledState(false);
-	GameInstance->SetHasPlayerWonLevel(bWin);
-
-	if (bWin)
-	{
-		LevelSubsystem->SetCurrentLevelIndex();
-		LevelSubsystem->CompleteCurrentLevel();
-	}
-
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
-}
-
-int32 AABWGameModeBase::GetBallsCount() const
-{
-	TArray<AActor*> Balls;
-	UGameplayStatics::GetAllActorsOfClass(this, AABWBall::StaticClass(), Balls);
-	return Balls.Num();
-}
-
-int32 AABWGameModeBase::GetBricksCount() const
-{
-	TArray<AActor*> Bricks;
-	UGameplayStatics::GetAllActorsOfClass(this, AABWBrick::StaticClass(), Bricks);
-	return Bricks.Num();
-}
-
-void AABWGameModeBase::InitializeBallsPool(const int32 NumberOfBalls)
-{
-	for (int i = 0; i < NumberOfBalls; ++i)
-	{
-		AABWBall* Ball = GetWorld()->SpawnActor<AABWBall>(BallClass, FVector::ZeroVector, FRotator::ZeroRotator);
-		InactiveBalls.Add(Ball);
 	}
 }
 
@@ -138,4 +79,89 @@ void AABWGameModeBase::ReturnBall(AABWBall* Ball)
 	ActiveBalls.Remove(Ball);
 	Ball->Deactivate();
 	InactiveBalls.Add(Ball);
+}
+
+void AABWGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	InitializeGameLogic();
+	InitializeBallsPool(64);
+}
+
+void AABWGameModeBase::InitializeGameLogic()
+{
+	GameInstance = Cast<UABWGameInstance>(GetGameInstance());
+	PlayerController = Cast<AABWPlayerController>(
+		UGameplayStatics::GetPlayerController(this, 0));
+
+	if (!GameInstance)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::Init|GameInstance is nullptr"));
+		return;
+	}
+
+	LevelSubsystem = GameInstance->GetSubsystem<UABWLevelSubsystem>();
+	GameInstance->SetHasPlayerStartGame(true);
+
+	NumberOfBricks = GetBricksCount();
+}
+
+void AABWGameModeBase::InitializeBallsPool(const int32 NumberOfBalls)
+{
+	if (!BallClass)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::InitializeBallsPool|BallClass is nullptr"));
+		return;
+	}
+
+	for (int i = 0; i < NumberOfBalls; ++i)
+	{
+		AABWBall* Ball = GetWorld()->SpawnActor<AABWBall>(BallClass, FVector::ZeroVector, FRotator::ZeroRotator);
+
+		if (!Ball)
+		{
+			UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::InitializeBallsPool|Ball is nullptr"));
+			return;
+		}
+
+		InactiveBalls.Add(Ball);
+	}
+}
+
+void AABWGameModeBase::LevelOver(const bool bWin)
+{
+	if (!PlayerController)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::LevelOver|PlayerController is nullptr"));
+		return;
+	}
+	if (!GameInstance)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::LevelOver|GameInstance is nullptr"));
+		return;
+	}
+	if (!LevelSubsystem)
+	{
+		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::LevelOver|LevelSubsystem is nullptr"));
+		return;
+	}
+
+	PlayerController->SetPlayerEnabledState(false);
+	GameInstance->SetHasPlayerWonLevel(bWin);
+
+	if (bWin)
+	{
+		LevelSubsystem->SetCurrentLevelIndex();
+		LevelSubsystem->CompleteCurrentLevel();
+	}
+
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
+}
+
+int32 AABWGameModeBase::GetBricksCount() const
+{
+	TArray<AActor*> Bricks;
+	UGameplayStatics::GetAllActorsOfClass(this, AABWBrick::StaticClass(), Bricks);
+	return Bricks.Num();
 }
