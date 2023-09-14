@@ -158,11 +158,6 @@ void AABWPlayerController::SpawnBall()
 		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::SpawnBall|GameMode is nullptr"));
 		return;
 	}
-	if (!SpawnedBall)
-	{
-		UE_LOG(LogPlayerController, Warning, TEXT("AABWPlayerController::SpawnBall|SpawnedBall is nullptr"));
-		return;
-	}
 
 	SpawnedBall = GameMode->GetBall();
 	UpdateIdleBallPosition();
