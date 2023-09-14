@@ -9,11 +9,13 @@ UABWCustomizationSaveGame::UABWCustomizationSaveGame()
 	static ConstructorHelpers::FObjectFinder<UABWDefaultBallPaddleDA> DefaultBallPaddleDAFinder(
 		TEXT(
 			"/Script/ArkanoidByWered.DefaultBallPaddleDA'/Game/Assets/DataAssets/PaddlesAndBalls/DefaultBallPaddleDA.DefaultBallPaddleDA'"));
+
 	if (!DefaultBallPaddleDAFinder.Succeeded())
 	{
 		UE_LOG(LogAssetData, Warning, TEXT("UABWSaveGame::UABWSaveGame|DefaultBallPaddleDAFinder didnt succeeded"));
 		return;
 	}
+
 	DefaultBallPaddleDA = DefaultBallPaddleDAFinder.Object;
 	BallSprite = DefaultBallPaddleDA->DefaultBallSprite;
 	PaddleSprite = DefaultBallPaddleDA->DefaultPaddleSprite;
