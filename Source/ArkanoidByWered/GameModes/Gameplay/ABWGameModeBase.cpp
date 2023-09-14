@@ -20,6 +20,7 @@ AABWGameModeBase::~AABWGameModeBase()
 		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::~AABWGameModeBase|GetWorld() is nullptr"));
 		return;
 	}
+	
 	GetWorld()->GetTimerManager().ClearTimer(LevelOverTimerHandle);
 }
 
