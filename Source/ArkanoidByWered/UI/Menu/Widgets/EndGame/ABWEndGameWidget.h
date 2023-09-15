@@ -17,7 +17,7 @@ public:
 	virtual void NativeConstruct() override;
 
 	UFUNCTION(BlueprintCallable, Category="UI|Menu")
-	void OpenMenu();
+	void OpenMenu() const;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
