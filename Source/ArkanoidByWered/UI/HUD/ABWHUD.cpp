@@ -4,11 +4,13 @@
 #include "ABWHUD.h"
 #include "Widgets/Hearts/ABWHeartsWidget.h"
 
+DEFINE_LOG_CATEGORY(LogHUD);
+
 void AABWHUD::AddToViewport()
 {
 	if (!HeartsWidgetClass)
 	{
-		UE_LOG(LogClass, Warning, TEXT("AABWHUD::AddToViewport|HeartsWidgetClass is nullptr"));
+		UE_LOG(LogHUD, Warning, TEXT("AABWHUD::AddToViewport|HeartsWidgetClass is nullptr"));
 		return;
 	}
 
@@ -16,7 +18,7 @@ void AABWHUD::AddToViewport()
 
 	if (!HeartsWidget)
 	{
-		UE_LOG(LogClass, Warning, TEXT("AABWHUD::AddToViewport|HeartsWidget is nullptr"));
+		UE_LOG(LogHUD, Warning, TEXT("AABWHUD::AddToViewport|HeartsWidget is nullptr"));
 		return;
 	}
 
@@ -27,7 +29,7 @@ void AABWHUD::PlayHeartAnimation(const int32 CurrentLifes, const bool bFill)
 {
 	if (!HeartsWidget)
 	{
-		UE_LOG(LogClass, Warning, TEXT("AABWHUD::PlayerHeartFillAnimation|HeartsWidget is nullptr"))
+		UE_LOG(LogHUD, Warning, TEXT("AABWHUD::PlayerHeartFillAnimation|HeartsWidget is nullptr"))
 		return;
 	}
 
