@@ -8,8 +8,6 @@
 
 class UABWHeartsWidget;
 
-DECLARE_LOG_CATEGORY_EXTERN(LogHUD, Log, All);
-
 UCLASS()
 class ARKANOIDBYWERED_API AABWHUD : public AHUD
 {

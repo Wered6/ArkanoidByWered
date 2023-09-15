@@ -2,9 +2,8 @@
 
 
 #include "ABWHUD.h"
+#include "ArkanoidByWered/Utilities/ABWUtilities.h"
 #include "Widgets/Hearts/ABWHeartsWidget.h"
-
-DEFINE_LOG_CATEGORY(LogHUD);
 
 void AABWHUD::AddToViewport()
 {

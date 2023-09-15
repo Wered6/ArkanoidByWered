@@ -2,12 +2,11 @@
 
 
 #include "ArkanoidByWered/UI/Menu/ABWMenu.h"
+#include "ArkanoidByWered/Utilities/ABWUtilities.h"
 #include "Blueprint/UserWidget.h"
 #include "Widgets/EndGame/ABWEndGameWidget.h"
 #include "Widgets/LevelOver/ABWLevelOverWidget.h"
 #include "Widgets/MainMenu/ABWMainMenuWidget.h"
-
-DEFINE_LOG_CATEGORY(LogMenu);
 
 void UABWMenu::OpenMainMenuWidget()
 {

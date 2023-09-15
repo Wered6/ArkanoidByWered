@@ -9,8 +9,6 @@ class UABWEndGameWidget;
 class UABWLevelOverWidget;
 class UABWMainMenuWidget;
 
-DECLARE_LOG_CATEGORY_EXTERN(LogMenu, Log, All);
-
 UCLASS(Blueprintable)
 class ARKANOIDBYWERED_API UABWMenu : public UObject
 {

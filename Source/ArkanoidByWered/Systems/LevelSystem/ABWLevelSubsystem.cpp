@@ -2,9 +2,8 @@
 
 
 #include "ABWLevelSubsystem.h"
+#include "ArkanoidByWered/Utilities/ABWUtilities.h"
 #include "Kismet/GameplayStatics.h"
-
-DEFINE_LOG_CATEGORY(LogLevelSubsystem);
 
 void UABWLevelSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {

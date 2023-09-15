@@ -6,8 +6,6 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ABWLevelSubsystem.generated.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogLevelSubsystem, Log, All);
-
 USTRUCT()
 struct FLevelData
 {
