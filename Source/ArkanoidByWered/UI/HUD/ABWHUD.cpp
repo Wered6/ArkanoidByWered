@@ -2,7 +2,7 @@
 
 
 #include "ABWHUD.h"
-#include "ArkanoidByWered/Utilities/ABWUtilities.h"
+#include "ArkanoidByWered/Utilities/CustomLogs/ABWCustomLogs.h"
 #include "Widgets/Hearts/ABWHeartsWidget.h"
 
 void AABWHUD::AddToViewport()

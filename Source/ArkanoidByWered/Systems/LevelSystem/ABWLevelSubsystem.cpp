@@ -2,7 +2,7 @@
 
 
 #include "ABWLevelSubsystem.h"
-#include "ArkanoidByWered/Utilities/ABWUtilities.h"
+#include "ArkanoidByWered/Utilities/CustomLogs/ABWCustomLogs.h"
 #include "Kismet/GameplayStatics.h"
 
 void UABWLevelSubsystem::Initialize(FSubsystemCollectionBase& Collection)
