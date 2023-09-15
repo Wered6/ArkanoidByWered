@@ -19,24 +19,25 @@ public:
 	virtual void NativeConstruct() override;
 
 	UFUNCTION(BlueprintCallable, Category="UI|Menu")
-	void OpenMenu();
+	void OpenMainMenu() const;
 
 	void ActivateLevelWonWidget() const;
 	void ActivateLevelLostWidget() const;
 
 private:
-	void SetWidgets();
-
+	void InitializeMainMenuWidget();
+	void InitializeWidgetSwitcher();
+	
 	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
-	TSubclassOf<UUserWidget> MenuWidgetClass;
+	TSubclassOf<UABWMainMenuWidget> MainMenuWidgetClass;
 	UPROPERTY()
-	UABWMainMenuWidget* MenuWidget{nullptr};
+	UABWMainMenuWidget* MainMenuWidget{nullptr};
 
 	UPROPERTY()
-	UWidgetSwitcher* WidSwitcher{nullptr};
+	UWidgetSwitcher* WidgetSwitcher{nullptr};
 
 	UPROPERTY()
-	UCanvasPanel* LevelWonWid{nullptr};
+	UCanvasPanel* LevelWonWidget{nullptr};
 	UPROPERTY()
-	UCanvasPanel* LevelLostWid{nullptr};
+	UCanvasPanel* LevelLostWidget{nullptr};
 };

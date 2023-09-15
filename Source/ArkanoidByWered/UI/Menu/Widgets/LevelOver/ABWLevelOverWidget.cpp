@@ -3,6 +3,7 @@
 
 #include "ABWLevelOverWidget.h"
 #include "ArkanoidByWered/UI/Menu/Widgets/MainMenu/ABWMainMenuWidget.h"
+#include "ArkanoidByWered/Utilities/CustomLogs/ABWCustomLogs.h"
 #include "Components/CanvasPanel.h"
 #include "Components/WidgetSwitcher.h"
 
@@ -10,63 +11,68 @@ void UABWLevelOverWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (!MenuWidgetClass)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWWonLostWidget::NativeConstruct|MenuWidgetClass is null"));
-		return;
-	}
-
-	MenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
-	WidSwitcher = Cast<UWidgetSwitcher>(GetWidgetFromName(TEXT("WidgetSwitcher")));
-
-	SetWidgets();
+	InitializeMainMenuWidget();
+	InitializeWidgetSwitcher();
 }
 
-void UABWLevelOverWidget::OpenMenu()
+void UABWLevelOverWidget::OpenMainMenu() const
 {
-	if (!MenuWidget)
+	if (!MainMenuWidget)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWWonLostWidget::OpenMenu|MenuWidget is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::OpenMenu|MenuWidget is null"));
 		return;
 	}
 
-	MenuWidget->AddToViewport();
+	MainMenuWidget->AddToViewport();
 }
 
 void UABWLevelOverWidget::ActivateLevelWonWidget() const
 {
-	if (!WidSwitcher)
+	if (!WidgetSwitcher)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|WidSwitcher is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|WidSwitcher is null"));
 		return;
 	}
-	if (!LevelWonWid)
+	if (!LevelWonWidget)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|LevelWonWid is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|LevelWonWid is null"));
 		return;
 	}
 
-	WidSwitcher->SetActiveWidget(LevelWonWid);
+	WidgetSwitcher->SetActiveWidget(LevelWonWidget);
 }
 
 void UABWLevelOverWidget::ActivateLevelLostWidget() const
 {
-	if (!WidSwitcher)
+	if (!WidgetSwitcher)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|WidSwitcher is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|WidSwitcher is null"));
 		return;
 	}
-	if (!LevelLostWid)
+	if (!LevelLostWidget)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|LevelWonWid is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|LevelWonWid is null"));
 		return;
 	}
 
-	WidSwitcher->SetActiveWidget(LevelLostWid);
+	WidgetSwitcher->SetActiveWidget(LevelLostWidget);
 }
 
-void UABWLevelOverWidget::SetWidgets()
+void UABWLevelOverWidget::InitializeMainMenuWidget()
 {
-	LevelWonWid = Cast<UCanvasPanel>(GetWidgetFromName(TEXT("LevelWonWidget")));
-	LevelLostWid = Cast<UCanvasPanel>(GetWidgetFromName(TEXT("LevelLostWidget")));
+	if (!MainMenuWidgetClass)
+	{
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::NativeConstruct|MenuWidgetClass is null"));
+		return;
+	}
+
+	MainMenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MainMenuWidgetClass));
+}
+
+void UABWLevelOverWidget::InitializeWidgetSwitcher()
+{
+	WidgetSwitcher = Cast<UWidgetSwitcher>(GetWidgetFromName(TEXT("WidgetSwitcher")));
+
+	LevelWonWidget = Cast<UCanvasPanel>(GetWidgetFromName(TEXT("LevelWonWidget")));
+	LevelLostWidget = Cast<UCanvasPanel>(GetWidgetFromName(TEXT("LevelLostWidget")));
 }
