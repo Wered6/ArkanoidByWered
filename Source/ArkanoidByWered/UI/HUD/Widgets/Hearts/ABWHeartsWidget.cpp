@@ -3,6 +3,8 @@
 
 #include "ABWHeartsWidget.h"
 
+#include "ArkanoidByWered/UI/HUD/ABWHUD.h"
+
 void UABWHeartsWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -18,7 +20,7 @@ void UABWHeartsWidget::PlayEmptyAnimation(const int32 CurrentLifes)
 
 	if (!HeartsAnimations.IsValidIndex(AnimationIndex))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWHUDWidget::PlayHeartEmptyAnimaion|AnimationIndex out of bounds!"));
+		UE_LOG(LogHUD, Warning, TEXT("UABWHUDWidget::PlayHeartEmptyAnimaion|AnimationIndex out of bounds!"));
 		return;
 	}
 
@@ -31,7 +33,7 @@ void UABWHeartsWidget::PlayFillAnimation(const int32 CurrentLifes)
 
 	if (!HeartsAnimations.IsValidIndex(AnimationIndex))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWHUDWidget::PlayHeartFillAnimaion|AnimationIndex out of bounds!"));
+		UE_LOG(LogHUD, Warning, TEXT("UABWHUDWidget::PlayHeartFillAnimaion|AnimationIndex out of bounds!"));
 		return;
 	}
 
