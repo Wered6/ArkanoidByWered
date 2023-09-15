@@ -2,7 +2,6 @@
 
 
 #include "ABWHeartsWidget.h"
-
 #include "ArkanoidByWered/UI/HUD/ABWHUD.h"
 
 void UABWHeartsWidget::NativeConstruct()
