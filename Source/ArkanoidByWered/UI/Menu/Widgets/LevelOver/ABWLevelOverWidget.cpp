@@ -19,7 +19,7 @@ void UABWLevelOverWidget::OpenMainMenu() const
 {
 	if (!MainMenuWidget)
 	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::OpenMenu|MenuWidget is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::OpenMenu|MainMenuWidget is nullptr"));
 		return;
 	}
 
@@ -30,12 +30,12 @@ void UABWLevelOverWidget::ActivateLevelWonWidget() const
 {
 	if (!WidgetSwitcher)
 	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|WidSwitcher is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|WidgetSwitcher is nullptr"));
 		return;
 	}
 	if (!LevelWonWidget)
 	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|LevelWonWid is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|LevelWonWidget is nullptr"));
 		return;
 	}
 
@@ -46,12 +46,12 @@ void UABWLevelOverWidget::ActivateLevelLostWidget() const
 {
 	if (!WidgetSwitcher)
 	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|WidSwitcher is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|WidgetSwitcher is nullptr"));
 		return;
 	}
 	if (!LevelLostWidget)
 	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|LevelWonWid is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::ActivateLevelWonWidget|LevelLostWidget is nullptr"));
 		return;
 	}
 
@@ -62,7 +62,7 @@ void UABWLevelOverWidget::InitializeMainMenuWidget()
 {
 	if (!MainMenuWidgetClass)
 	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::NativeConstruct|MenuWidgetClass is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::NativeConstruct|MainMenuWidgetClass is nullptr"));
 		return;
 	}
 
