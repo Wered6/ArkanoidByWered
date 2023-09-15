@@ -17,11 +17,13 @@ public:
 	virtual void NativeConstruct() override;
 
 	UFUNCTION(BlueprintCallable, Category="UI|Menu")
-	void OpenMenu() const;
+	void OpenMainMenu() const;
 
 private:
+	void InitializeMainMenuWidget();
+
 	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
-	TSubclassOf<UUserWidget> MenuWidgetClass;
+	TSubclassOf<UABWMainMenuWidget> MainMenuWidgetClass;
 	UPROPERTY()
-	UABWMainMenuWidget* MenuWidget{nullptr};
+	UABWMainMenuWidget* MainMenuWidget{nullptr};
 };

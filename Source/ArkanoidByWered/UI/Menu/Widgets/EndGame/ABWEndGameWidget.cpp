@@ -9,22 +9,27 @@ void UABWEndGameWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (!MenuWidgetClass)
-	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWEndGameWidget::NativeConstruct|MenuWidgetClass is null"));
-		return;
-	}
-
-	MenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MenuWidgetClass));
+	InitializeMainMenuWidget();
 }
 
-void UABWEndGameWidget::OpenMenu() const
+void UABWEndGameWidget::OpenMainMenu() const
 {
-	if (!MenuWidget)
+	if (!MainMenuWidget)
 	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWEndGameWidget::OpenMenu|MenuWidget is null"));
+		UE_LOG(LogMenu, Warning, TEXT("UABWEndGameWidget::OpenMenu|MenuWidget is nullptr"));
 		return;
 	}
 
-	MenuWidget->AddToViewport();
+	MainMenuWidget->AddToViewport();
+}
+
+void UABWEndGameWidget::InitializeMainMenuWidget()
+{
+	if (!MainMenuWidgetClass)
+	{
+		UE_LOG(LogMenu, Warning, TEXT("UABWEndGameWidget::NativeConstruct|MenuWidgetClass is nullptr"));
+		return;
+	}
+
+	MainMenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MainMenuWidgetClass));
 }
