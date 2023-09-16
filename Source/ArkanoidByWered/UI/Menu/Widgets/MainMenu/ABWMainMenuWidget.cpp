@@ -8,7 +8,8 @@
 #include "ArkanoidByWered/Systems/LevelSystem/ABWLevelSubsystem.h"
 #include "ArkanoidByWered/GameInstance/ABWGameInstance.h"
 #include "ArkanoidByWered/SaveGame/ABWCustomizationSaveGame.h"
-#include "Components/Button.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/Levels/ABWLevelsWidget.h"
+#include "ArkanoidByWered/Utilities/CustomLogs/ABWCustomLogs.h"
 #include "Kismet/GameplayStatics.h"
 
 UABWMainMenuWidget::UABWMainMenuWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -34,11 +35,21 @@ void UABWMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	Init();
-	SetLevelButtons();
-	UpdateLevelButtonStates();
+	InitializeGameLogic();
+	InitializeLevelsWidget();
+
 	SetActiveColorPalette();
-	check(AreRequiredPointersValid());
+}
+
+void UABWMainMenuWidget::OpenLevels()
+{
+	if (!LevelsWidget)
+	{
+		UE_LOG(LogMenu, Warning, TEXT("UABWMainMenuWidget::OpenLevels|LevelsWidget is nullptr"));
+		return;
+	}
+
+	LevelsWidget->AddToViewport();
 }
 
 void UABWMainMenuWidget::SetCustomization(UImage* PaddleImage, UImage* BallImage)
@@ -91,32 +102,24 @@ void UABWMainMenuWidget::PreviousPalette()
 	CycleArrayIndex(PaletteIndex, PalettesCount, false);
 }
 
-void UABWMainMenuWidget::Init()
+void UABWMainMenuWidget::InitializeGameLogic()
 {
 	SaveGameInstance = Cast<UABWCustomizationSaveGame>(
 		UGameplayStatics::CreateSaveGameObject(UABWCustomizationSaveGame::StaticClass()));
+
 	const UABWGameInstance* GameInstance = Cast<UABWGameInstance>(GetGameInstance());
 	LevelSubsystem = GameInstance->GetSubsystem<UABWLevelSubsystem>();
 }
 
-void UABWMainMenuWidget::SetLevelButtons()
+void UABWMainMenuWidget::InitializeLevelsWidget()
 {
-	Level1Button = Cast<UButton>(GetWidgetFromName("LevelsLevel1Button"));
-	Level2Button = Cast<UButton>(GetWidgetFromName("LevelsLevel2Button"));
-	Level3Button = Cast<UButton>(GetWidgetFromName("LevelsLevel3Button"));
-}
+	if (!LevelsWidgetClass)
+	{
+		UE_LOG(LogMenu, Warning, TEXT("UABWMainMenuWidget::InitializeLevelsWidget|LevelsWidgetClass is nullptr"));
+		return;
+	}
 
-void UABWMainMenuWidget::UpdateLevelButtonStates() const
-{
-	TArray<FLevelData*> LevelsData = LevelSubsystem->GetLevelsDataArray();
-
-	const bool* bIsLevel1Unlocked = &LevelsData[0]->bIsLevelUnlocked;
-	const bool* bIsLevel2Unlocked = &LevelsData[1]->bIsLevelUnlocked;
-	const bool* bIsLevel3Unlocked = &LevelsData[2]->bIsLevelUnlocked;
-
-	Level1Button->SetIsEnabled(*bIsLevel1Unlocked);
-	Level2Button->SetIsEnabled(*bIsLevel2Unlocked);
-	Level3Button->SetIsEnabled(*bIsLevel3Unlocked);
+	LevelsWidget = Cast<UABWLevelsWidget>(CreateWidget(GetWorld(), LevelsWidgetClass));
 }
 
 void UABWMainMenuWidget::SetActiveColorPalette()
@@ -127,41 +130,6 @@ void UABWMainMenuWidget::SetActiveColorPalette()
 		return;
 	}
 	CurrentPalette = Palettes[PaletteIndex];
-}
-
-bool UABWMainMenuWidget::AreRequiredPointersValid() const
-{
-	if (!CurrentPalette)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::CheckNullPointers|CurrentPalette is null"));
-		return false;
-	}
-	if (!Level1Button)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::CheckNullPointers|Level1Button is null"));
-		return false;
-	}
-	if (!Level2Button)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::CheckNullPointers|Level2Button is null"));
-		return false;
-	}
-	if (!Level3Button)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::CheckNullPointers|Level3Button is null"));
-		return false;
-	}
-	if (!SaveGameInstance)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::CheckNullPointers|SaveGameInstance is null"));
-		return false;
-	}
-	if (!LevelSubsystem)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::CheckNullPointers|LevelSubsystem is null"));
-		return false;
-	}
-	return true;
 }
 
 void UABWMainMenuWidget::SetPaddleColor(UImage* PaddleImage) const

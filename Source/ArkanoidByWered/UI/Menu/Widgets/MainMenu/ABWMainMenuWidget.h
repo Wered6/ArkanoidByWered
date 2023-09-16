@@ -8,6 +8,7 @@
 #include "Components/Image.h"
 #include "ABWMainMenuWidget.generated.h"
 
+class UABWLevelsWidget;
 class UABWCustomizationSaveGame;
 class UABWLevelSubsystem;
 class UButton;
@@ -23,6 +24,9 @@ public:
 	UABWMainMenuWidget(const FObjectInitializer& ObjectInitializer);
 
 	virtual void NativeConstruct() override;
+
+	UFUNCTION(BlueprintCallable, Category="UI|Levels")
+	void OpenLevels();
 
 	UFUNCTION(BlueprintCallable)
 	void SetCustomization(UImage* PaddleImage, UImage* BallImage);
@@ -42,16 +46,20 @@ public:
 	void PreviousPalette();
 
 private:
-	void Init();
-	void SetLevelButtons();
-	void UpdateLevelButtonStates() const;
+	void InitializeGameLogic();
+	void InitializeLevelsWidget();
+
 	void SetActiveColorPalette();
-	bool AreRequiredPointersValid() const;
 
 	void SetPaddleColor(UImage* PaddleImage) const;
 	void SetBallColor(UImage* BallImage) const;
 
 	void CycleArrayIndex(int32& CurrentIndex, const int32 MaxIndex, const bool bIsIncrement) const;
+
+	UPROPERTY(EditDefaultsOnly, Category="UI|Levels")
+	TSubclassOf<UABWLevelsWidget> LevelsWidgetClass;
+	UPROPERTY()
+	UABWLevelsWidget* LevelsWidget{nullptr};
 
 	UPROPERTY()
 	TArray<UABWBallPaddleDA*> Palettes;
@@ -61,13 +69,6 @@ private:
 
 	UPROPERTY()
 	UABWBallPaddleDA* CurrentPalette{nullptr};
-
-	UPROPERTY()
-	UButton* Level1Button{nullptr};
-	UPROPERTY()
-	UButton* Level2Button{nullptr};
-	UPROPERTY()
-	UButton* Level3Button{nullptr};
 
 	UPROPERTY()
 	UABWCustomizationSaveGame* SaveGameInstance{nullptr};
