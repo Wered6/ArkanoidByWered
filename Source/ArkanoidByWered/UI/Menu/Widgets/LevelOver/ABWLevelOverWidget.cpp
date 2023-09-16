@@ -11,19 +11,7 @@ void UABWLevelOverWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	InitializeMainMenuWidget();
 	InitializeWidgetSwitcher();
-}
-
-void UABWLevelOverWidget::OpenMainMenu() const
-{
-	if (!MainMenuWidget)
-	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::OpenMenu|MainMenuWidget is nullptr"));
-		return;
-	}
-
-	MainMenuWidget->AddToViewport();
 }
 
 void UABWLevelOverWidget::ActivateLevelWonWidget() const
@@ -56,17 +44,6 @@ void UABWLevelOverWidget::ActivateLevelLostWidget() const
 	}
 
 	WidgetSwitcher->SetActiveWidget(LevelLostWidget);
-}
-
-void UABWLevelOverWidget::InitializeMainMenuWidget()
-{
-	if (!MainMenuWidgetClass)
-	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWWonLostWidget::NativeConstruct|MainMenuWidgetClass is nullptr"));
-		return;
-	}
-
-	MainMenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MainMenuWidgetClass));
 }
 
 void UABWLevelOverWidget::InitializeWidgetSwitcher()

@@ -3,27 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/MenuBase/ABWMenuBaseWidget.h"
 #include "ABWEndGameWidget.generated.h"
 
 class UABWMainMenuWidget;
 
 UCLASS()
-class ARKANOIDBYWERED_API UABWEndGameWidget : public UUserWidget
+class ARKANOIDBYWERED_API UABWEndGameWidget : public UABWMenuBaseWidget
 {
 	GENERATED_BODY()
-
-public:
-	virtual void NativeConstruct() override;
-
-	UFUNCTION(BlueprintCallable, Category="UI|Menu")
-	void OpenMainMenu() const;
-
-private:
-	void InitializeMainMenuWidget();
-
-	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
-	TSubclassOf<UABWMainMenuWidget> MainMenuWidgetClass;
-	UPROPERTY()
-	UABWMainMenuWidget* MainMenuWidget{nullptr};
 };

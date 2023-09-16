@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/MenuBase/ABWMenuBaseWidget.h"
 #include "ABWLevelsWidget.generated.h"
 
 class UABWMainMenuWidget;
@@ -11,25 +11,16 @@ class UABWLevelSubsystem;
 class UButton;
 
 UCLASS()
-class ARKANOIDBYWERED_API UABWLevelsWidget : public UUserWidget
+class ARKANOIDBYWERED_API UABWLevelsWidget : public UABWMenuBaseWidget
 {
 	GENERATED_BODY()
 
 public:
 	virtual void NativeConstruct() override;
 
-	UFUNCTION(BlueprintCallable, Category="UI|Menu")
-	void OpenMainMenu() const;
-
 private:
 	void InitializeGameLogic();
-	void InitializeLevelsButtons();	
-	void InitializeMainMenuWidget();
-
-	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
-	TSubclassOf<UABWMainMenuWidget> MainMenuWidgetClass;
-	UPROPERTY()
-	UABWMainMenuWidget* MainMenuWidget{nullptr};
+	void UpdateLevelsButtonsStates();
 
 	UPROPERTY()
 	UABWLevelSubsystem* LevelSubsystem{nullptr};

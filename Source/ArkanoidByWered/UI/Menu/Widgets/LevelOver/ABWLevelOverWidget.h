@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/MenuBase/ABWMenuBaseWidget.h"
 #include "ABWLevelOverWidget.generated.h"
 
 class UCanvasPanel;
@@ -11,28 +11,19 @@ class UWidgetSwitcher;
 class UABWMainMenuWidget;
 
 UCLASS()
-class ARKANOIDBYWERED_API UABWLevelOverWidget : public UUserWidget
+class ARKANOIDBYWERED_API UABWLevelOverWidget : public UABWMenuBaseWidget
 {
 	GENERATED_BODY()
 
 public:
 	virtual void NativeConstruct() override;
-
-	UFUNCTION(BlueprintCallable, Category="UI|Menu")
-	void OpenMainMenu() const;
-
+	
 	void ActivateLevelWonWidget() const;
 	void ActivateLevelLostWidget() const;
 
 private:
-	void InitializeMainMenuWidget();
 	void InitializeWidgetSwitcher();
 	
-	UPROPERTY(EditDefaultsOnly, Category="UI|Menu")
-	TSubclassOf<UABWMainMenuWidget> MainMenuWidgetClass;
-	UPROPERTY()
-	UABWMainMenuWidget* MainMenuWidget{nullptr};
-
 	UPROPERTY()
 	UWidgetSwitcher* WidgetSwitcher{nullptr};
 

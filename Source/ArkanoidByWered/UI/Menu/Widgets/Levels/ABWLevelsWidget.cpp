@@ -13,19 +13,7 @@ void UABWLevelsWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	InitializeGameLogic();
-	InitializeLevelsButtons();
-	InitializeMainMenuWidget();
-}
-
-void UABWLevelsWidget::OpenMainMenu() const
-{
-	if (!MainMenuWidget)
-	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWLevelsWidget::OpenMainMenu|MainMenuWidget is nullptr"));
-		return;
-	}
-
-	MainMenuWidget->AddToViewport();
+	UpdateLevelsButtonsStates();
 }
 
 void UABWLevelsWidget::InitializeGameLogic()
@@ -34,8 +22,14 @@ void UABWLevelsWidget::InitializeGameLogic()
 	LevelSubsystem = GameInstance->GetSubsystem<UABWLevelSubsystem>();
 }
 
-void UABWLevelsWidget::InitializeLevelsButtons()
+void UABWLevelsWidget::UpdateLevelsButtonsStates()
 {
+	if (!LevelSubsystem)
+	{
+		UE_LOG(LogMenu, Warning, TEXT("UABWLevelsWidget::UpdateLevelsButtonsStates|LevelSubsystem is nullptr"));
+		return;
+	}
+	
 	const TArray<FLevelData*> LevelsData = LevelSubsystem->GetLevelsDataArray();
 
 	for (int i = 0; i < LevelsData.Num(); ++i)
@@ -47,15 +41,4 @@ void UABWLevelsWidget::InitializeLevelsButtons()
 		UButton* LevelButton = Cast<UButton>(GetWidgetFromName(LevelButtonName));
 		LevelButton->SetIsEnabled(bIsLevelUnlocked);
 	}
-}
-
-void UABWLevelsWidget::InitializeMainMenuWidget()
-{
-	if (!MainMenuWidgetClass)
-	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWLevelsWidget::InitializeMainMenuWidget|MainMenuWidgetClass is nullptr"));
-		return;
-	}
-
-	MainMenuWidget = Cast<UABWMainMenuWidget>(CreateWidget(GetWorld(), MainMenuWidgetClass));
 }

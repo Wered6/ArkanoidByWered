@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ArkanoidByWered/DataAssets/ABWBallPaddleDA.h"
-#include "Blueprint/UserWidget.h"
+#include "ArkanoidByWered/UI/Menu/Widgets/MenuBase/ABWMenuBaseWidget.h"
 #include "Components/Image.h"
 #include "ABWMainMenuWidget.generated.h"
 
@@ -16,7 +16,7 @@ class UABWBallPaddleDA;
 class UImage;
 
 UCLASS()
-class ARKANOIDBYWERED_API UABWMainMenuWidget : public UUserWidget
+class ARKANOIDBYWERED_API UABWMainMenuWidget : public UABWMenuBaseWidget
 {
 	GENERATED_BODY()
 
