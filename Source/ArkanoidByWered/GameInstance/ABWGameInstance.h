@@ -15,6 +15,7 @@ class ARKANOIDBYWERED_API UABWGameInstance : public UGameInstance
 
 public:
 	virtual void Init() override;
+	void InitializeGameLogic();
 
 	bool GetHasPlayerWonLevel() const;
 	void SetHasPlayerWonLevel(const bool bPlayerWonLevel);

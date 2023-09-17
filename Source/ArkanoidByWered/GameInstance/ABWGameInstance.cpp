@@ -3,12 +3,18 @@
 
 #include "ABWGameInstance.h"
 #include "ArkanoidByWered/Systems/LevelSystem/ABWLevelSubsystem.h"
+#include "ArkanoidByWered/Utilities/CustomLogs/ABWCustomLogs.h"
 
 
 void UABWGameInstance::Init()
 {
 	Super::Init();
 
+	InitializeGameLogic();
+}
+
+void UABWGameInstance::InitializeGameLogic()
+{
 	LevelSubsystem = GetSubsystem<UABWLevelSubsystem>();
 }
 
@@ -36,7 +42,7 @@ bool UABWGameInstance::GetHasCompletedAllLevels() const
 {
 	if (!LevelSubsystem)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWGameInstance::GetHasCompletedAllLevels|LevelSubsystem is nullptr"));
+		UE_LOG(LogGameInstance, Warning, TEXT("UABWGameInstance::GetHasCompletedAllLevels|LevelSubsystem is nullptr"));
 		return false;
 	}
 
@@ -58,7 +64,7 @@ bool UABWGameInstance::GetIsCurrentLevelLast() const
 {
 	if (!LevelSubsystem)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWGameInstance::GetIsCurrentLevelLast|LevelSubsystem is nullptr"));
+		UE_LOG(LogGameInstance, Warning, TEXT("UABWGameInstance::GetIsCurrentLevelLast|LevelSubsystem is nullptr"));
 		return false;
 	}
 
