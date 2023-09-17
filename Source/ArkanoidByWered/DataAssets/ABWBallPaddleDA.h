@@ -14,9 +14,16 @@ class ARKANOIDBYWERED_API UABWBallPaddleDA : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, Category="Balls")
+	UPaperSprite* GetPaddleSpriteAtIndex(const int32 PaddleIndex) const;
+	UPaperSprite* GetBallSpriteAtIndex(const int32 BallIndex) const;
+
+	int32 GetPaddlesSpritesNum() const;
+	int32 GetBallsSpritesNum() const;
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category="Sprites|Balls")
 	TArray<UPaperSprite*> BallsSprites;
 
-	UPROPERTY(EditAnywhere, Category="Paddles")
+	UPROPERTY(EditDefaultsOnly, Category="Sprites|Paddles")
 	TArray<UPaperSprite*> PaddlesSprites;
 };

@@ -46,8 +46,8 @@ void UABWCustomizeWidget::SetCustomization(UImage* PaddleImage, UImage* BallImag
 
 void UABWCustomizeWidget::ConfirmCustomization()
 {
-	UPaperSprite* PaddleSprite = CurrentPalette->PaddlesSprites[PaddleIndex];
-	UPaperSprite* BallSprite = CurrentPalette->BallsSprites[BallIndex];
+	UPaperSprite* PaddleSprite = CurrentPalette->GetPaddleSpriteAtIndex(PaddleIndex);
+	UPaperSprite* BallSprite = CurrentPalette->GetBallSpriteAtIndex(BallIndex);
 
 	SaveGameInstance->SetPaddleSprite(PaddleSprite);
 	SaveGameInstance->SetBallSprite(BallSprite);
@@ -64,13 +64,13 @@ void UABWCustomizeWidget::ResetIndexes()
 
 void UABWCustomizeWidget::NextPaddle()
 {
-	const int32 PaddlesCount = CurrentPalette->PaddlesSprites.Num();
+	const int32 PaddlesCount = CurrentPalette->GetPaddlesSpritesNum();
 	CycleArrayIndex(PaddleIndex, PaddlesCount, true);
 }
 
 void UABWCustomizeWidget::PreviousPaddle()
 {
-	const int32 PaddlesCount = CurrentPalette->PaddlesSprites.Num();
+	const int32 PaddlesCount = CurrentPalette->GetPaddlesSpritesNum();
 	CycleArrayIndex(PaddleIndex, PaddlesCount, false);
 }
 
@@ -99,29 +99,20 @@ void UABWCustomizeWidget::SetActiveColorPalette()
 		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetCurrentPalette|PaletteIndex out of bounds!"));
 		return;
 	}
+
 	CurrentPalette = Palettes[PaletteIndex];
 }
 
 void UABWCustomizeWidget::SetPaddleColor(UImage* PaddleImage) const
 {
-	if (!CurrentPalette->PaddlesSprites.IsValidIndex(PaddleIndex))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetPaddleColor|PaddlesIndex out of bounds!"));
-		return;
-	}
-	UPaperSprite* PaddleSprite = CurrentPalette->PaddlesSprites[PaddleIndex];
+	UPaperSprite* PaddleSprite = CurrentPalette->GetPaddleSpriteAtIndex(PaddleIndex);
 
 	PaddleImage->SetBrushResourceObject(PaddleSprite);
 }
 
 void UABWCustomizeWidget::SetBallColor(UImage* BallImage) const
 {
-	if (!CurrentPalette->BallsSprites.IsValidIndex(BallIndex))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UABWMenuWidget::SetCustomization|BallIndex out of bounds"));
-		return;
-	}
-	UPaperSprite* BallSprite = CurrentPalette->BallsSprites[BallIndex];
+	UPaperSprite* BallSprite = CurrentPalette->GetBallSpriteAtIndex(BallIndex);
 
 	BallImage->SetBrushResourceObject(BallSprite);
 }
