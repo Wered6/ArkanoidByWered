@@ -56,7 +56,7 @@ float AABWPaddle::GetCollisionHeight() const
 
 void AABWPaddle::MoveHorizontal(const float Value)
 {
-	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
+	AddMovementInput(FVector::ForwardVector, Value);
 }
 
 void AABWPaddle::Init()
