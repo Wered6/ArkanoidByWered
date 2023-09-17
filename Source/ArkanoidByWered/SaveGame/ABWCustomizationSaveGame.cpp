@@ -17,8 +17,8 @@ UABWCustomizationSaveGame::UABWCustomizationSaveGame()
 	}
 
 	DefaultBallPaddleDA = DefaultBallPaddleDAFinder.Object;
-	BallSprite = DefaultBallPaddleDA->DefaultBallSprite;
-	PaddleSprite = DefaultBallPaddleDA->DefaultPaddleSprite;
+	BallSprite = DefaultBallPaddleDA->GetBallSprite();
+	PaddleSprite = DefaultBallPaddleDA->GetPaddleSprite();
 }
 
 void UABWCustomizationSaveGame::SetBallSprite(UPaperSprite* SelectedBallSprite)

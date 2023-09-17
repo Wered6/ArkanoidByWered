@@ -14,9 +14,13 @@ class ARKANOIDBYWERED_API UABWDefaultBallPaddleDA : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Defaults")
+	UPaperSprite* GetPaddleSprite() const;
+	UPaperSprite* GetBallSprite() const;
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category="Sprites|Paddle")
 	UPaperSprite* DefaultPaddleSprite;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Defaults")
+	UPROPERTY(EditDefaultsOnly, Category="Sprites|Ball")
 	UPaperSprite* DefaultBallSprite;
 };
