@@ -2,7 +2,7 @@
 
 
 #include "ABWCamera.h"
-#include "ComponentReregisterContext.h"
+#include "ArkanoidByWered/Utilities/CustomLogs/ABWCustomLogs.h"
 #include "Camera/CameraComponent.h"
 
 AABWCamera::AABWCamera()
@@ -13,7 +13,7 @@ AABWCamera::AABWCamera()
 
 	if (!CameraComp)
 	{
-		UE_LOG(LogActorComponent, Warning, TEXT("AABWCamera::AABWCamera|CameraComp is nullptr"));
+		UE_LOG(LogCamera, Warning, TEXT("AABWCamera::AABWCamera|CameraComp is nullptr"));
 		return;
 	}
 
