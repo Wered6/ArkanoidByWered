@@ -8,16 +8,15 @@
 #include "Widgets/LevelOver/ABWLevelOverWidget.h"
 #include "Widgets/MainMenu/ABWMainMenuWidget.h"
 
+void UABWMenu::InitializeWidgets()
+{
+	InitializeMainMenuWidget();
+	InitializeLevelOverWidget();
+	InitializeEndGameWidget();
+}
+
 void UABWMenu::OpenMainMenuWidget()
 {
-	if (!MainMenuWidgetClass)
-	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWMenu::OpenMainMenuWidget|MainMenuWidgetClass is nullptr"));
-		return;
-	}
-
-	MainMenuWidget = CreateWidget<UABWMainMenuWidget>(GetWorld(), MainMenuWidgetClass);
-
 	if (!MainMenuWidget)
 	{
 		UE_LOG(LogMenu, Warning, TEXT("UABWMenu::OpenMainMenuWidget|MainMenuWidget is nullptr"));
@@ -29,14 +28,6 @@ void UABWMenu::OpenMainMenuWidget()
 
 void UABWMenu::OpenLevelOverWidget(const bool bWin)
 {
-	if (!LevelOverWidgetClass)
-	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWMenu::OpenLevelOverWidget|LevelOverWidgetClass is nullptr"));
-		return;
-	}
-
-	LevelOverWidget = CreateWidget<UABWLevelOverWidget>(GetWorld(), LevelOverWidgetClass);
-
 	if (!LevelOverWidget)
 	{
 		UE_LOG(LogMenu, Warning, TEXT("UABWMenu::OpenLevelOverWidget|LevelOverWidget is nullptr"));
@@ -57,14 +48,6 @@ void UABWMenu::OpenLevelOverWidget(const bool bWin)
 
 void UABWMenu::OpenEndGameWidget()
 {
-	if (!EndGameWidgetClass)
-	{
-		UE_LOG(LogMenu, Warning, TEXT("UABWMenu::OpenEndGameWidget|EndGameWidgetClass is nullptr"));
-		return;
-	}
-
-	EndGameWidget = CreateWidget<UABWEndGameWidget>(GetWorld(), EndGameWidgetClass);
-
 	if (!EndGameWidget)
 	{
 		UE_LOG(LogMenu, Warning, TEXT("UABWMenu::OpenEndGameWidget|EndGameWidget is nullptr"));
@@ -72,4 +55,37 @@ void UABWMenu::OpenEndGameWidget()
 	}
 
 	EndGameWidget->AddToViewport();
+}
+
+void UABWMenu::InitializeMainMenuWidget()
+{
+	if (!MainMenuWidgetClass)
+	{
+		UE_LOG(LogMenu, Warning, TEXT("UABWMenu::InitializeMainMenuWidget|MainMenuWidgetClass is nullptr"));
+		return;
+	}
+
+	MainMenuWidget = CreateWidget<UABWMainMenuWidget>(GetWorld(), MainMenuWidgetClass);
+}
+
+void UABWMenu::InitializeLevelOverWidget()
+{
+	if (!LevelOverWidgetClass)
+	{
+		UE_LOG(LogMenu, Warning, TEXT("UABWMenu::InitializeLevelOverWidget|LevelOverWidgetClass is nullptr"));
+		return;
+	}
+
+	LevelOverWidget = CreateWidget<UABWLevelOverWidget>(GetWorld(), LevelOverWidgetClass);
+}
+
+void UABWMenu::InitializeEndGameWidget()
+{
+	if (!EndGameWidgetClass)
+	{
+		UE_LOG(LogMenu, Warning, TEXT("UABWMenu::InitializeEndGameWidget|EndGameWidgetClass is nullptr"));
+		return;
+	}
+
+	EndGameWidget = CreateWidget<UABWEndGameWidget>(GetWorld(), EndGameWidgetClass);
 }

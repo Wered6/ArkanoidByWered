@@ -15,11 +15,18 @@ class ARKANOIDBYWERED_API UABWMenu : public UObject
 	GENERATED_BODY()
 
 public:
+	void InitializeWidgets();
+	
 	void OpenMainMenuWidget();
 	void OpenLevelOverWidget(const bool bWin);
 	void OpenEndGameWidget();
 
 private:
+	void InitializeMainMenuWidget();
+	void InitializeLevelOverWidget();
+	void InitializeEndGameWidget();
+
+
 	UPROPERTY(EditDefaultsOnly, Category="Menu|MainMenu")
 	TSubclassOf<UABWMainMenuWidget> MainMenuWidgetClass;
 	UPROPERTY()

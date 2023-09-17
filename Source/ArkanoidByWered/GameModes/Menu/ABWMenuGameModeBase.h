@@ -18,8 +18,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	void Init();
-
+	void InitializeGameLogic();
+	void InitializeMenu();
+	
 	void OpenAppropriateWidget() const;
 
 	UPROPERTY(EditDefaultsOnly, Category="Menu")

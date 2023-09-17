@@ -9,20 +9,27 @@ void AABWMenuGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Init();
+	InitializeGameLogic();
+	InitializeMenu();
+	Menu->InitializeWidgets();
+
 	OpenAppropriateWidget();
 }
 
-void AABWMenuGameModeBase::Init()
+void AABWMenuGameModeBase::InitializeGameLogic()
+{
+	GameInstance = Cast<UABWGameInstance>(GetGameInstance());
+}
+
+void AABWMenuGameModeBase::InitializeMenu()
 {
 	if (!MenuClass)
 	{
 		UE_LOG(LogGameMode, Warning, TEXT("AABWMenuGameModeBase::Init|MenuClass is nullptr"));
 		return;
 	}
-	
+
 	Menu = NewObject<UABWMenu>(this, MenuClass);
-	GameInstance = Cast<UABWGameInstance>(GetGameInstance());
 }
 
 void AABWMenuGameModeBase::OpenAppropriateWidget() const
