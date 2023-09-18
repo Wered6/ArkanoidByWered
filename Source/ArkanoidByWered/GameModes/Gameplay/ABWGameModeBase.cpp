@@ -154,7 +154,7 @@ void AABWGameModeBase::LevelOver(const bool bWin)
 		LevelSubsystem->CompleteCurrentLevel();
 	}
 
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Menu"));
 }
 
 int32 AABWGameModeBase::GetBricksCount() const
