@@ -1,17 +1,20 @@
-﻿[
-  {
-    "LevelName": "Level1",
-    "bIsLevelUnlocked": true,
-    "bIsLevelCompleted": false
-  },
-  {
-    "LevelName": "Level2",
-    "bIsLevelUnlocked": false,
-    "bIsLevelCompleted": false
-  },
-  {
-    "LevelName": "Level3",
-    "bIsLevelUnlocked": false,
-    "bIsLevelCompleted": false
-  }
-]
+﻿{
+  "Levels":
+  [
+    {
+      "LevelName": "Level1",
+      "bIsLevelUnlocked": true,
+      "bIsLevelCompleted": false
+    },
+    {
+      "LevelName": "Level2",
+      "bIsLevelUnlocked": false,
+      "bIsLevelCompleted": false
+    },
+    {
+      "LevelName": "Level3",
+      "bIsLevelUnlocked": false,
+      "bIsLevelCompleted": false
+    }
+  ]
+}
