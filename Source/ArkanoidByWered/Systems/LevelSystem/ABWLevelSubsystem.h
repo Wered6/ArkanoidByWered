@@ -6,29 +6,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ABWLevelSubsystem.generated.h"
 
-USTRUCT()
-struct FLevelData
-{
-	GENERATED_BODY()
-
-	FLevelData()
-	{
-	}
-
-	FLevelData(const FName& LevelName)
-		: LevelName(LevelName)
-	{
-	}
-
-	UPROPERTY()
-	FName LevelName;
-
-	UPROPERTY()
-	bool bIsLevelUnlocked{false};
-
-	UPROPERTY()
-	bool bIsLevelCompleted{false};
-};
+class UABWLevelData;
 
 UCLASS()
 class ARKANOIDBYWERED_API UABWLevelSubsystem : public UGameInstanceSubsystem
@@ -51,7 +29,7 @@ public:
 
 	void CompleteCurrentLevel();
 
-	const TArray<FLevelData*>& GetLevelsDataArray() const;
+	const TArray<UABWLevelData*>& GetLevelsDataArray() const;
 
 private:
 	void InitializeLevels();
@@ -69,9 +47,12 @@ private:
 	FName CurrentLevelName{NAME_None};
 	FName NextLevelName{NAME_None};
 
-	FLevelData Level1Data{TEXT("Level1")};
-	FLevelData Level2Data{TEXT("Level2")};
-	FLevelData Level3Data{TEXT("Level3")};
+	UPROPERTY()
+	UABWLevelData* Level1Data{nullptr};
+	UPROPERTY()
+	UABWLevelData* Level2Data{nullptr};
+	UPROPERTY()
+	UABWLevelData* Level3Data{nullptr};
 
-	TArray<FLevelData*> LevelsDataArray;
+	TArray<UABWLevelData*> LevelsDataArray;
 };

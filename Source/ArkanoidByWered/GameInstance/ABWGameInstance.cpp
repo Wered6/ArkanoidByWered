@@ -2,6 +2,7 @@
 
 
 #include "ABWGameInstance.h"
+#include "ArkanoidByWered/Systems/LevelSystem/ABWLevelData.h"
 #include "ArkanoidByWered/Systems/LevelSystem/ABWLevelSubsystem.h"
 #include "ArkanoidByWered/Utilities/CustomLogs/ABWCustomLogs.h"
 
@@ -47,11 +48,11 @@ bool UABWGameInstance::GetHasCompletedAllLevels() const
 	}
 
 	bool bAllLevelsCompleted{false};
-	TArray<FLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
+	TArray<UABWLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
 
 	for (const auto& LevelData : LevelsDataArray)
 	{
-		bAllLevelsCompleted = LevelData->bIsLevelCompleted;
+		bAllLevelsCompleted = LevelData->GetIsLevelCompleted();
 		if (!bAllLevelsCompleted)
 		{
 			break;
@@ -69,7 +70,7 @@ bool UABWGameInstance::GetIsCurrentLevelLast() const
 	}
 
 	const int32 CurrentLevelIndex = LevelSubsystem->GetCurrentLevelIndex();
-	const TArray<FLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
+	const TArray<UABWLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
 
 	return CurrentLevelIndex == LevelsDataArray.Num() - 1;
 }

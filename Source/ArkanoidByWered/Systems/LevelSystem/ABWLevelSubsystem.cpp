@@ -2,6 +2,7 @@
 
 
 #include "ABWLevelSubsystem.h"
+#include "ABWLevelData.h"
 #include "ArkanoidByWered/Utilities/CustomLogs/ABWCustomLogs.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -53,7 +54,8 @@ void UABWLevelSubsystem::SetCurrentLevelIndex()
 
 	for (int i = 0; i < LevelsDataArray.Num(); i++)
 	{
-		if (LevelsDataArray[i]->LevelName == CurrLevelName)
+		const FName LevelName = LevelsDataArray[i]->GetLevelName();
+		if (LevelName == CurrLevelName)
 		{
 			CurrentLevelIndex = i;
 			break;
@@ -75,22 +77,24 @@ void UABWLevelSubsystem::CompleteCurrentLevel()
 		return;
 	}
 
-	LevelsDataArray[CurrentLevelIndex]->bIsLevelCompleted = true;
+	LevelsDataArray[CurrentLevelIndex]->SetIsLevelCompleted(true);
 	UnlockNextLevel();
 }
 
-const TArray<FLevelData*>& UABWLevelSubsystem::GetLevelsDataArray() const
+const TArray<UABWLevelData*>& UABWLevelSubsystem::GetLevelsDataArray() const
 {
 	return LevelsDataArray;
 }
 
 void UABWLevelSubsystem::InitializeLevels()
 {
-	LevelsDataArray.Add(&Level1Data);
-	LevelsDataArray.Add(&Level2Data);
-	LevelsDataArray.Add(&Level3Data);
+	Level1Data = UABWLevelData::CreateUABWLevelData(this, TEXT("Level1"), true);
+	Level2Data = UABWLevelData::CreateUABWLevelData(this, TEXT("Level2"));
+	Level3Data = UABWLevelData::CreateUABWLevelData(this, TEXT("Level3"));
 
-	LevelsDataArray[0]->bIsLevelUnlocked = true;
+	LevelsDataArray.Add(Level1Data);
+	LevelsDataArray.Add(Level2Data);
+	LevelsDataArray.Add(Level3Data);
 }
 
 void UABWLevelSubsystem::DeinitializeLevels()
@@ -103,7 +107,7 @@ void UABWLevelSubsystem::UnlockNextLevel()
 	const int32 NextLevelIndex = CurrentLevelIndex + 1;
 	if (NextLevelIndex < LevelsDataArray.Num())
 	{
-		LevelsDataArray[NextLevelIndex]->bIsLevelUnlocked = true;
+		LevelsDataArray[NextLevelIndex]->SetIsLevelUnlocked(true);
 	}
 }
 
@@ -116,8 +120,8 @@ void UABWLevelSubsystem::SetCurrentLevelName()
 		return;
 	}
 
-	const FLevelData* CurrentLevel = LevelsDataArray[CurrentLevelIndex];
-	CurrentLevelName = CurrentLevel->LevelName;
+	const UABWLevelData* CurrentLevel = LevelsDataArray[CurrentLevelIndex];
+	CurrentLevelName = CurrentLevel->GetLevelName();
 }
 
 void UABWLevelSubsystem::SetNextLevelName()
@@ -126,8 +130,8 @@ void UABWLevelSubsystem::SetNextLevelName()
 
 	if (NextLevelIndex < LevelsDataArray.Num())
 	{
-		const FLevelData* CurrentLevel = LevelsDataArray[NextLevelIndex];
-		NextLevelName = CurrentLevel->LevelName;
+		const UABWLevelData* NextLevel = LevelsDataArray[NextLevelIndex];
+		NextLevelName = NextLevel->GetLevelName();
 	}
 	else
 	{
