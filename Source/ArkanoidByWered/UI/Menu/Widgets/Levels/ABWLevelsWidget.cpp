@@ -36,7 +36,7 @@ void UABWLevelsWidget::UpdateLevelsButtonsStates()
 	for (int i = 0; i < LevelsData.Num(); ++i)
 	{
 		const FName LevelName = LevelsData[i]->GetLevelName();
-		const FName LevelButtonName = FName(FString::Printf(TEXT("Levels%sBUtton"), *LevelName.ToString()));
+		const FName LevelButtonName = FName(FString::Printf(TEXT("Levels%sButton"), *LevelName.ToString()));
 		const bool bIsLevelUnlocked = LevelsData[i]->GetIsLevelUnlocked();
 
 		UButton* LevelButton = Cast<UButton>(GetWidgetFromName(LevelButtonName));
