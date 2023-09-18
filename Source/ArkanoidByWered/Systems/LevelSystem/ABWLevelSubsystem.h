@@ -29,11 +29,10 @@ public:
 
 	void CompleteCurrentLevel();
 
-	const TArray<UABWLevelData*>& GetLevelsDataArray() const;
+	TArray<UABWLevelData*> GetLevelsDataArray() const;
 
 private:
-	void InitializeLevels();
-	void DeinitializeLevels();
+	void InitializeLevelsDataArray();
 
 	void UnlockNextLevel();
 
@@ -48,11 +47,5 @@ private:
 	FName NextLevelName{NAME_None};
 
 	UPROPERTY()
-	UABWLevelData* Level1Data{nullptr};
-	UPROPERTY()
-	UABWLevelData* Level2Data{nullptr};
-	UPROPERTY()
-	UABWLevelData* Level3Data{nullptr};
-
 	TArray<UABWLevelData*> LevelsDataArray;
 };

@@ -4,6 +4,7 @@
 #include "ABWLevelSubsystem.h"
 #include "ABWLevelData.h"
 #include "ArkanoidByWered/Utilities/CustomLogs/ABWCustomLogs.h"
+#include "ArkanoidByWered/Utilities/JSON/JsonUtility.h"
 #include "Kismet/GameplayStatics.h"
 
 void UABWLevelSubsystem::Initialize(FSubsystemCollectionBase& Collection)
@@ -11,15 +12,13 @@ void UABWLevelSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	check(!bInitialized);
 	bInitialized = true;
 
-	InitializeLevels();
+	InitializeLevelsDataArray();
 }
 
 void UABWLevelSubsystem::Deinitialize()
 {
 	check(bInitialized);
 	bInitialized = false;
-
-	DeinitializeLevels();
 }
 
 void UABWLevelSubsystem::OpenCurrentLevel()
@@ -81,25 +80,36 @@ void UABWLevelSubsystem::CompleteCurrentLevel()
 	UnlockNextLevel();
 }
 
-const TArray<UABWLevelData*>& UABWLevelSubsystem::GetLevelsDataArray() const
+TArray<UABWLevelData*> UABWLevelSubsystem::GetLevelsDataArray() const
 {
 	return LevelsDataArray;
 }
 
-void UABWLevelSubsystem::InitializeLevels()
+void UABWLevelSubsystem::InitializeLevelsDataArray()
 {
-	Level1Data = UABWLevelData::CreateUABWLevelData(this, TEXT("Level1"), true);
-	Level2Data = UABWLevelData::CreateUABWLevelData(this, TEXT("Level2"));
-	Level3Data = UABWLevelData::CreateUABWLevelData(this, TEXT("Level3"));
+	FString JsonFilePath;
+	if (GConfig->GetString(TEXT("GameConfig"), TEXT("LevelsJsonPath"), JsonFilePath, GEngineIni))
+	{
+		JsonFilePath = FPaths::ProjectDir() + JsonFilePath;
+		TArray<UABWLevelData*> NewLevelsDataArray;
 
-	LevelsDataArray.Add(Level1Data);
-	LevelsDataArray.Add(Level2Data);
-	LevelsDataArray.Add(Level3Data);
-}
-
-void UABWLevelSubsystem::DeinitializeLevels()
-{
-	LevelsDataArray.Empty();
+		if (FJsonUtility::LoadLevelDataFromJson(this, JsonFilePath, NewLevelsDataArray))
+		{
+			LevelsDataArray = NewLevelsDataArray;
+		}
+		else
+		{
+			UE_LOG(LogLevelSubsystem, Error,
+			       TEXT(
+				       "UABWLevelSubsystem::InitializeLevelsDataArray|Initialization failed: Could not load level data from JSON."
+			       ));
+		}
+	}
+	else
+	{
+		UE_LOG(LogLevelSubsystem, Error,
+		       TEXT("UABWLevelSubsystem::InitializeLevelsDataArray|LevelsJsonPath not found in INI file"));
+	}
 }
 
 void UABWLevelSubsystem::UnlockNextLevel()
