@@ -48,7 +48,7 @@ bool UABWGameInstance::GetHasCompletedAllLevels() const
 	}
 
 	bool bAllLevelsCompleted{false};
-	TArray<UABWLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
+	const TArray<UABWLevelData*> LevelsDataArray = LevelSubsystem->GetLevelsDataArray();
 
 	for (const auto& LevelData : LevelsDataArray)
 	{
