@@ -1,17 +1,17 @@
 ﻿[
   {
     "LevelName": "Level1",
-    "IsLevelUnlocked": true,
-    "IsLevelCompleted": false
+    "bIsLevelUnlocked": true,
+    "bIsLevelCompleted": false
   },
   {
     "LevelName": "Level2",
-    "IsLevelUnlocked": false,
-    "IsLevelCompleted": false
+    "bIsLevelUnlocked": false,
+    "bIsLevelCompleted": false
   },
   {
     "LevelName": "Level3",
-    "IsLevelUnlocked": false,
-    "IsLevelCompleted": false
+    "bIsLevelUnlocked": false,
+    "bIsLevelCompleted": false
   }
 ]
