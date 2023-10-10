@@ -45,7 +45,7 @@ private:
 	void Init();
 	void SetDefaultSprite() const;
 
-	FVector InitialVelocityVector{0, 0, 1};
+	FVector InitialVelocityVector{FVector::UpVector};
 	float InitialBallSpeed{0.f};
 
 	UPROPERTY(EditDefaultsOnly, Category="Movement")

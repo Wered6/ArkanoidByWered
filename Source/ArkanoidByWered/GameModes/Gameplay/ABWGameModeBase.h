@@ -31,8 +31,12 @@ protected:
 
 private:
 	// Initialization methods
-	void InitializeGameLogic();
-	void InitializeBallsPool(const int32 NumberOfBalls);
+	void InitializeGameInstance();
+	void InitializePlayerController();
+	void InitializeLevelSubsystem();
+
+	// Populate balls memory pool
+	void PopulateBallsPool(const int32 NumberOfBalls);
 
 	// Level over logic
 	void LevelOver(const bool bWin);

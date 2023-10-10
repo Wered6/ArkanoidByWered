@@ -76,8 +76,14 @@ void AABWGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InitializeGameLogic();
-	InitializeBallsPool(64);
+	InitializeGameInstance();
+	InitializePlayerController();
+	InitializeLevelSubsystem();
+
+	GameInstance->SetHasPlayerStartGame(true);
+	NumberOfBricks = GetBricksCount();
+
+	PopulateBallsPool(64);
 }
 
 void AABWGameModeBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -87,12 +93,19 @@ void AABWGameModeBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	GetWorld()->GetTimerManager().ClearTimer(LevelOverTimerHandle);
 }
 
-void AABWGameModeBase::InitializeGameLogic()
+void AABWGameModeBase::InitializeGameInstance()
 {
 	GameInstance = Cast<UABWGameInstance>(GetGameInstance());
+}
+
+void AABWGameModeBase::InitializePlayerController()
+{
 	PlayerController = Cast<AABWPlayerController>(
 		UGameplayStatics::GetPlayerController(this, 0));
+}
 
+void AABWGameModeBase::InitializeLevelSubsystem()
+{
 	if (!GameInstance)
 	{
 		UE_LOG(LogGameMode, Warning, TEXT("AABWGameModeBase::InitializeGameLogic|GameInstance is nullptr"));
@@ -100,12 +113,9 @@ void AABWGameModeBase::InitializeGameLogic()
 	}
 
 	LevelSubsystem = GameInstance->GetSubsystem<UABWLevelSubsystem>();
-	GameInstance->SetHasPlayerStartGame(true);
-
-	NumberOfBricks = GetBricksCount();
 }
 
-void AABWGameModeBase::InitializeBallsPool(const int32 NumberOfBalls)
+void AABWGameModeBase::PopulateBallsPool(const int32 NumberOfBalls)
 {
 	if (!BallClass)
 	{
