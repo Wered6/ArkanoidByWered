@@ -47,7 +47,7 @@ private:
 	// Timers
 	FTimerHandle LevelOverTimerHandle;
 
-	// Gammeplay elements
+	// Gameplay elements
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay Elements|Balls")
 	TSubclassOf<AABWBall> BallClass;
 
